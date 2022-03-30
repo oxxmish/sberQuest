@@ -1,0 +1,317 @@
+html {
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+body {
+    width: 99%;
+    height: 95%;
+    font-family: 'Times New Roman', Times, serif;
+    /* color: #333333;
+    background: #f7f7f7;
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 135%; */
+}
+
+header {
+    width: 98%;
+    background-color: #ffffff;
+    /* float: left; */
+}
+header {
+    border-bottom: 2px solid silver;
+    padding: 1%;
+    height: 5%;
+    font-size: 200%;
+    color: #000000;
+    margin-bottom: 0.1%;
+}
+
+.logo {
+    float: left;
+    width: 33.33%;
+}
+
+.role {
+    float: left;
+    text-align: center;
+    width: 33.33%;
+}
+
+.profile {
+    float: left;
+    text-align: right;
+    width: 33.33%;
+}
+
+.profile img {
+    float: right;
+    width: 9%;
+    height: 9%;
+    margin-right: 5%;
+}
+
+.to_fields{
+    height: 5%;
+    background-color: green;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 175%;
+}
+.to_fields:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+/* Все ведущие */
+.select_masters{
+    float: left;
+    width: 20%;
+    text-align: center;
+    height: 85%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-right: 2px solid silver;
+    margin-right: 1%;
+}
+
+.scroll{
+    height: 85%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.master_title{
+    font-size: 150%;
+    font-weight: bold;
+    height: 5%;
+}
+
+.search_masters{
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: left;
+    border-radius: 35px;
+    background-color: green;
+    margin-top: 5%;
+    color: #ffffff;
+    font-size: 100%;
+    width: 90%;
+    text-indent: 5%;
+}
+
+.option_masters{
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: center;
+    border-radius: 35px;
+    background-color: green;
+    margin: 5%;
+    color: #ffffff;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.option_masters_opacity{
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: center;
+    border-radius: 35px;
+    background-color: red;
+    margin: 5%;
+    color: #ffffff;
+    font-size: 100%;
+    font-weight: bold;
+    
+    opacity: 0.5;
+}
+
+.option_masters:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+/* Заявки на добавление */
+
+.main_field{
+    width: 77%;
+    height: 84%;
+    margin-left: 20%;
+}
+
+.master_data{
+    width: 100%;
+    height: 90%;
+    margin-top: 3%;
+}
+
+.new_requests{
+    float: left;
+    width: 90%;
+    text-align: center;
+    height: 90%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-left: 1%;
+}
+.requests_title{
+    font-size: 150%;
+    font-weight: bold;
+    height: 5%;
+    margin-left: 12%;
+}
+
+.scroll_1{
+    height: 100%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: 100%;
+    margin-left: 6%;
+}
+
+.option_requests{
+    height: 5%;
+    text-indent: 5%;
+    padding-top: 0.7%;
+    padding-bottom: 0.7%;
+    text-align: left;
+    border-radius: 35px;
+    background-color: silver;
+    color: #000000;
+    font-size: 130%;
+    margin: 1.5%;
+    font-weight: bold;
+    display: table;
+    width: 95%;
+}
+
+/* Manage masters */
+
+.master_name{
+    float: left;
+    width: 84%;
+    height: 100%;
+    margin-top: 0.5%;
+}
+
+.accept{
+    float: left;
+    width: 7%;
+    height: 100%;
+}
+
+.reject{
+    float: left;
+    width: 7%;
+    margin-right: 2%;
+    height: 100%;
+}
+
+img{
+    width: 45%;
+    height: 45%;
+}
+
+img:hover{
+    box-shadow: 0 0 10px 100px white inset;
+}
+
+/* chosen master */
+
+.go_back{
+    float: left;
+    height: 8%;
+    width: 8%;
+}
+
+.go_back img{
+    height: 70%;
+    width: 70%;
+}
+
+.inputs{
+    float: left;
+    width: 83.5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 5%;
+}
+
+.inputs input{
+    width: 90%;
+    border-bottom: 1.5px solid silver;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline:none;
+    pointer-events: none;
+    font-size: 130%;
+}
+
+.prefix input{
+    width: 2%;
+}
+
+
+/* manage data masters */
+
+.group_inputs{
+    float: left;
+    width: 90%;
+    height: 25%;
+}
+
+.group_button{
+    float: left;
+    width: 80%;
+    margin-left: 12%;
+    margin-bottom: 3%;
+}
+
+.button{
+    width: 35%;
+    float: left;
+    margin-top: 2%;
+    margin-right: 4%;
+    margin-left: 4%;
+    background-color: green;
+    color: #ffffff;
+    font-size: 120%;
+    font-weight: bold;
+    border-radius: 35px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: center;
+}
+
+.button:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+.table{
+    margin-left: 12%;
+    width: 85%;
+}
+
+caption{
+    margin-bottom: 1%;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+table, tr, td{
+    border-collapse: collapse;
+    border: 3px solid black;
+    text-align: center;
+    pointer-events: none;
+}
+

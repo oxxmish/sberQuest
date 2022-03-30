@@ -1,0 +1,84 @@
+html {
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+body {
+    width: 99%;
+    height: 95%;
+    font-family: 'Times New Roman', Times, serif;
+    /* color: #333333;
+    background: #f7f7f7;
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 135%; */
+}
+
+header {
+    width: 98%;
+    background-color: #ffffff;
+    /* float: left; */
+}
+header {
+    border-bottom: 2px solid silver;
+    padding: 1%;
+    height: 5%;
+    font-size: 200%;
+    color: #000000;
+    margin-bottom: 0.1%;
+}
+
+.logo {
+    float: left;
+    width: 33.33%;
+}
+
+.role {
+    float: left;
+    text-align: center;
+    width: 33.33%;
+}
+
+.profile {
+    float: left;
+    text-align: right;
+    width: 33.33%;
+}
+
+.profile img {
+    float: right;
+    width: 9%;
+    height: 9%;
+    margin-right: 5%;
+}
+
+/* Grid */
+
+.grid{
+    margin-top: 3%;
+    margin-left: 5%;
+    width: 90%;
+    height: 80%;
+}
+
+.grid_element{
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 5%;
+    float: left;
+    width: 20%;
+    height: 20%;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 200%;
+    line-height:100px;
+    color: black;
+}
+
+.plus{
+    font-size: 600%;
+    border: 2px solid silver;
+    color: silver;
+}

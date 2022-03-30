@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Conent-Type" content="text/html;charset=UTF-8"/>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <title>СберКвест</title>
+    </head>
+
+    <body>
+        <header class="logo" id="logo">
+            <a title="Main">СберКвест</a>
+        </header>
+        <div class="container">
+            <div id="dice" class="fiveteen_percent" v-bind:value="number">
+                <button v-on:click="randomNumber">Бросок кубика</button>
+                <p id="dice_value"></p>
+            </div>
+            <div class="eighteen_five_percent">
+                <canvas id="canvas"></canvas>
+            </div>
+            <div class="fiveteen_percent">
+                <h1 align="center">Команды</h1>
+            </div>
+        </div>
+        
+        <script src="js/game.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script>
+            var app = new Vue({
+            el: '#dice',
+            data:   
+            {
+                number: 1
+            },
+            methods:
+            {
+                randomNumber: function () {
+                    let value_dice = document.getElementById("dice_value");
+                    value_dice.innerText =Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+                }
+            }
+        })
+        </script>
+    </body>
+</html>

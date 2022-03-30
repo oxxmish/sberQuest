@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Conent-Type" content="text/html;charset=UTF-8"/>
+        <link href="css/style_master.css" rel="stylesheet" type="text/css"/>
+        <title>СберКвест</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">СберКвест</div>
+            <div class="role">Администратор</div>
+            <div class="profile"><img src="media/profile.jpg" alt=""></div>
+        </header>
+
+        <div class="to_fields" @click="go_to_fields" id="to_field">Игровые поля</div>
+        
+        <div id="masters" class="select_masters">
+            <!-- <div class="master_title">Список ведущих</div> -->
+            <input type="search" placeholder="&#128269; Поиск ведущего" class="search_masters" v-model="search_condition"></input>
+            <div class="scroll">
+                <div @click="select" class="option_masters" v-for="option in options" v-bind:value="option.value" v-bind:id="option.value" v-bind:name="option.text">{{ option.text }}</div>
+            </div>
+        </div>
+
+        <div class="main_field" id="requests">
+            <div class="master_data" v-if="master_chosen">
+                <div class="go_back" @click="go_back">
+                    <img src="media/go_back.png" alt="">
+                </div>
+                <div class="group_inputs">
+                    <!-- <table><tr><td>ФИО</td><td><input></input></td></tr></table> -->
+                    <div class="inputs">
+                        <input id="fio" value="ФИО "></input>
+                    </div>
+                    <div class="inputs">
+                        <input id="login" value="Логин "></input>
+                    </div>
+                </div>
+                <div class="group_button">
+                    <div @click="edit" class="button">
+                        Редактировать
+                    </div>
+                    <div @click="remove_old_master" class="button">
+                        Удалить
+                    </div>
+                </div>
+                <table class="table">
+                    <caption>Статистика проведённых игр</caption>
+                    <tr>
+                        <td class="table_header">Заголовок 1</td><td class="table_header">Заголовок 2</td><td class="table_header">Заголовок 3</td><td class="table_header">Заголовок 4</td>
+                    </tr>
+                    <tr>
+                        <td>Данные 1</td><td>Данные 2</td><td>Данные 3</td><td>Данные 4</td>
+                    </tr>
+                </table>
+            </div>
+            <div v-else class="new_requests">
+                <div class="requests_title">Заявки на добавление ведущих</div>
+                <div class="scroll_1">
+                    
+                    <div class="option_requests" v-for="option in options" v-bind:value="option.value" v-bind:name="option.text">
+                        <div class="master_name">{{ option.text }}</div>
+                        <center><div class="accept" @click="add"><img src="media/accept.png" alt=""></div></center>
+                        <center><div class="reject" @click="remove"><img src="media/reject.png" alt=""></div></center>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script>
+            let requests = new Vue({
+            el: '#requests',
+            data: {
+                    selected: 'А',
+                    options: [
+                    { text: 'Ведущий на добавление 1', value: '13' },
+                    { text: 'Ведущий на добавление 2', value: '14' },
+                    { text: 'Ведущий на добавление 3', value: '15' },
+                    { text: 'Ведущий на добавление 4', value: '16' },
+                    { text: 'Ведущий на добавление 5', value: '17' },
+                    { text: 'Ведущий на добавление 6', value: '18' },
+                    { text: 'Ведущий на добавление 7', value: '19' },
+                    { text: 'Ведущий на добавление 8', value: '20' },
+                    { text: 'Ведущий на добавление 9', value: '21' },
+                    { text: 'Ведущий на добавление 10', value: '22' },
+                    { text: 'Ведущий на добавление 11', value: '23' },
+                    { text: 'Ведущий на добавление 12', value: '24' },
+                    ],
+                    counter: 0,
+                    master_chosen: false,
+                    fio: "ФИО    ",
+                    login: "Логин  "
+                },
+                methods: {
+                    add: function (event) {
+                        var added_element = event.target.parentElement.parentElement.parentElement;
+                        var val = added_element.getAttribute("value");
+                        var name = added_element.getAttribute("name");
+                        masters_list.all_options.push({text: name, value:val});
+                        masters_list.options.push({text: name, value:val});
+                        this.options = this.options.filter(option => option.value != val);
+                    },
+                    remove: function (event) {
+                        var deleted_element = event.target.parentElement.parentElement.parentElement.getAttribute("value");
+                        this.options = this.options.filter(option => option.value != deleted_element);
+                    },
+                    remove_old_master: function (event) {
+                        var value = masters_list.selected.getAttribute("value");
+                        masters_list.options = masters_list.options.filter(option => option.value != value);
+                        masters_list.all_options = masters_list.all_options.filter(option => option.value != value);
+                        this.master_chosen = false;
+
+                        masters_list.options.forEach(function(item, i, arr) {
+                            var id = item.value;
+                            other_element = document.getElementById(id);
+                            other_element.style.opacity = 1;
+                        });
+                    },
+                    edit: function (event) {
+                        var fio = document.getElementById("fio");
+                        var login = document.getElementById("login");
+                        fio.style.pointerEvents = 'auto';
+                        login.style.pointerEvents = 'auto';
+                    },
+                    go_back: function (event) {
+                        this.master_chosen = false;
+                        masters_list.all_options.forEach(function(item, i, arr) {
+                            var id = item.value;
+                            other_element = document.getElementById(id);
+                            other_element.style.opacity = 1;
+                        });
+                    },
+                },
+                created: function () {
+                    this.counter = this.options.length;
+                },
+                watch: {
+                    fio: function (event) {
+                        if(this.fio.indexOf("ФИО    ") == -1)
+                        {
+                            console.log("алярма");
+                            let elem = document.getElementById("fio");
+                            elem.value = "ФИО    ";
+                            console.log(elem.getAttribute("value"));
+                            elem.setAttribute("value", "ФИО    ");
+                            console.log(elem.getAttribute("value"));
+                        }
+                        else
+                            console.log(event.target);
+                    },
+                }
+        })
+        </script>
+
+        <script>
+            let masters_list = new Vue({
+            el: '#masters',
+            data: {
+                    selected: null,
+                    options: [
+                    { text: 'Ведущий 1', value: '1' },
+                    { text: 'Ведущий 2', value: '2' },
+                    { text: 'Ведущий 3', value: '3' },
+                    { text: 'Ведущий 4', value: '4' },
+                    { text: 'Ведущий 5', value: '5' },
+                    { text: 'Ведущий 6', value: '6' },
+                    { text: 'Ведущий 7', value: '7' },
+                    { text: 'Ведущий 8', value: '8' },
+                    { text: 'Ведущий 9', value: '9' },
+                    { text: 'Ведущий 10', value: '10' },
+                    { text: 'Ведущий 11', value: '11' },
+                    { text: 'Ведущий 12', value: '12' },
+                    ],
+                    counter: 0,
+                    all_options: [
+                    { text: 'Ведущий 1', value: '1' },
+                    { text: 'Ведущий 2', value: '2' },
+                    { text: 'Ведущий 3', value: '3' },
+                    { text: 'Ведущий 4', value: '4' },
+                    { text: 'Ведущий 5', value: '5' },
+                    { text: 'Ведущий 6', value: '6' },
+                    { text: 'Ведущий 7', value: '7' },
+                    { text: 'Ведущий 8', value: '8' },
+                    { text: 'Ведущий 9', value: '9' },
+                    { text: 'Ведущий 10', value: '10' },
+                    { text: 'Ведущий 11', value: '11' },
+                    { text: 'Ведущий 12', value: '12' },
+                    ],
+                    search_condition: ""
+                },
+                methods: {
+                    select: function (element) {
+                        if(!requests.master_chosen)
+                        {
+                            masters_list.options.forEach(function(item, i, arr) {
+                                var id = item.value;
+                                other_element = document.getElementById(id);
+                                if(other_element != element.target)
+                                other_element.style.opacity = 0.5;
+                            });
+
+                            requests.master_chosen = true;
+                            this.selected = element.target;
+                        }
+                        else
+                        {
+                            masters_list.options.forEach(function(item, i, arr) {
+                                var id = item.value;
+                                other_element = document.getElementById(id);
+                                if(other_element != element.target)
+                                    other_element.style.opacity = 0.5;
+                                else
+                                    element.target.style.opacity = 1;
+                            });
+                            this.selected = element.target;
+                        }
+
+                        if(document.getElementById("fio") && document.getElementById("login"))
+                        {
+                            let fio = document.getElementById("fio");
+                            let login = document.getElementById("login");
+                            fio.value = "ФИО    " + masters_list.selected.getAttribute("name");
+                            login.value = "Логин  " + masters_list.selected.getAttribute("name");
+                        }
+                    }
+                },
+                created: function () {
+                    this.counter = this.options.length;
+                },
+                watch: {
+                    search_condition: function () {
+                        if(this.search_condition.length == 0)
+                        {
+                            this.options = this.all_options;
+                            this.search_condition = "";
+                        }
+                        else
+                            this.options = this.all_options.filter(option => option.text.indexOf(this.search_condition) != -1);
+                    },
+                }
+            })
+        </script>
+
+        <script>
+            var app = new Vue({
+            el: '#to_field',
+                methods: {
+                    go_to_fields: function () {
+                        window.location.href = "fields.html";
+                    }
+                }
+            })
+        </script>
+
+        <script>
+            document.addEventListener("DOMNodeInserted", function (event) {
+                if(document.getElementById("fio") && document.getElementById("login")){
+                    let fio = document.getElementById("fio");
+                    let login = document.getElementById("login");
+                    fio.value = "ФИО    " + masters_list.selected.getAttribute("name");
+                    login.value = "Логин  " + masters_list.selected.getAttribute("name");
+                }
+                
+            }, false);
+        </script>
+    </body>
+</html>

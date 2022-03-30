@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Conent-Type" content="text/html;charset=UTF-8"/>
+        <link href="css/style_product.css" rel="stylesheet" type="text/css"/>
+        <title>СберКвест</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo">СберКвест</div>
+            <div class="role">Администратор</div>
+            <div class="profile"><img src="media/profile.jpg" alt=""></div>
+        </header>
+        
+        <div id="menu" class="menu">
+            <div id="avatar" class="avatar">
+                СберАптека
+            </div>
+
+            <div @click="edit" id="edit">
+                Редактировать
+            </div>
+            <div @click="delete_button" id="delete">
+                Удалить
+            </div>
+            <div @click="back" id="back">
+                К другим полям
+            </div>
+        </div>
+
+        <div id="main_area">
+            <div v-if="draw === 'questions'" class="grid" id="grid">
+                <div class="scroll">
+                    <div class="grid_element" v-for="option in options" @click="choose_question" v-bind:el_id="option.id">{{ option.text }}</div>
+                    <div class="grid_element plus" @click="add_question">+</div>
+                    <div class="grid_element load" id="load">Загрузить из файла</div>
+                </div>
+            </div>
+            <div id="edit_window" class="edit_window" v-if="draw === 'edit'">
+                <img @click="to_questions" src="media/go_back.png" alt="">
+                <input id="edit_window_input" class="edit_window_input" placeholder="Название продукта"></input>
+                <div class="edit_window_color_title">Выберите цвет поля</div>
+                <div class="edit_window_group_color">
+                    <div id="color_example">
+                        <output id="hex">#000000</output>
+                    </div>
+                    <fieldset>
+                    <label for="r">R</label>
+                    <input type="range" min="0" max="255" id="r" step="1" value="0">
+                    <output for="r" id="r_out">0</output>
+                    </fieldset>  
+                    
+                    
+                    <fieldset>
+                    <label for="g">G</label>
+                    <input type="range" min="0" max="255" id="g" step="1" value="0">
+                    <output for="g" id="g_out">0</output>
+                    </fieldset>
+    
+                    
+                    
+                    <fieldset>
+                    <label for="b">B</label>
+                    <input type="range" min="0" max="255" id="b" step="1" value="0">
+                    <output for="b" id="b_out">0</output>
+                    </fieldset>  
+                      
+                      
+                </div>
+                <div class="edit_window_group_button">
+                    <div @click="save_edit" class="edit_window_button">Сохранить</div>
+                    <div @click="reset" class="edit_window_button">Сбросить</div>
+                </div>
+            </div>
+            <center><div v-if="draw === 'delete'" class="delete_product_window" id="delete_product_window">
+                <div id="delete_product_warning">
+                    Вы действительно хотите удалить поле “СберАптека” и все связанные с ним задания?
+                </div>
+                <div class="delete_window_group_button">
+                    <div @click="delete_product" class="button">Да</div>
+                    <div @click="cancel_product" class="button">Нет</div>
+                </div>
+            </div></center>
+            <center><div v-if="draw === 'edit_question'" class="edit_question" id="edit_question">
+                <img @click="to_questions" src="media/go_back.png" alt="">
+                <div id="title">Категория вопроса</div>
+                <select id="type_selector">
+                    <option>С выбором ответа</option>
+                    <option>Без выбора ответа</option>
+                    <option>Вопрос-аукцион</option>
+                    <option>Вопрос с медиа фрагментом</option>
+                  </select>
+                  <div id="title" resize="false">Формулировка вопроса</div>
+                  <textarea rows="12" id="wording"></textarea>
+                <div class="delete_window_group_button">
+                    <div @click="save_question" class="button">Сохранить</div>
+                    <div @click="del_question" class="button">Удалить</div>
+                </div>
+            </div></center>
+        </div>
+        
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script>
+            let menu = new Vue({
+            el: '#menu',
+            methods: {
+                back: function () {
+                    window.location.href = "fields.html";
+                },
+                edit: function () {
+                    main_area.draw = "edit";
+                    var edit = document.getElementById("edit");
+                    var click_delete = document.getElementById("delete");
+                    click_delete.style.opacity = 0.5;
+                    edit.style.opacity = 1;
+                },
+                delete_button: function () {
+                    main_area.draw = "delete";
+                    var edit = document.getElementById("edit");
+                    var click_delete = document.getElementById("delete");
+                    click_delete.style.opacity = 1;
+                    edit.style.opacity = 0.5;
+                }
+            }
+            })
+        </script>
+
+        <script>
+            let main_area = new Vue({
+                el: '#main_area',
+                data: {
+                        draw: "questions",
+                        selected: '1',
+                        selected_el: null,
+                        options: [
+                        { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1' },
+                        { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2' },
+                        { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 3' },
+                        { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4' },
+                        { id: '5', text: 'Вопрос 5', type: 'С выбором ответа', wording: '123' },
+                        { id: '6', text: 'Вопрос 6', type: 'С выбором ответа', wording: '123' },
+                        { id: '7', text: 'Вопрос 7', type: 'С выбором ответа', wording: '123' },
+                        { id: '8', text: 'Вопрос 8', type: 'С выбором ответа', wording: '123' },
+                        { id: '9', text: 'Вопрос 9', type: 'С выбором ответа', wording: '123' },
+                        { id: '10', text: 'Вопрос 10', type: 'С выбором ответа', wording: '123' },
+                        { id: '11', text: 'Вопрос 11', type: 'С выбором ответа', wording: '123' },
+                        { id: '12', text: 'Вопрос 12', type: 'С выбором ответа', wording: '123' },
+                        { id: '13', text: 'Вопрос 13', type: 'С выбором ответа', wording: '123' },
+                        { id: '14', text: 'Вопрос 14', type: 'С выбором ответа', wording: '123' },
+                        { id: '15', text: 'Вопрос 15', type: 'С выбором ответа', wording: '123' },
+                        { id: '16', text: 'Вопрос 16', type: 'С выбором ответа', wording: '123' },
+                        { id: '17', text: 'Вопрос 17', type: 'С выбором ответа', wording: '123' },
+                        { id: '18', text: 'Вопрос 18', type: 'С выбором ответа', wording: '123' },
+                        ]
+                },
+                methods: {
+                    back: function () {
+                        window.location.href = "fields.html";
+                    },
+                    save_edit: function () {
+                        var avatar = document.getElementById("avatar");
+                        avatar.style.backgroundColor = String(document.getElementById('hex').value);
+                        var name = document.getElementById("edit_window_input");
+                        if(name.value != "")
+                            avatar.textContent = name.value;
+                    },
+                    reset: function () {
+                        var avatar = document.getElementById("avatar");
+                        avatar.style.backgroundColor = "red";
+                        avatar.textContent = "СберАптека";
+                    },
+                    add_question: function () {
+                        this.options.push({text: 'Вопрос ' + (this.options.length + 1), value: String(this.options.length + 1), type: 'С выбором ответа', wording: ''});
+                    },
+                    cancel_product: function () {
+                        main_area.draw = "questions";
+                        var edit = document.getElementById("edit");
+                        var click_delete = document.getElementById("delete");
+                        click_delete.style.opacity = 1;
+                        edit.style.opacity = 1;
+                    },
+                    delete_product: function () {
+                        window.location.href = "fields.html";
+                    },
+                    to_questions: function () {
+                        main_area.draw = "questions";
+                        var edit = document.getElementById("edit");
+                        var click_delete = document.getElementById("delete");
+                        click_delete.style.opacity = 1;
+                        edit.style.opacity = 1;
+                    },
+                    save_question: function () {
+                        this.options.forEach(function(item, i, arr) {
+                            if(main_area.selected == item.id)
+                            {
+                                item.type = document.getElementById("type_selector").value;
+                                item.wording = document.getElementById("wording").value;
+                            }
+                                
+                        });
+                    },
+                    del_question: function () {
+                        main_area.draw = "questions";
+                        main_area.options = main_area.options.filter(option => option.id != main_area.selected);
+                    },
+                    choose_question: function (event) {
+                        main_area.draw = "edit_question";
+                        this.selected = event.target.getAttribute("el_id");
+                        var cur_el;
+                        this.options.forEach(function(item, i, arr) {
+                            if(main_area.selected == item.id)
+                                cur_el = item;
+                        });
+                        this.selected_el = cur_el;
+                        if(document.getElementById("type_selector"))
+                        {
+                            document.getElementById("type_selector").value = this.selected_el.type;
+                            document.getElementById("wording").value = this.selected_el.wording;
+                        }
+                        
+                    },
+                },
+            })
+        </script>
+        <script>
+            document.addEventListener("DOMNodeInserted", function (event) {
+                var product = document.getElementById("color_example"), 
+            r = document.querySelector('#r'),
+            g = document.querySelector('#g'),
+            b = document.querySelector('#b'),
+            r_out = document.querySelector('#r_out'),
+            g_out = document.querySelector('#g_out'),
+            b_out = document.querySelector('#b_out'),
+            hex_out = document.querySelector('#hex');
+
+            function setColor(){
+            var r_hex = parseInt(r.value, 10).toString(16),
+                g_hex = parseInt(g.value, 10).toString(16),
+                b_hex = parseInt(b.value, 10).toString(16),
+                hex = "#" + pad(r_hex) + pad(g_hex) + pad(b_hex);
+                product.style.backgroundColor = hex; 
+            hex_out.value = hex;
+            }
+
+            function pad(n){
+            return (n.length<2) ? "0"+n : n;
+            }
+
+            r.addEventListener('change', function() {
+            setColor();
+            r_out.value = r.value;
+            }, false);
+
+            r.addEventListener('input', function() {
+            setColor();
+            r_out.value = r.value;
+            }, false);
+
+            g.addEventListener('change', function() {
+            setColor();
+            g_out.value = g.value;
+            }, false);
+
+            g.addEventListener('input', function() {
+            setColor();
+            g_out.value = g.value;
+            }, false);
+
+            b.addEventListener('change', function() {
+            setColor();
+            b_out.value = b.value;
+            }, false);
+
+            b.addEventListener('input', function() {
+            setColor();
+            b_out.value = b.value;
+            }, false);
+                
+            }, false);
+        </script>
+
+        <script>
+            document.addEventListener("DOMNodeInserted", function (event) {
+                if(document.getElementById("type_selector")){
+                    var selector = document.getElementById("type_selector");
+                    
+                    selector.value = main_area.selected_el.type;
+                    var wording = document.getElementById("wording");
+                    wording.value = main_area.selected_el.wording;
+                }
+                
+            }, false);
+        </script>
+    </body>
+</html>

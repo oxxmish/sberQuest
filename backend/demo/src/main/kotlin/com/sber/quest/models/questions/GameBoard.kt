@@ -1,15 +1,21 @@
 package com.sber.quest.models.questions
 
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
-class GameBoard(private var name: String,
-                private var colour: String,
-                private var regularQuestions: List<RegularQuestion>,
-                private var finalQuestions: List<FinalQuestion>
-) {
+@Table(name = "game_board")
+data class GameBoard (
     @Id
-    private final val uuid: UUID = UUID.randomUUID()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+    @Column(name = "name")
+    var name: String,
+    @Column(name = "colour")
+    var colour: String,
+    @OneToMany(mappedBy = "gameBoard")
+    var regularQuestions: List<RegularQuestion>,
+    @OneToMany(mappedBy = "gameBoard")
+    var finalQuestions: List<FinalQuestion>,
+) {
 }

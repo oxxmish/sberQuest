@@ -1,0 +1,7 @@
+###
+POST http://localhost:8080/board/create
+Content-Type: application/json
+{
+ name: "Доска 1",
+
+}

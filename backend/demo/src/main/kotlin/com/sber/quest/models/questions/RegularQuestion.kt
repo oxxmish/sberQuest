@@ -14,7 +14,5 @@ data class RegularQuestion(
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     var questionType: QuestionType,
-    @ManyToOne
-    var gameBoard: GameBoard
 ) {
 }

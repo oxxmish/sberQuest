@@ -3,5 +3,7 @@ POST http://localhost:8080/board/create
 Content-Type: application/json
 {
  name: "Доска 1",
-
 }
+
+###
+GET http://localhost:8080/board/get/1

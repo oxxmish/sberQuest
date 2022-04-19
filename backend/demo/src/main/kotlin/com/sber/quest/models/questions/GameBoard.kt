@@ -1,6 +1,5 @@
 package com.sber.quest.models.questions
 
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -13,9 +12,11 @@ data class GameBoard (
     var name: String,
     @Column(name = "colour")
     var colour: String,
-    @OneToMany(mappedBy = "gameBoard")
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "game_board_id")
     var regularQuestions: List<RegularQuestion>,
-    @OneToMany(mappedBy = "gameBoard")
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "game_board_id")
     var finalQuestions: List<FinalQuestion>,
 ) {
 }

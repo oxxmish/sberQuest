@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "sessions")
 data class Session(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "uuid", unique = true)
     val uuid: UUID,
     @Column(name = "username")
     val userName: String,

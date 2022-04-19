@@ -1,15 +1,18 @@
 package com.sber.quest.controller
 
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import com.sber.quest.service.GameService
+import org.springframework.web.bind.annotation.*
 
-@Controller
+@RestController
 @RequestMapping("game")
-class GameController {
-    @GetMapping
-    fun chooseQuestion(@RequestParam questionId: Long) {
+class GameController(val gameService: GameService) {
+    @PostMapping("/chooseQuestion", consumes = ["application/json"], produces = ["application/json"])
+    fun chooseQuestion(@RequestBody request: ChooseQuestionRequest) {
+        gameService.onChooseQuestion(request.questionId, request.questionType)
+    }
 
+    @GetMapping("/getAnswer", produces = ["application/json"])
+    fun getAnswer(): String {
+        return gameService.getAnswerFromActiveSession()
     }
 }

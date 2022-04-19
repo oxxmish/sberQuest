@@ -12,7 +12,7 @@ alter table game_board
 
 create table if not exists final_questions
 (
-    id            bigint not null
+    id      bigserial not null
         constraint final_questions_pkey
             primary key,
     answer        varchar(1500),
@@ -43,7 +43,7 @@ alter table regular_questions
 
 create table if not exists sessions
 (
-    uuid           serial not null
+    uuid           uuid not null
         constraint sessions_pkey
             primary key,
     current_answer varchar(1500),

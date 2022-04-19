@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("board")
 class GameBoardController(private val gameBoardService: GameBoardService) {
-    @PostMapping("/create", produces = ["application/json"])
+    @PostMapping("/create", consumes = ["application/json"], produces = ["application/json"])
     fun createBoard(gameBoardDto: GameBoardDto) = gameBoardService.createBoard(gameBoardDto)
 
     @GetMapping("get/{id}", produces = ["application/json"])

@@ -16,3 +16,5 @@ spring:
   sql:
     init:
       platform: postgres
+  flyway:
+    locations: classpath:db/migration

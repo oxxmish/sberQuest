@@ -1,0 +1,22 @@
+###
+POST http://localhost:8080/board/create
+Content-Type: application/json
+{
+ name: "Доска 1",
+}
+
+
+
+### кейс получения ответа на текущий вопрос
+
+### Получаем игровую доску(начало игры)
+GET http://localhost:8080/board/get/1
+
+### Выбираем вопрос
+POST http://localhost:8080/game/chooseQuestion
+Content-Type: application/json
+
+{ "questionId": 1, "questionType": "REGULAR"}
+
+### Получаем ответ на основе текущей сессии
+GET http://localhost:8080/game/getAnswer

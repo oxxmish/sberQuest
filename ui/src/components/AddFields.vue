@@ -1,108 +1,68 @@
-html {
-    height: 100%;
-    width: 100%;
-    /* overflow: hidden; */
-}
+<template>
+    <div id="pop_up" class="pop_up" v-if="is_add_product">
+        <div class="pop_up_title">Создание игрового поля</div>
+        <input id="pop_up_input" class="pop_up_input" placeholder="Название продукта"/>
+        <div class="pop_up_color_title">Выберите цвет поля</div>
+        <div class="pop_up_group_color">
+            <div id="color_example">
+                <output id="hex">#000000</output>
+            </div>
+            <fieldset>
+            <label for="r">R</label>
+            <input type="range" min="0" max="255" id="r" step="1" value="0">
+            <output for="r" id="r_out">0</output>
+            </fieldset>  
+            
+            
+            <fieldset>
+            <label for="g">G</label>
+            <input type="range" min="0" max="255" id="g" step="1" value="0">
+            <output for="g" id="g_out">0</output>
+            </fieldset>
 
-body {
-    width: 99%;
-    height: 95%;
-    font-family: 'Times New Roman', Times, serif;
-    /* color: #333333;
-    background: #f7f7f7;
-    font-size: 1em;
-    font-family: 'Times New Roman', Times, serif;
-    line-height: 135%; */
-}
+            
+            
+            <fieldset>
+            <label for="b">B</label>
+            <input type="range" min="0" max="255" id="b" step="1" value="0">
+            <output for="b" id="b_out">0</output>
+            </fieldset>  
+                
+                
+        </div>
+        <div class="pop_up_group_button">
+            <div @click="create_product" class="pop_up_button">Сохранить</div>
+            <div @click="exit" class="pop_up_button">Выйти</div>
+        </div>
+    </div>
+</template>
 
-header {
-    width: 98%;
-    background-color: #ffffff;
-    /* float: left; */
+<script>
+export default {
+  name: 'AddFields',
+  props:['is_add_product'],
+  data(){
+    return {
+        
+        }
+    },
+    methods:{
+        exit: function () {
+            this.$emit('close-add-field');
+        },
+        create_product: function () {
+            var name = document.getElementById("pop_up_input").value;
+            var color = String(document.getElementById('hex').value);
+            this.$emit('create-field', name, color);
+            this.$emit('close-add-field');
+            document.getElementById("pop_up_input").value = "";
+        }
+    }
 }
-header {
-    border-bottom: 2px solid silver;
-    padding: 1%;
-    height: 5%;
-    font-size: 200%;
-    color: #000000;
-    margin-bottom: 0.1%;
-}
+</script>
 
-.logo {
-    float: left;
-    width: 33.33%;
-}
-
-.role {
-    float: left;
-    text-align: center;
-    width: 33.33%;
-}
-
-.profile {
-    float: left;
-    text-align: right;
-    width: 33.33%;
-}
-
-.profile img {
-    float: right;
-    width: 9%;
-    height: 9%;
-    margin-right: 5%;
-}
-
-.to_fields{
-    height: 5%;
-    background-color: green;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
-    font-size: 175%;
-}
-.to_fields:hover {
-    box-shadow: 0 0 10px 100px orange inset;
-}
-
-/* Grid */
-
-.grid{
-    margin-top: 3%;
-    margin-left: 5%;
-    width: 90%;
-    height: 80%;
-}
-
-.grid_element{
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 5%;
-    float: left;
-    width: 15%;
-    height: 15%;
-    border: 2px solid black;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 220%;
-    line-height:100px;
-    color: white;
-}
-
-.number{
-    color: black;
-    font-size: 500%;
-}
-
-.plus{
-    font-size: 600%;
-    border: 2px solid silver;
-    color: silver;
-}
-
-/* Pop up window */
-
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
 .pop_up{
     float: left;
     position: fixed;
@@ -230,3 +190,4 @@ label[for=b], output[for=b]{
     margin-right: 5%;
     background-color: #000000;
 }
+</style>

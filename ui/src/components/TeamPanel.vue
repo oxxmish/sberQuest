@@ -16,10 +16,10 @@
       <div class="center_item_team">
         <div class="column_prompt_1">
             <div class="prompt_1">
-            <button class="button"><img src="@/assets/replace_f.png" alt="Кнопка «button»"></button>
+            <button class="button"><img class="help" src="@/assets/replace_f.png" alt="Кнопка «button»"></button>
             </div>
             <div class="prompt_1">
-            <button class="button"><img src="@/assets/help_player.png" alt="Кнопка «button»"></button>
+            <button class="button"><img class="help" src="@/assets/help_player.png" alt="Кнопка «button»"></button>
             </div>
         </div>
         <div class="column_img">
@@ -30,10 +30,10 @@
         </div>
         <div class="column_prompt_2">
             <div class="prompt_1">
-            <button class="button"><img src="@/assets/replace_q.png" alt="Кнопка «button»"></button>
+            <button class="button"><img class="help" src="@/assets/replace_q.png" alt="Кнопка «button»"></button>
             </div>
             <div class="prompt_1">
-            <button class="button"><img src="@/assets/help_master.png" alt="Кнопка «button»"></button>
+            <button class="button"><img class="help" src="@/assets/help_master.png" alt="Кнопка «button»"></button>
             </div>
         </div>
       </div>
@@ -232,6 +232,9 @@ export default {
 </script>
 
 <style scoped>
+.help{
+  width: 130%;
+}
 .themes4{
   margin-top: 4%;
   margin-left: 6%;
@@ -473,6 +476,7 @@ border: none;
 #logo{
     margin-top: 14%;
 margin-left: 22%;
+width: 55%;
 }
 
 table{

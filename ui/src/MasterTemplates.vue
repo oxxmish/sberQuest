@@ -1,28 +1,104 @@
 <template>
     <MasterHeader @logout="log_out" />
-    <TemplateList />
+    <MasterMenu v-if="draw == 'settings'" @select-question= "visible1" @select-themes= "visible2" @create-game="create_game" />
+    <TemplateList v-if="draw == 'grid'" :template_list="options" @select-template="select_template" />
+    <TemplateSettings v-if="draw == 'settings'" ref="settings" :visible="visible" :products="current_template" />
 </template>
 
 <script>
 import MasterHeader from './components/MasterHeader.vue'
+import MasterMenu from './components/MasterMenu.vue'
 import TemplateList from './components/TemplateList.vue'
+import TemplateSettings from './components/TemplateSettings.vue'
 
 export default {
   name: 'MasterTemplates',
   components: {
     MasterHeader,
     TemplateList,
+    TemplateSettings,
+    MasterMenu
   }, 
   data(){
     return {
+      visible: 1,
+      draw: 'grid',
+      current_template: null,
+      options: [
+            { text: 'Шаблон комнаты 1', value: '1',
+            products: [
+                { text: '1',
+                value: '1',
+                color: 'color:black;',
+                count: 1,
+                visible_question: true,
+                questions: [
+                    { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1', Need_quest: false },
+                    { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2', Need_quest: false },
+                    { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 3', Need_quest: false },
+                    { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4', Need_quest: false }
+                ]
+                },
+                { text: '2',
+                value: '2',
+                color: 'color:black;',
+                count: 1,
+                visible_question: true,
+                questions: [
+                    { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 5', Need_quest: false },
+                    { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 6', Need_quest: false },
+                    { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 7', Need_quest: false },
+                    { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 8', Need_quest: false },
+                    { id: '5', text: 'Вопрос 5', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 8', Need_quest: false }
+                ]
+                },
+                { text: 'СберАптека',
+                value: '3',
+                color: 'color:white;background:red',
+                count: 1,
+                visible_question: true,
+                questions: [
+                    { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1', Need_quest: false },
+                    { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2', Need_quest: false },
+                    { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 3', Need_quest: false },
+                    { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4', Need_quest: false }
+                ]
+                },
+                { text: 'ДомКлик',
+                value: '4',
+                color: 'color:white;background:purple',
+                count: 1,
+                visible_question: true,
+                questions: [
+                    { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 5', Need_quest: false },
+                    { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 6', Need_quest: false },
+                    { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 7', Need_quest: false },
+                    { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 8', Need_quest: false }
+                ]
+                }
+            ] },
+            { text: 'Шаблон комнаты 2', value: '2', products: [] },
+        ]
     }
   },
   methods:{
     log_out: function(){
         this.$emit('logout');
     },
-    start_game: function(){
-        this.$emit('start-game');
+    create_game: function(){
+        this.$emit('create-game');
+    },
+    visible1: function () { // переключение на вкладку выбор вопросов
+      this.visible = 1;
+      this.$refs.settings.count_field_now();
+    },
+    visible2: function () { // переключение на вкладку выбор тем
+      this.visible = 2
+      this.$refs.settings.count_field_now();
+    },
+    select_template: function (tmpl) {
+      this.draw = 'settings';
+      this.current_template = tmpl;
     },
   }
   

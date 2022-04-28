@@ -4,22 +4,79 @@
     <div id="player_list">
         <div id="player_list_head">Список игроков</div>
         <hr>
+        <!-- <div v-for="(option, index) in users" :key="index" class="wait_users">
+            {{option}}
+        </div> -->
     </div>
-    <div class="lobby_team" id="lobby_team_1">
-        <div id="lobby_team_head">Команда 1</div>
-        <hr>
+    <div id="group_teams">
+        <div class="lobby_team" id="lobby_team_1">
+            <div id="lobby_team_head">Команда 1</div>
+            <hr>
+            <div class="scroll">
+                <div id="list_team_1" class="one_player" v-for="(option, index) in team_1" :key="index" :index="index">
+                    <input type="text" :value="option" class="wait_users" @blur="save_edit">
+                    <div id="delete_player" @click="team_1.pop()">x</div>
+                </div>
+                <div id="plus_player" @click="team_1.push('Новый игрок')">+</div>
+            </div>
+        </div>
+        <div class="lobby_team" id="lobby_team_2">
+            <div id="lobby_team_head">Команда 2</div>
+            <hr>
+            <div class="scroll">
+                <div id="list_team_2" class="one_player" v-for="(option, index) in team_2" :key="index" :index="index">
+                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <div id="delete_player" @click="team_2.pop()">x</div>
+                </div>
+                <div id="plus_player" @click="team_2.push('Новый игрок')">+</div>
+            </div>
+        </div>
+        <div class="lobby_team" id="lobby_team_3">
+            <div id="lobby_team_head">Команда 3</div>
+            <hr>
+            <div class="scroll">
+                <div id="list_team_3" class="one_player" v-for="(option, index) in team_3" :key="index" :index="index">
+                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <div id="delete_player" @click="team_3.pop()">x</div>
+                </div>
+                <div id="plus_player" @click="team_3.push('Новый игрок')">+</div>
+            </div>
+        </div>
+        <div class="lobby_team" id="lobby_team_4">
+            <div id="lobby_team_head">Команда 4</div>
+            <hr>
+            <div class="scroll">
+                <div id="list_team_4" class="one_player" v-for="(option, index) in team_4" :key="index" :index="index">
+                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <div id="delete_player" @click="team_4.pop()">x</div>
+                </div>
+                <div id="plus_player" @click="team_4.push('Новый игрок')">+</div>
+            </div>
+        </div>
     </div>
-    <div class="lobby_team" id="lobby_team_2">
-        <div id="lobby_team_head">Команда 2</div>
+    
+    <div id="player_list">
+        <div id="player_list_head">Настройки комнаты</div>
         <hr>
-    </div>
-    <div class="lobby_team" id="lobby_team_3">
-        <div id="lobby_team_head">Команда 3</div>
-        <hr>
-    </div>
-    <div class="lobby_team" id="lobby_team_4">
-        <div id="lobby_team_head">Команда 4</div>
-        <hr>
+        <div id="room_id_header">ID</div>
+        <div id="room_id">cc85b209-77e1-47c4-b7dc-fe4cfeb1c35e</div>
+        <div id="global_timer_header">Таймер</div>
+        <div id="global_timer">
+            <input class="clock" type="text" value="00"> 
+            <div class="clock_dil">:</div>
+            <input class="clock" type="text" value="00"> 
+            <div class="clock_dil">:</div>
+            <input class="clock" type="text" value="00">
+        </div>
+        <div id="critical_timer_header">Критическая отметка</div>
+        <div id="critical_timer">
+            <input class="clock" type="text" value="00"> 
+            <div class="clock_dil">:</div>
+            <input class="clock" type="text" value="00"> 
+            <div class="clock_dil">:</div>
+            <input class="clock" type="text" value="00">
+        </div>
+        <div id="start_game" @click="start_game">Начать игру</div>
     </div>
 </div>
 </template>
@@ -29,49 +86,50 @@ export default {
   name: 'AuthWin',
   data(){
     return {
-        user_type: 'Master',
-        failed: false
+        team_1: [
+            'Игрок 1',
+            'Игрок 2',
+            'Игрок 3',
+        ],
+        team_2: [
+        ],
+        team_3: [
+        ],
+        team_4: [
+        ]
     }
   },
   methods: {
-        select_tab_1: function () {
-            if(this.user_type != 'Master')
-                this.failed = false;
-            document.getElementById('tab_1').style.textDecoration = 'underline';
-            document.getElementById('tab_2').style.textDecoration = 'none';
-            this.user_type = 'Master'
+        add_player: function (num_team) {
+            if(num_team == 'team_1')
+                this.team_1.push('Новый игрок');
+            else if(num_team == 'team_2')
+                this.team_2.push('Новый игрок');
+            else if(num_team == 'team_3')
+                this.team_3.push('Новый игрок');
+            else if(num_team == 'team_4')
+                this.team_4.push('Новый игрок');
         },
-        select_tab_2: function () {
-            if(this.user_type != 'User')
-                this.failed = false;
-            document.getElementById('tab_2').style.textDecoration = 'underline';
-            document.getElementById('tab_1').style.textDecoration = 'none';
-            this.user_type = 'User'
-            document.getElementById('failed_message_master').style.visibility = 'hidden';
+        save_edit: function (event) {
+            if(event.target.parentElement.getAttribute('id') == 'list_team_1')
+                this.team_1[event.target.parentElement.getAttribute('index')] = event.target.value;
+            else if(event.target.parentElement.getAttribute('id') == 'list_team_2')
+                this.team_2[event.target.parentElement.getAttribute('index')] = event.target.value;
+            else if(event.target.parentElement.getAttribute('id') == 'list_team_3')
+                this.team_3[event.target.parentElement.getAttribute('index')] = event.target.value;
+            else if(event.target.parentElement.getAttribute('id') == 'list_team_4')
+                this.team_4[event.target.parentElement.getAttribute('index')] = event.target.value;
         },
-        log_in: function () {
-            var email = document.getElementById('email_master').value;
-            var password = document.getElementById('password').value;
-            if(email == 'ведущий' && password == 'ведущий123')
-                this.$emit('login-master');
-            else if(email == 'админ' && password == 'админ123')
-                this.$emit('login-admin');
-            else
-                this.failed = true;
-        },
-        check_failed: function () {
-            if(this.failed)
-                return 'visible';
-            else
-                return 'hidden';
+        start_game: function () {
+            this.$emit('start-game');
         },
   },
   mounted: function () {
   this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений
-    document.getElementById('tab_1').style.textDecoration = 'underline';
-    this.user_type = 'Master'
+    // document.getElementById('tab_1').style.textDecoration = 'underline';
+    // this.user_type = 'Master'
   })
   }
 }
@@ -81,28 +139,32 @@ export default {
 <style scoped>
 #lobby_header{
     text-align: center;
-    font-size: 200%;
+    /* font-size: 200%; */
+    font-size: 2vw;
 }
 
 #group_lobby{
     width: 100%;
-    height: 100%;
+    height: 103%;
+    background: #21A038;
 }
 
 #player_list{
     margin-top: 1%;
-    margin-left: 9%;
-    width: 20%;
+    margin-left: 2%;
+    width: 17.5%;
     height: 95%;
     border: solid black 2px;
     border-radius: 20px;
     float: left;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 #player_list_head{
     margin-top: 2%;
     text-align: center;
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.5vw;
 }
 
 hr{
@@ -110,19 +172,161 @@ hr{
     color: green;
 }
 
-.lobby_team{
+#group_teams{
+    margin-left: 1%;
     margin-top: 1%;
+    float: left;
+    width: 57%;
+    height: 95%;
+}
+
+.lobby_team{
     border-radius: 20px;
     float: left;
     border: solid black 2px;
-    width: 25%;
+    width: 45%;
     height: 46%;
-    margin-left: 5%;
+    margin-left: 4%;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 #lobby_team_head{
     margin-top: 2%;
     text-align: center;
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.5vw;
+}
+
+#lobby_team_3, #lobby_team_4{
+    margin-top: 5%;
+}
+
+#room_id_header{
+    margin-top: 5%;
+    text-align: center;
+    /* font-size: 150%; */
+    font-size: 1.75vw;
+    text-decoration: underline;
+}
+
+#room_id{
+    margin-top: 2%;
+    text-align: center;
+    /* font-size: 88%; */
+    font-size: 0.9vw;
+}
+
+#global_timer_header{
+    text-align: center;
+    margin-top: 5%;
+    /* font-size: 150%; */
+    font-size: 1.75vw;
+    text-decoration: underline;
+}
+
+#global_timer{
+    width: 80%;
+    text-align: center;
+    margin-top: 1%;
+    /* font-size: 300%; */
+    font-size: 3vw;
+    height: 10%;
+    margin-left: 13%;
+}
+
+#critical_timer_header{
+    text-align: center;
+    margin-top: 5%;
+    /* font-size: 150%; */
+    font-size: 1.6vw;
+    text-decoration: underline;
+}
+
+#critical_timer{
+    width: 80%;
+    text-align: center;
+    margin-top: 1%;
+    /* font-size: 300%; */
+    font-size: 3vw;
+    height: 10%;
+    margin-left: 13%;
+}
+
+#start_game{
+    text-align: center;
+    width: 80%;
+    height: 5%;
+    margin-left: 10%;
+    border: solid black 2px;
+    border-radius: 15px;
+    margin-top: 100%;
+    /* font-size: 120%; */
+    font-size: 1.3vw;
+    background: green;
+    color: white;
+    font-weight: bold;
+    line-height: 150%;
+}
+
+.wait_users{
+    margin-top: 2%;
+    margin-left: 10%;
+    width: 75%;
+    border: solid black 2px;
+    border-radius: 10px;
+    text-align: center;
+    /* font-size: 120%; */
+    font-size: 1.3vw;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    float: left;
+}
+
+.scroll{
+    height: 80%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#plus_player{
+    margin-top: 2%;
+    margin-left: 10%;
+    width: 80%;
+    text-align: center;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
+    font-weight: bold;
+    float: left;
+}
+
+.one_player{
+    width: 100%;
+}
+
+#delete_player{
+    float: left;
+    width: 5%;
+    margin-top: 4%;
+    margin-left: 2%;
+    font-size: 1.3vw;
+}
+
+.clock{
+    font-size: 100%;
+    width: 25%;
+    float: left;
+    background: rgba(255, 255, 255, 0);
+    outline: none;
+    border: none;
+}
+
+.clock_dil{
+    float: left;
 }
 </style>

@@ -79,13 +79,15 @@ export default {
 .pop_up_title{
     margin-top: 2%;
     color: green;
-    font-size: 200%;
+    /* font-size: 200%; */
+    font-size: 1.8vw;
     font-weight: bold;
 }
 .pop_up_color_title{
     margin-top: 4%;
     color: green;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
     width: 90%;
     margin-left: 5%;
     text-align: center;
@@ -101,7 +103,8 @@ input{
     border-left: none;
     border-right: none;
     outline:none;
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.5vw;
 }
 
 #pop_up_input{
@@ -126,7 +129,9 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.3vw;
+    font-weight: bold;
 }
 
 .pop_up_button:hover {

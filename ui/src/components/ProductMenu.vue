@@ -10,6 +10,9 @@
         <div @click="delete_button" id="delete">
             Удалить
         </div>
+        <div @click="save_product" id="save_product">
+            Сохранить
+        </div>
         <div @click="back" id="back">
             К другим полям
         </div>
@@ -47,7 +50,7 @@ export default {
   this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений
-    if(this.selected_product[0] == '1' || this.selected_product[0] == '2')
+    if(this.selected_product[0] == 'Финал' || this.selected_product[0] == 'Полуфинал')
     {
         document.getElementById('edit').style.visibility = 'hidden';
         document.getElementById('delete').style.visibility = 'hidden';
@@ -81,7 +84,7 @@ export default {
     font-size: 180%;
 }
 
-#edit, #back, #delete{
+#edit, #back, #delete, #save_product{
     border-radius: 20px;
     padding-top: 4%;
     padding-bottom: 4%;
@@ -99,10 +102,13 @@ export default {
     margin-top: 5%;
 }
 #back{
-    margin-top: 100%;
+    margin-top: 5%;
+}
+#save_product{
+    margin-top: 92%;
 }
 
-#edit:hover, #back:hover, #delete:hover {
+#edit:hover, #back:hover, #delete:hover, #save_product:hover {
     box-shadow: 0 0 10px 100px orange inset;
 }
 </style>

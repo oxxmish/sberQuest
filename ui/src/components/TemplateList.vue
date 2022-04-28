@@ -1,25 +1,34 @@
 <template>
-    <div class="grid" id="grid">
-        <div class="grid_element" v-for="(option, index) in options" :key="index">{{ option.text }}</div>
+    <div v-if="draw == 'grid'" class="grid" id="grid">
+        <div class="grid_element" v-for="(option, index) in template_list" :key="index" :index="index" @click="select_template">{{ option.text }}</div>
         <div class="grid_element plus" @click="add_product">+</div>
     </div>
 </template>
 
 <script>
+//import TemplateSettings from './TemplateSettings.vue'
+
 export default {
   name: 'TemplateList',
+  props:['template_list'],
+  components: {
+    //TemplateSettings,
+  }, 
   data(){
     return {
-        options: [
-            { text: 'Шаблон комнаты 1', value: '1' },
-            { text: 'Шаблон комнаты 2', value: '2' },
-        ]
+        draw: 'grid',
+        current_template: null,
     }
   },
   methods: {
         add_product: function () {
-                    this.options.push({ text: "Новый шаблон " + (this.options.length + 1), value: this.options.lenght });
-                }
+            this.$emit('add-template');
+            // this.options.push({ text: "Новый шаблон " + (this.options.length + 1), value: this.options.lenght, products: [] });
+        },
+        select_template: function (event) {
+            // this.current_template = this.options[event.target.getAttribute('index')].products;
+            this.$emit('select-template', this.template_list[event.target.getAttribute('index')].products);
+        },
   }
 }
 </script>
@@ -43,8 +52,10 @@ export default {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    font-size: 170%;
-    line-height:100px;
+    /* font-size: 170%; */
+    font-size: 1.7vw;
+    /* line-height:100px; */
+    line-height: 6.5vw;
     color: black;
 }
 

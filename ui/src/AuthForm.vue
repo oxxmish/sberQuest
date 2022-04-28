@@ -111,14 +111,16 @@ export default {
 
 .AuthHeader{
     color: #f9fff9;
-    font-size: 250%;
+    /* font-size: 250%; */
+    font-size: 2.5vw;
     margin-top: 3%;
     text-align: center;
 }
 
 .AuthLogo{
     /* color: #3db33d; */
-    font-size: 550%;
+    /* font-size: 550%; */
+    font-size: 5.5vw;
     margin-top: 2.5%;
     text-align: center;
 }
@@ -155,7 +157,8 @@ export default {
     float: left;
     text-align: center;
     color: #f9fff9;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.75vw;
     margin-left: -1%;
 }
 
@@ -173,7 +176,8 @@ export default {
   border-radius: 25px;
   margin-left: 10%;
   margin-top: 5%;
-  font-size: 120%;
+  /* font-size: 120%; */
+  font-size: 1.3vw;
   border: solid 2px;
   text-indent: 5%;
 }
@@ -185,17 +189,20 @@ export default {
     border: solid black 2px;
     background: #007A10;
     color: #f9fff9;
-    font-size: 175%;
+    /* font-size: 175%; */
+    font-size: 1.75vw;
     text-align: center;
     border-radius: 15px;
-    line-height: 150%;
+    /* line-height: 150%; */
+    line-height: 2.75vw;
     margin-top: 4%;
 }
 
 #get_pass{
     text-align: center;
     margin-top: 4%;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
     color: #f9fff9;
 }
 
@@ -205,7 +212,8 @@ export default {
     text-align: center;
     height: 5%;
     margin-top: 2%;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
 }
 
 #reg_text{
@@ -222,7 +230,8 @@ export default {
 #user_message{
     text-align: center;
     margin-top: 4%;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
     color: #f9fff9;
 }
 

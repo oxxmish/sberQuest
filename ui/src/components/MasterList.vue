@@ -126,7 +126,8 @@ export default {
 }
 
 .master_title{
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
     font-weight: bold;
     height: 5%;
 }
@@ -139,7 +140,8 @@ export default {
     background-color: green;
     margin-top: 5%;
     color: #ffffff;
-    font-size: 100%;
+    /* font-size: 100%; */
+    font-size: 1.2vw;
     width: 90%;
     text-indent: 5%;
 }
@@ -152,7 +154,8 @@ export default {
     background-color: green;
     margin: 5%;
     color: #ffffff;
-    font-size: 100%;
+    /* font-size: 100%; */
+    font-size: 1vw;
     font-weight: bold;
 }
 
@@ -164,7 +167,8 @@ export default {
     background-color: red;
     margin: 5%;
     color: #ffffff;
-    font-size: 100%;
+    /* font-size: 100%; */
+    font-size: 1vw;
     font-weight: bold;
     
     opacity: 0.5;

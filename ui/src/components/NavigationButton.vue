@@ -23,7 +23,8 @@ export default {
     text-align: center;
     font-weight: bold;
     color: #ffffff;
-    font-size: 175%;
+    /* font-size: 175%; */
+    font-size: 1.75vw;
 }
 .to_fields:hover {
     box-shadow: 0 0 10px 100px orange inset;

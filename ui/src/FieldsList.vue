@@ -34,7 +34,7 @@ export default {
         selected_product: ['СберАптека', 'background:red;color:white;'],
         draw: 'questions',
         products: [
-        { text: '1', value: '1', color:"color:black;font-size:500%;", 
+        { text: 'Полуфинал', value: '1', color:"color:black;font-size:2.2vw;", 
           questions:[
             { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1' }, 
             { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2' }, 
@@ -42,7 +42,7 @@ export default {
             { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4' },
             ] 
         },
-        { text: '2', value: '2', color:"color:black;font-size:500%;", 
+        { text: 'Финал', value: '2', color:"color:black;font-size:2.2vw;", 
           questions:[
             { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 5' }, 
             { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 6' }, 
@@ -86,8 +86,8 @@ export default {
             this.products.push({ text: name, value: this.products.lenght, color:"background:" + color, questions: [] });
         },
         select_product: function(name, color){
-            if(name == '1' || name == '2')
-                this.selected_product = [name, color + ';color:black;font-size:500%;padding-top: 5%;padding-bottom: 5%;'];
+            if(name == 'Финал' || name == 'Полуфинал')
+                this.selected_product = [name, color + ';color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;'];
             else
                 this.selected_product = [name, color + ';color:white;'];
             this.current_view = 'questions';
@@ -140,7 +140,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.grid{
+/* .grid{
     margin-top: 3%;
     margin-left: 5%;
     width: 90%;
@@ -157,7 +157,6 @@ export default {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    font-size: 220%;
     line-height:100px;
     color: white;
 }
@@ -165,11 +164,12 @@ export default {
 .number{
     color: black;
     font-size: 500%;
+    font-size: 15vw;
 }
 
 .plus{
     font-size: 600%;
     border: 2px solid silver;
     color: silver;
-}
+} */
 </style>

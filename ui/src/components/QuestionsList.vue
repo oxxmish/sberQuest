@@ -312,8 +312,10 @@ document.addEventListener("DOMNodeInserted", function () {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    font-size: 220%;
-    line-height:100px;
+    /* font-size: 220%; */
+    font-size: 2.2vw;
+    /* line-height:100px; */
+    line-height: 7vw;
     color: black;
 }
 
@@ -323,11 +325,13 @@ document.addEventListener("DOMNodeInserted", function () {
 }
 
 .plus{
-    font-size: 600%;
+    /* font-size: 600%; */
+    font-size: 6vw;
 }
 
 .load{
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.3vw;
 }
 
 .scroll{
@@ -370,7 +374,8 @@ img{
 .edit_window_color_title{
     margin-top: 4%;
     color: green;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.6vw;
     width: 90%;
     margin-left: 5%;
     text-align: center;
@@ -386,7 +391,8 @@ input{
     border-left: none;
     border-right: none;
     outline:none;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 2vw;
 }
 
 #edit_window_input{
@@ -411,7 +417,8 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
 }
 
 .edit_window_button:hover {
@@ -499,7 +506,8 @@ label[for=b], output[for=b]{
     padding-top: 1.5%;
     padding-bottom: 1.5%;
     color: white;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
     font-weight: bold;
     border-radius: 20px;
     margin-left: 10%;
@@ -518,7 +526,8 @@ label[for=b], output[for=b]{
 #type_selector{
     float: left;
     width: 40%;
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.3vw;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
     margin-left: 18%;
@@ -529,13 +538,15 @@ label[for=b], output[for=b]{
 #title{
     float: left;
     width: 60%;
-    font-size: 200%;
+    /* font-size: 200%; */
+    font-size: 2vw;
 }
 
 #wording{
     width: 70%;
     height: 40%;
-    font-size: 140%;
+    /* font-size: 140%; */
+    font-size: 1.4vw;
     resize: none;
 }
 
@@ -558,13 +569,15 @@ label[for=b], output[for=b]{
 .pop_up_title{
     margin-top: 2%;
     color: green;
-    font-size: 200%;
+    /* font-size: 200%; */
+    font-size: 2vw;
     font-weight: bold;
 }
 .pop_up_color_title{
     margin-top: 4%;
     color: green;
-    font-size: 150%;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
     width: 90%;
     margin-left: 5%;
     text-align: center;
@@ -580,7 +593,8 @@ input{
     border-left: none;
     border-right: none;
     outline:none;
-    font-size: 130%;
+    /* font-size: 130%; */
+    font-size: 1.3vw;
 }
 
 #pop_up_input{
@@ -606,7 +620,8 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    font-size: 120%;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
 }
 
 .pop_up_button:hover {

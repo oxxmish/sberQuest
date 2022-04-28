@@ -12,7 +12,7 @@ const routes = {
   '/fields': FieldsList,
   '/templates': MasterTemplates,
   '/game': TheGame,
-  '/lobby': GameLobby
+  '/lobby': GameLobby,
 }
 
 export default {
@@ -45,6 +45,10 @@ export default {
     start_game() {
       window.location.href = "#/game";
       this.currentPath = window.location.hash
+    },
+    create_game() {
+      window.location.href = "#/lobby";
+      this.currentPath = window.location.hash
     }
   },
   computed: {
@@ -61,5 +65,21 @@ export default {
 </script>
 
 <template>
-  <component :is="currentView" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @start-game="start_game" />
+  <component :is="currentView" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" />
 </template>
+
+<style>
+html {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-family: 'Roboto Light', sans-serif;
+}
+
+body {
+    width: 99%;
+    height: 90%;
+}
+</style>

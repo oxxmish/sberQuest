@@ -46,18 +46,22 @@ export default {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    font-size: 220%;
-    line-height:100px;
+    /* font-size: 220%; */
+    font-size: 2vw;
+    /* line-height:100px; */
+    line-height: 7vw;
     color: white;
 }
 
 .number{
     color: black;
-    font-size: 500%;
+    /* font-size: 500%; */
+    font-size: 2vw;
 }
 
 .plus{
-    font-size: 600%;
+    /* font-size: 600%; */
+    font-size: 6vw;
     border: 2px solid silver;
     color: silver;
 }

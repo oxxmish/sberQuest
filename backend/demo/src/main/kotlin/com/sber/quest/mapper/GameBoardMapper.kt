@@ -1,6 +1,6 @@
 package com.sber.quest.mapper
 
-import com.sber.quest.models.dto.questions.GameBoardDto
+import com.sber.quest.models.dto.GameBoardDto
 import com.sber.quest.models.questions.GameBoard
 import org.springframework.stereotype.Component
 

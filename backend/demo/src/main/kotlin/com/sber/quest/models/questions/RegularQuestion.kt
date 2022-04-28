@@ -1,5 +1,7 @@
 package com.sber.quest.models.questions
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.sber.quest.models.Product
 import javax.persistence.*
 
 @Entity
@@ -14,5 +16,9 @@ data class RegularQuestion(
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     var questionType: QuestionType,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
+    var product: Product
 ) {
 }

@@ -1,7 +1,7 @@
 package com.sber.quest.service
 
 import com.sber.quest.mapper.GameBoardMapper
-import com.sber.quest.models.dto.questions.GameBoardDto
+import com.sber.quest.models.dto.GameBoardDto
 import com.sber.quest.repository.GameBoardRepository
 import org.springframework.stereotype.Service
 

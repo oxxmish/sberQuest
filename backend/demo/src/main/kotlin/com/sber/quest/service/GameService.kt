@@ -1,5 +1,6 @@
 package com.sber.quest.service
 
+import com.sber.quest.models.dto.AnswerDto
 import com.sber.quest.models.session.QuestionType
 import com.sber.quest.models.session.Session
 import com.sber.quest.repository.FinalQuestionRepository
@@ -25,7 +26,7 @@ class GameService(
         sessionRepository.save(session)
     }
 
-    fun getAnswerFromActiveSession(): String {
-        return sessionRepository.getSessionByUserName("host1").currentAnswer
+    fun getAnswerFromActiveSession(): AnswerDto {
+        return AnswerDto(sessionRepository.getSessionByUserName("host1").currentAnswer)
     }
 }

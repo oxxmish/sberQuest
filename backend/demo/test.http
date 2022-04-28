@@ -1,9 +1,10 @@
-###
-POST http://localhost:8080/board/create
-Content-Type: application/json
-{
- name: "Доска 1",
-}
+####
+#POST http://localhost:8080/board/create
+#Content-Type: application/json
+#
+#{
+# name: "Доска 1",
+#}
 
 
 
@@ -11,6 +12,7 @@ Content-Type: application/json
 
 ### Получаем игровую доску(начало игры)
 GET http://localhost:8080/board/get/1
+Content-Type: application/json
 
 ### Выбираем вопрос
 POST http://localhost:8080/game/chooseQuestion

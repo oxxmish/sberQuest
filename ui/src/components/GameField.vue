@@ -199,7 +199,14 @@ export default {
         }
         this.$emit('set-question', this.questions[this.players[this.turn].pos]);
 
-        
+        // fetch("endpoint", {
+        //     method: "POST",
+        //     headers: {'Content-Type': 'application/json'}, 
+        //     body: JSON.stringify(this.questions[this.players[this.turn].pos])
+        //     }).then(res => {
+        //     console.log("Request complete! response:", res);
+        // });
+
         if(this.turn == 3)
         {
             this.turn = 0;

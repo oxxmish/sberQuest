@@ -5,6 +5,7 @@ import FieldsList from './FieldsList.vue'
 import MasterTemplates from './MasterTemplates.vue'
 import TheGame from './TheGame.vue'
 import GameLobby from './GameLobby.vue'
+import MasterPanel from './MasterPanel.vue'
 
 const routes = {
   '/': AuthForm,
@@ -13,6 +14,7 @@ const routes = {
   '/templates': MasterTemplates,
   '/game': TheGame,
   '/lobby': GameLobby,
+  '/status': MasterPanel,
 }
 
 export default {

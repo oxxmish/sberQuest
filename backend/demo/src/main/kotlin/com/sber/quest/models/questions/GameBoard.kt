@@ -6,7 +6,7 @@ import javax.persistence.*
 @Table(name = "game_board")
 data class GameBoard (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0,
     @Column(name = "name")
     var name: String,

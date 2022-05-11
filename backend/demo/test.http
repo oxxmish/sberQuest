@@ -1,24 +1,64 @@
-####
-#POST http://localhost:8080/board/create
-#Content-Type: application/json
-#
-#{
-# name: "Доска 1",
-#}
+### Получение доступных продуктов
+GET  http://localhost:8081/product/getAll
+
+### Создание продукта
+POST  http://localhost:8081/product/create
+Content-Type: application/json
+
+{
+  "name": "Okko",
+  "colour": "#cccccc",
+  "questions": [
+    {
+      "text": "Вам нравится сервис Окко?",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
+}
+
+### Редакторование продукта (Id остается прежним)
+POST  http://localhost:8081/product/update
+Content-Type: application/json
+
+{
+  "id": 9,
+  "name": "Okko",
+  "colour": "#fffffff",
+  "questions": [
+    {
+      "text": "Вам нравится сервис Окко?",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
+}
+
+###
+POST http://localhost:8081/board/create
+Content-Type: application/json
+
+{
+  "name": "Доска 1",
+  "colour": "#FFFFFF"
+}
+
+###
+
 
 
 
 ### кейс получения ответа на текущий вопрос
 
 ### Получаем игровую доску(начало игры)
-GET http://localhost:8080/board/get/1
+GET http://localhost:8081/board/get/1
 Content-Type: application/json
 
 ### Выбираем вопрос
-POST http://localhost:8080/game/chooseQuestion
+POST http://localhost:8081/game/chooseQuestion
 Content-Type: application/json
 
 { "questionId": 1, "questionType": "REGULAR"}
 
 ### Получаем ответ на основе текущей сессии
-GET http://localhost:8080/game/getAnswer
+GET http://localhost:8081/game/getAnswer

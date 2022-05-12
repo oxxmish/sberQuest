@@ -88,7 +88,7 @@ Content-Type: application/json
 
 ### Получаем игровую доску(начало игры)
 GET http://localhost:8081/board/get/1
-Content-Type: application/jsonыва
+Content-Type: application/json
 
 ### Выбираем вопрос
 POST http://localhost:8081/game/chooseQuestion

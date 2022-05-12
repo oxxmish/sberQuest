@@ -48,6 +48,7 @@ create table if not exists regular_questions
     answer        varchar(1500),
     type          varchar(255),
     text          varchar(2000),
+    short_text          varchar(2000),
     product_id    bigint
         constraint fkgruqk22d9nl42xwbt855fvvux
             references products,
@@ -65,6 +66,7 @@ create table if not exists sessions
         constraint sessions_pkey
             primary key,
     current_answer varchar(1500),
+    current_state jsonb,
     username       varchar(255)
 );
 

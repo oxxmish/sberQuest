@@ -1,6 +1,5 @@
 package com.sber.quest.mapper
 
-import com.sber.quest.models.dto.ProductDto
 import com.sber.quest.models.dto.RegularQuestionDto
 import com.sber.quest.models.product.Product
 import com.sber.quest.models.questions.RegularQuestion
@@ -12,6 +11,7 @@ class RegularQuestionsMapper {
         return RegularQuestion(
             id = dto.id,
             text = dto.text,
+            shortText = dto.shortText,
             answer = dto.answer,
             questionType = dto.questionType,
             product = product,
@@ -22,6 +22,7 @@ class RegularQuestionsMapper {
         return RegularQuestionDto(
             id = entity.id,
             text = entity.text,
+            shortText = entity.shortText,
             answer = entity.answer,
             questionType = entity.questionType,
         )

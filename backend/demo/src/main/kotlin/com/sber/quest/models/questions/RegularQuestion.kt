@@ -13,6 +13,8 @@ data class RegularQuestion(
     val id: Long = 0,
     @Column(name = "text", length = 2000)
     var text: String,
+    @Column(name = "short_text", length = 500)
+    var shortText: String,
     @Column(name = "answer", length = 1500)
     var answer: String,
     @Column(name = "type")

@@ -17,4 +17,13 @@ class RegularQuestionsMapper {
             product = product,
         )
     }
+
+    fun entityToDto(entity: RegularQuestion): RegularQuestionDto {
+        return RegularQuestionDto(
+            id = entity.id,
+            text = entity.text,
+            answer = entity.answer,
+            questionType = entity.questionType,
+        )
+    }
 }

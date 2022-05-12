@@ -1,6 +1,3 @@
-### Получение доступных продуктов
-GET  http://localhost:8081/product/getAll
-
 ### Создание продукта
 POST  http://localhost:8081/product/create
 Content-Type: application/json
@@ -16,18 +13,55 @@ Content-Type: application/json
     }
   ]
 }
+###
+//
+//{
+//  "id": 1,
+//  "name": "Okko",
+//  "colour": "#cccccc",
+//  "questions": [] тут пусто но это детали реализации на самом деле все добавилось
+//}
+
+### Получение доступных продуктов
+GET  http://localhost:8081/product/getAll
+
+###
+#[
+#  {
+#    "id": 1,
+#    "name": "Okko",
+#    "colour": "#cccccc",
+#    "questions": [
+#      {
+#        "id": 1,
+#        "text": "Вам нравится сервис Окко?",
+#        "answer": "Да",
+#        "questionType": "TEXT"
+#      }
+#    ]
+#  }
+#]
+
 
 ### Редакторование продукта (Id остается прежним)
+### Костыльно но работает, если хотим поменять вопрос то отправляем id вопроса и он измениться
+### Если хотим добавить вопрос то отправляем без id
 POST  http://localhost:8081/product/update
 Content-Type: application/json
 
 {
-  "id": 9,
+  "id": 1,
   "name": "Okko",
   "colour": "#fffffff",
   "questions": [
     {
+      "id": 1,
       "text": "Вам нравится сервис Окко?",
+      "answer": "Нет",
+      "questionType": "TEXT"
+    },
+    {
+      "text": "Вы смотрели фильм don't blow up?",
       "answer": "Да",
       "questionType": "TEXT"
     }

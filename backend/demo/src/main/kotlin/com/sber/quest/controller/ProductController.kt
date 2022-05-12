@@ -19,7 +19,7 @@ class ProductController(private val productService: ProductService) {
     }
 
     @GetMapping("/getAll")
-    fun getAllProducts(): MutableList<ProductDto> {
+    fun getAllProducts(): List<ProductDto> {
         return productService.getCurrentProducts()
     }
 }

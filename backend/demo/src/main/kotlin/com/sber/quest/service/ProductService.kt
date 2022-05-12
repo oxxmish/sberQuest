@@ -8,6 +8,7 @@ import com.sber.quest.repository.ProductRepository
 import com.sber.quest.repository.RegularQuestionRepository
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
+import kotlin.streams.toList
 
 @Service
 class ProductService(
@@ -25,13 +26,17 @@ class ProductService(
 
     fun updateProduct(productDto: ProductDto): Product {
         if (productRepository.findById(productDto.id).isPresent) {
-            return this.createProduct(productDto)
+            val product = productRepository.save(productMapper.dtoToEntity(productDto))
+            val dtoQuestions = productDto.questions.map { questionMapper.dtoToEntity(it, product) }
+            val questions = product.questions.plus(dtoQuestions)
+            regularQuestionRepository.saveAll(questions)
+            return product
         } else {
             throw RuntimeException("Не найден редактируемый продукт")
         }
     }
 
-    fun getCurrentProducts(): MutableList<Product> {
-        return productRepository.findAll()
+    fun getCurrentProducts(): List<ProductDto> {
+        return productRepository.findAll().stream().map { productMapper.entityToDto(it) }.toList()
     }
 }

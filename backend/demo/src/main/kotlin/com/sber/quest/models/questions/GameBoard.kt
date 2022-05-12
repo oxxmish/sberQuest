@@ -1,5 +1,6 @@
 package com.sber.quest.models.questions
 
+import com.sber.quest.models.product.ProductsForBoard
 import javax.persistence.*
 
 @Entity
@@ -10,14 +11,13 @@ data class GameBoard (
     @SequenceGenerator(name="game_board_id_seq", sequenceName="game_board_id_seq", allocationSize=1)
     val id: Long = 0,
     @Column(name = "name")
-    var name: String,
-    @Column(name = "colour")
-    var colour: String,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
-    @JoinColumn(name = "game_board_id")
-    var regularQuestions: List<RegularQuestion>,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
-    @JoinColumn(name = "game_board_id")
-    var finalQuestions: List<FinalQuestion>,
+    val name: String,
+    @Column(name = "num_fields")
+    val numFields: Int,
+    @OneToOne
+    val productsForBoard: ProductsForBoard,
+    @OneToMany
+    @JoinColumn(name = "final_questions")
+    val finalQuestions: List<FinalQuestion>
 ) {
 }

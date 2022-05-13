@@ -132,6 +132,7 @@ input{
     /* font-size: 120%; */
     font-size: 1.3vw;
     font-weight: bold;
+    margin-top: 5%;
 }
 
 .pop_up_button:hover {
@@ -191,7 +192,7 @@ label[for=b], output[for=b]{
     padding-top: 4%;
     padding-bottom: 4%;
     border-radius: 20px;
-    margin-top: 4%;
+    /* margin-top: 4%; */
     margin-right: 5%;
     background-color: #000000;
 }

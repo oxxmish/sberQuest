@@ -6,6 +6,7 @@ import MasterTemplates from './MasterTemplates.vue'
 import TheGame from './TheGame.vue'
 import GameLobby from './GameLobby.vue'
 import MasterPanel from './MasterPanel.vue'
+import RegistrationForm from './RegistrationForm.vue'
 
 const routes = {
   '/': AuthForm,
@@ -15,9 +16,11 @@ const routes = {
   '/game': TheGame,
   '/lobby': GameLobby,
   '/status': MasterPanel,
+  '/reg': RegistrationForm
 }
 
 export default {
+  name: 'MainApp',
   data() {
     return {
       currentPath: window.location.hash
@@ -44,14 +47,27 @@ export default {
       window.location.href = "#/";
       this.currentPath = window.location.hash
     },
-    start_game() {
+    start_game(teams, timer, crit_timer) {
       window.location.href = "#/game";
-      this.currentPath = window.location.hash
+      this.currentPath = window.location.hash;
+      //console.log(this.$refs.component);
+      // this.$refs.component.set_players(teams);
+      this.teams = teams;
+      this.timer = timer;
+      this.crit_timer = crit_timer;
     },
     create_game() {
       window.location.href = "#/lobby";
       this.currentPath = window.location.hash
-    }
+    },
+    already_registered() {
+      window.location.href = "#/";
+      this.currentPath = window.location.hash
+    },
+    go_to_reg() {
+      window.location.href = "#/reg";
+      this.currentPath = window.location.hash
+    },
   },
   computed: {
     currentView() {
@@ -61,16 +77,22 @@ export default {
   mounted() {
     window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
-		})
+            
+      // if(this.currentPath.slice(1) == "/game" && this.$refs)
+      //   this.$refs.component.set_players(this.teams);
+		});
   }
 }
 </script>
 
 <template>
-  <component :is="currentView" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" />
+  <component ref="component" :is="currentView" :teams="teams" :timer="timer" :crit_timer="crit_timer" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" @already-registered="already_registered" @go-to-reg="go_to_reg" />
 </template>
 
 <style>
+#app{
+  height: 100%;
+}
 html {
     height: 100%;
     width: 100%;
@@ -82,6 +104,6 @@ html {
 
 body {
     width: 99%;
-    height: 90%;
+    height: 95%;
 }
 </style>

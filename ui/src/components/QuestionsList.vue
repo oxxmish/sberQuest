@@ -43,7 +43,7 @@
                 <div @click="reset" class="edit_window_button">Сбросить</div>
             </div>
         </div>
-        <center><div v-if="draw === 'delete'" class="delete_product_window" id="delete_product_window">
+        <div v-if="draw === 'delete'" class="delete_product_window" id="delete_product_window">
             <div id="delete_product_warning">
                 Вы действительно хотите удалить поле "{{selected_product[0]}}" и все связанные с ним задания?
             </div>
@@ -51,25 +51,38 @@
                 <div @click="delete_product" class="button">Да</div>
                 <div @click="cancel_product" class="button">Нет</div>
             </div>
-        </div></center>
-        <center><div v-if="draw === 'edit_question'" class="edit_question" id="edit_question">
-            <img @click="to_questions" src="@/assets/go_back.png" alt="">
-            <div id="title">Категория вопроса</div>
-            <select id="type_selector">
-                <option>С выбором ответа</option>
-                <option>Без выбора ответа</option>
-                <option>Вопрос-аукцион</option>
-                <option>Вопрос с медиа фрагментом</option>
-            </select>
-            <div id="title" resize="false">Формулировка вопроса</div>
+        </div>
+        <div v-if="draw === 'edit_question'" class="edit_question" id="edit_question">
+            <div id="first_line">
+                <img style="height:75%;" @click="to_questions" src="@/assets/go_back.png" alt="">
+                <div id="category_header">Категория вопроса</div>
+            </div>
+            <div id="second_line">
+                <select id="type_selector">
+                    <option>С выбором ответа</option>
+                    <option>Без выбора ответа</option>
+                    <option>Вопрос-аукцион</option>
+                    <option>Вопрос с медиа фрагментом</option>
+                </select>
+            </div>
+            <div id="third_line">
+                <div id="short_name_header" resize="false">Краткое обозначение вопроса</div>
+            </div>
+            <div id="fourth_line">
+                <input type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.text" >
+            </div>
+            <div id="fiveth_line">
+                <div id="wording_header" resize="false">Формулировка вопроса</div>
+            </div>
             <textarea rows="12" id="wording"></textarea>
-            <!-- <input type="file" id="file-uploader" v-if="selected_el.type === 'Вопрос с медиа фрагментом'"> -->
             <div class="delete_window_group_button">
                 <div @click="save_question" class="button">Сохранить</div>
                 <div @click="del_question" class="button">Удалить</div>
             </div>
-        </div></center>
-        <center><div v-if="draw === 'delete_question'" class="delete_product_window" id="delete_product_window">
+            
+            <!-- <input type="file" id="file-uploader" v-if="selected_el.type === 'Вопрос с медиа фрагментом'"> -->
+        </div>
+        <div v-if="draw === 'delete_question'" class="delete_product_window" id="delete_product_window">
             <div id="delete_product_warning">
                 Вы действительно хотите удалить {{ selected_el.text }}?
             </div>
@@ -77,7 +90,7 @@
                 <div @click="delete_question" class="button">Да</div>
                 <div @click="cancel_question" class="button">Нет</div>
             </div>
-        </div></center>
+        </div>
         <div id="pop_up" class="pop_up" v-if="load">
             <div class="pop_up_title">Загрузка заданий</div>
 
@@ -212,7 +225,21 @@ export default {
         },
         edit_product: function () {
             this.draw = 'edit';
-        }
+        },
+        save_short_name: function () {
+            console.log("save_short_name");
+            var product_name = this.selected_product[0];
+            var selected = this.selected_el;
+            this.products.forEach(function(item) {
+                console.log(item);
+                if(product_name == item.text)
+                    item.questions.forEach(function(inner_item) {
+                        if(selected == inner_item)
+                            inner_item.text = document.getElementById('short_name').value;
+                        
+                    });
+            });
+        },
   }
 }
 
@@ -293,7 +320,7 @@ document.addEventListener("DOMNodeInserted", function () {
     width: 70%;
     
     margin-top: 3%;
-    margin-left: 5%;
+    margin-left: 2%;
 }
 
 .grid{
@@ -303,6 +330,7 @@ document.addEventListener("DOMNodeInserted", function () {
 }
 
 .grid_element{
+    margin-top: 1.1%;
     margin-left: 2%;
     margin-right: 2%;
     margin-bottom: 5%;
@@ -313,10 +341,15 @@ document.addEventListener("DOMNodeInserted", function () {
     border-radius: 20px;
     text-align: center;
     /* font-size: 220%; */
-    font-size: 2.2vw;
+    font-size: 1.5vw;
     /* line-height:100px; */
     line-height: 7vw;
     color: black;
+    transition: transform .25s ease;
+}
+
+.grid_element:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .plus, .load{
@@ -496,6 +529,7 @@ label[for=b], output[for=b]{
 
 .delete_window_group_button{
     width: 80%;
+    margin-left: 15%;
 }
 
 .button{
@@ -510,7 +544,7 @@ label[for=b], output[for=b]{
     font-size: 1.2vw;
     font-weight: bold;
     border-radius: 20px;
-    margin-left: 10%;
+    margin-left: 6%;
     margin-right: 10%;
     margin-top: 5%;
 }
@@ -524,15 +558,15 @@ label[for=b], output[for=b]{
 }
 
 #type_selector{
-    float: left;
+    /* float: left; */
     width: 40%;
     /* font-size: 130%; */
     font-size: 1.3vw;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
-    margin-left: 18%;
+    margin-left: 15%;
     margin-top: 1%;
-    margin-bottom: 3%;
+    margin-bottom: 2%;
 }
 
 #title{
@@ -544,10 +578,12 @@ label[for=b], output[for=b]{
 
 #wording{
     width: 70%;
-    height: 40%;
+    height: 100%;
     /* font-size: 140%; */
     font-size: 1.4vw;
     resize: none;
+    margin-left: 15%;
+    margin-top: 1%;
 }
 
 
@@ -631,5 +667,32 @@ input{
 
 #file-uploader{
     margin-top: 5%;
+}
+
+#short_name{
+    width: 40%;
+    margin-left: 15%;
+    margin-top: 2%;
+}
+
+#category_header{
+    font-size: 2vw;
+    width: 70%;
+    margin-left: 15%;
+}
+
+#first_line{
+    height: 20%;
+}
+
+#short_name_header{
+    font-size: 2vw;
+    margin-left: 15%;
+}
+
+#wording_header{
+    font-size: 2vw;
+    margin-left: 15%;
+    margin-top: 2%;
 }
 </style>

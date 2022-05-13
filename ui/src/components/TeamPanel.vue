@@ -3,7 +3,7 @@
     <div v-if="visible==2" class="all_cont">
     <div class="top_item_team">
         <div class="question">
-          <img src="@/assets/question.png" alt="Кнопка «button»">
+          <img src="@/assets/question.png" alt="Кнопка «button»" @click="up_hand">
         </div>
         <div v-if="team_number == 'team_1'" class="name_team">Команда 1</div>
         <div v-if="team_number == 'team_2'" class="name_team">Команда 2</div>
@@ -79,33 +79,16 @@
           <button class="button" v-on:click="visible2"><img src="@/assets/menu.png" alt="Кнопка «button»"></button>
         </div>
       </div>
-      <!-- <table>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-          <tr>
-              <td>1</td><td>2</td>
-          </tr>
-      </table> -->
-      <div class="table1">
+      <div class="lobby_team" id="lobby_team_1">
+        <div class="scroll">
+            <div id="list_team_1" class="one_player" v-for="(option, index) in team" :key="index" :index="index">
+                <input type="text" :value="option" class="wait_users" @blur="save_edit">
+                <div id="delete_player" @click="team.pop()">x</div>
+            </div>
+            <div id="plus_player" @click="team.push('Новый игрок')">+</div>
+        </div>
+      </div>
+      <!-- <div class="table1">
         <div class="tr1">
           <div class="td1" id="list_1">
           </div>
@@ -142,7 +125,7 @@
           <div class="td2" id="list_12">
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div v-else class="all_cont">
       <div class="top_item_team">
@@ -192,7 +175,7 @@
 <script>
 export default {
   name: 'TeamPanel',
-  props:['team_number', 'puzzle', 'score'],
+  props:['team_number', 'puzzle', 'score', 'players'],
   data: function () {
     return {
       visible: 2,
@@ -214,10 +197,11 @@ export default {
           {product:'СберЗдоровье', color:'background:white;', font:'font-size:70%;line-height:290%;'}, 
           {product:'СберМегаМаркет', color:'background:white;', font:'font-size:56%;line-height:360%;'},
           ],
+      team: ['Игрок 1']
     }
   },
   methods: {
-    // visible1 () { this.visible = 1 },
+    visible1 () { this.visible = 1 },
     visible2 () { this.visible = 2;  },
     visible3 () { this.visible = 3;  },
     action(product, color) {
@@ -226,8 +210,37 @@ export default {
           if(this.themes_sber[i].product == product)
               this.themes_sber[i].color = color;
       }
+    },
+    check_color(product) {
+      for(var i = 0; i < this.themes_sber.length; ++i)
+      {
+          if(this.themes_sber[i].product == product)
+              return this.themes_sber[i].color;
       }
-  }
+    },
+    up_hand () { 
+      console.log(document.getElementById(this.team_number));
+      var current_team = this.team_number;
+      var secs = 10;
+      
+      var timer = setInterval(tick,1000)
+      function tick(){
+          (--secs);
+          if(secs % 2 == 0)
+              document.getElementById(current_team).style.border = "4px rgba(255, 255, 255, 0) solid";
+          else
+              document.getElementById(current_team).style.border = "4px blue solid";
+          console.log(secs);
+          if(secs == 0)
+              clearInterval(timer);
+      }
+      // document.getElementById(this.team_number).style.border = "4px orange solid";
+    },
+  },
+  created () {
+      if(this.players)
+          this.team = this.players;
+    }
 }
 </script>
 
@@ -318,6 +331,7 @@ height: 15%;
   background: rgba(76, 28, 214, 0.35);
   border-radius: 25px;
   position: absolute;
+  border: 4px rgba(255, 255, 255, 1) solid;
 }
 .all_cont{
   margin-top: 2%;
@@ -406,11 +420,11 @@ background: white;
   margin-right: auto;
 }
 .points_1{
-  width: 20%;
+  width: 15%;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1vw;
   color: black;
   margin-left: 5%;
 }
@@ -423,13 +437,13 @@ background: white;
   color: black;
 }
 .puzzle_1{
-  width: 20%;
+  width: 15%;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1vw;
   color: black;
-  margin-left: 25%;
+  margin-left: 38%;
 }
 .puzzle_2{
   width: 3%;
@@ -477,14 +491,69 @@ border: none;
     margin-top: 14%;
 margin-left: 22%;
 width: 55%;
+transform: none;
 }
 
-table{
-    margin-top: 5%;
-width: 90%;
-margin-left: 5%;
+.lobby_team{
+    width: 90%;
+    height: 90%;
+    margin-left: 4.5%;
+    margin-top: 3%;
 }
-td{
-    border: solid;
+
+.scroll{
+    height: 98%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.one_player{
+    width: 100%;
+}
+
+.wait_users{
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 39%;
+    border: solid black 2px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9vw;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    float: left;
+}
+
+#delete_player{
+    float: left;
+    width: 5%;
+    margin-top: 4%;
+    margin-left: 2%;
+    font-size: 1.3vw;
+}
+
+#plus_player{
+    margin-top: 2%;
+    margin-left: 10%;
+    width: 80%;
+    text-align: center;
+    /* font-size: 150%; */
+    font-size: 1.5vw;
+    font-weight: bold;
+    float: left;
+}
+
+img{
+  transition: transform .25s ease;
+}
+
+img:hover {
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 </style>

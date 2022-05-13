@@ -4,34 +4,39 @@
             <div class="go_back" @click="go_back">
                 <img src="@/assets/go_back.png" alt="">
             </div>
-            <div class="group_inputs">
-                <div class="inputs">
-                    <input id="header_fio" value="ФИО"/><input id="fio" :value="fio"/>
+            <div v-if="state == 'edit'">
+                <div class="group_inputs">
+                    <div class="inputs">
+                        <input id="header_fio" value="ФИО"/><input id="fio" :value="fio"/>
+                    </div>
+                    <div class="inputs">
+                        <input id="header_fio" value="Логин"/><input id="login" :value="login"/>
+                    </div>
                 </div>
-                <div class="inputs">
-                    <input id="header_fio" value="Логин"/><input id="login" :value="login"/>
+                <div class="group_button">
+                    <div v-if="draw == 'edit'" @click="edit" class="button">
+                        Редактировать
+                    </div>
+                    <div v-if="draw == 'save_edit'" @click="save_edit" class="button">
+                        Сохранить
+                    </div>
+                    <div @click="check_remove_old_master" class="button">
+                        Удалить
+                    </div>
                 </div>
             </div>
-            <div class="group_button">
-                <div v-if="draw == 'edit'" @click="edit" class="button">
-                    Редактировать
-                </div>
-                <div v-if="draw == 'save_edit'" @click="save_edit" class="button">
-                    Сохранить
-                </div>
-                <div @click="remove_old_master" class="button">
-                    Удалить
+            <div v-if="state == 'confirm_delete'">
+                <div id="delete_header">Вы уверены, что хотите удалить ведущего {{fio}}?</div>
+                <div class="group_button">
+                    <div @click="remove_old_master" class="button">
+                        Да
+                    </div>
+                    <div @click="cancel_delete" class="button">
+                        Нет
+                    </div>
                 </div>
             </div>
-            <table class="table">
-                <caption>Статистика проведённых игр</caption>
-                <tr>
-                    <td class="table_header">Заголовок 1</td><td class="table_header">Заголовок 2</td><td class="table_header">Заголовок 3</td><td class="table_header">Заголовок 4</td>
-                </tr>
-                <tr>
-                    <td>Данные 1</td><td>Данные 2</td><td>Данные 3</td><td>Данные 4</td>
-                </tr>
-            </table>
+            
         </div>
         <div v-else class="new_requests">
             <div class="requests_title">Заявки на добавление ведущих</div>
@@ -68,7 +73,8 @@ export default {
         { text: 'Ведущий на добавление 12', value: '24' },
         ],
         counter: 0,
-        draw: 'edit'
+        draw: 'edit',
+        state: 'edit'
     }
   },
   methods: {
@@ -83,9 +89,16 @@ export default {
             var deleted_element = event.target.parentElement.parentElement.parentElement.getAttribute("value");
             this.options = this.options.filter(option => option.value != deleted_element);
         },
+        check_remove_old_master: function () {
+            this.state = 'confirm_delete'
+        },
         remove_old_master: function () {
             var value = this.selected.getAttribute("value");
             this.$emit('remove-master', value);
+            this.state = 'edit'
+        },
+        cancel_delete: function () {
+            this.state = 'edit'
         },
         edit: function () {
             var fio = document.getElementById("fio");
@@ -96,6 +109,7 @@ export default {
         },
         go_back: function () {
             this.$emit('go-back');
+            this.state = 'edit'
         },
         save_edit: function () {
             this.draw = 'edit';
@@ -109,6 +123,12 @@ export default {
     created: function () {
         this.counter = this.options.length;
     },
+    watch: {
+        selected: function () {
+            this.state = 'edit';
+            this.draw = 'edit';
+        }
+    }
 }
 </script>
 
@@ -116,7 +136,7 @@ export default {
 <style scoped>
 .main_field{
     width: 77%;
-    height: 94%;
+    height: 89%;
     margin-left: 20%;
 }
 
@@ -130,7 +150,7 @@ export default {
     float: left;
     width: 90%;
     text-align: center;
-    height: 90%;
+    height: 95%;
     padding-top: 1%;
     padding-bottom: 1%;
     margin-left: 1%;
@@ -144,12 +164,17 @@ export default {
 }
 
 .scroll_1{
-    height: 100%;
+    height: 95%;
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
     width: 100%;
     margin-left: 6%;
+}
+
+.scroll_1::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 .option_requests{
@@ -175,29 +200,33 @@ export default {
     float: left;
     width: 84%;
     height: 100%;
-    margin-top: 0.5%;
+    margin-top: 0.75%;
 }
 
 .accept{
     float: left;
     width: 7%;
     height: 100%;
+    margin-top: 0.5%;
 }
 
 .reject{
     float: left;
     width: 7%;
     margin-right: 2%;
+    margin-top: 0.5%;
     height: 100%;
 }
 
 img{
     width: 45%;
     height: 45%;
+    transition: transform .25s ease;
 }
 
 img:hover{
-    box-shadow: 0 0 10px 100px white inset;
+    /* box-shadow: 0 0 10px 100px white inset; */
+    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 /* chosen master */
@@ -298,10 +327,9 @@ caption{
     font-weight: bold;
 }
 
-table, tr, td{
-    border-collapse: collapse;
-    border: 3px solid black;
+#delete_header{
     text-align: center;
-    pointer-events: none;
+    font-size: 1.5vw;
+    width: 90%;
 }
 </style>

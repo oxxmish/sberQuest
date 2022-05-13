@@ -1,10 +1,10 @@
 <template>
-    <TeamPanel ref="team_1" id="team_1" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" />
-    <TeamPanel ref="team_2" id="team_2" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
-    <TeamPanel ref="team_3" id="team_3" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
-    <TeamPanel ref="team_4" id="team_4" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
-    <GameField @set-question="set_question" @next-round="next_round" ref="MainField" />
-    <PopUpQuestion :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
+    <TeamPanel ref="team_1" id="team_1" :players="teams ? teams[0] : []" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" />
+    <TeamPanel ref="team_2" id="team_2" :players="teams ? teams[1] : []" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
+    <TeamPanel ref="team_3" id="team_3" :players="teams ? teams[2] : []" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
+    <TeamPanel ref="team_4" id="team_4" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
+    <GameField :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" @set-question="set_question" @next-round="next_round" ref="MainField" />
+    <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
 </template>
 
 <script>
@@ -14,12 +14,16 @@ import PopUpQuestion from './components/PopUpQuestion.vue'
 
 export default {
   name: 'ManageMasters',
+  props:['teams', 'timer', 'crit_timer'],
   data(){
     return {
       current_question: ['Для получения вопроса бросьте кубик', 'Тип вопроса', 'Название продукта'],
       puzzles: [ 0, 0, 0, 0 ],
       scores: [ 0, 0, 0, 0 ],
       tour: 1,
+      turn: -1,
+      second_turn: -1,
+      // teams: null, 
       products: [
         { text: '1', value: '1', color:"color:black;font-size:500%;", 
           questions:[
@@ -62,28 +66,37 @@ export default {
     PopUpQuestion
   }, 
   methods: {
-    set_question: function (question) {
+    set_question: function (question, turn) {
       this.current_question = question;
+      this.turn = turn;
     },
     give_puzzle: function (team, product) {
       if(team == 'team_1')
       {
+        if(this.$refs.team_1.check_color(product) != 'background:white;')
+          return;
         this.$refs.team_1.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[0];
       }
         
       if(team == 'team_2')
       {
+        if(this.$refs.team_2.check_color(product) != 'background:white;')
+          return;
         this.$refs.team_2.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[1];
       }
       if(team == 'team_3')
       {
+        if(this.$refs.team_3.check_color(product) != 'background:white;')
+          return;
         this.$refs.team_3.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[2];
       }
       if(team == 'team_4')
       {
+        if(this.$refs.team_4.check_color(product) != 'background:white;')
+          return;
         this.$refs.team_4.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[3];
       }
@@ -109,11 +122,33 @@ export default {
     },
     next_round: function () {
         this.tour = 2;
-    },
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+
+#team_1{
+  position: absolute;
+  left: 1%;
+}
+
+#team_2{
+  position: absolute;
+  left: 74%;
+}
+
+#team_3{
+  position: absolute;
+  left: 1%;
+  top: 63%;
+}
+
+#team_4{
+  position: absolute;
+   top: 63%;
+  left: 74%;
+}
 
 </style>

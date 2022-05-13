@@ -8,7 +8,7 @@ import MasterHeader from './components/MasterHeader.vue'
 import GameStatus from './components/GameStatus.vue'
 
 export default {
-  name: 'MasterPanel',
+  name: 'RegistrationForm',
   components: {
     MasterHeader,
     GameStatus

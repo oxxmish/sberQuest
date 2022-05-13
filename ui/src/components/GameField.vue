@@ -3,8 +3,8 @@
     <div v-if="next=='Второй раунд'" id="generated_number">{{ current_number }}</div>
     <div v-if="next=='Завершить игру'" id="next_turn" @click="next_turn">Следующий ход</div>
     <div id="next_round" @click="next_round">{{ next }}</div>
-    <img src="@/assets/start.png" alt="" id="start">
-    <div id="timer">00:00:00</div>
+    <img src="@/assets/start.png" alt="" id="start" @click="go_timer">
+    <div id="timer">{{timer[0]}}:{{timer[1]}}:{{timer[2]}}</div>
     <div id="round">1 раунд</div>
     <div id="outer_field">
         <div id="inner_field"><img src="@/assets/cross.png" alt="" id="cross"></div>
@@ -17,8 +17,10 @@
 <script>
 export default {
   name: 'GameField',
+  props: ['timer', 'crit_timer'],
   data(){
     return {
+        // test_timer: new Date(2011, 0, 1, 4, 30, 20, 0),
         options: [
         { text: 'СберЗвук', value: '1', style:"top:11.5%;left:38.1%;font-size: 105%;background-color:#B22222;color:white;", color:'background-color:#B22222;color:white;' },
         { text: 'РаботаРу', value: '2', style:"top:11.5%;left:44.5%;font-size: 105%;background-color:blue;color:white;", color:'background-color:blue;color:white;' },
@@ -197,15 +199,7 @@ export default {
                 break;
             }
         }
-        this.$emit('set-question', this.questions[this.players[this.turn].pos]);
-
-        // fetch("endpoint", {
-        //     method: "POST",
-        //     headers: {'Content-Type': 'application/json'}, 
-        //     body: JSON.stringify(this.questions[this.players[this.turn].pos])
-        //     }).then(res => {
-        //     console.log("Request complete! response:", res);
-        // });
+        this.$emit('set-question', this.questions[this.players[this.turn].pos], this.turn);
 
         if(this.turn == 3)
         {
@@ -240,13 +234,28 @@ export default {
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
-       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', null]);
+       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', null], this.second_round_tour);
     },  
     get_color (product) {
         for(var i = 0; i < this.options.length; ++i)
         {
             if(this.options[i].text == product)
                 return this.options[i].color; 
+        }
+    },
+    go_timer () {
+        var tmp = new Date(2011, 0, 1, this.timer[0], this.timer[1], this.timer[2], 0);
+        var timer = setInterval(tick,1000);
+        var crit_time = this.crit_timer;
+        function tick(){
+            tmp = new Date(tmp - 1000);
+
+            document.getElementById('timer').innerText = (tmp.getHours() < 10 ? '0' + String(tmp.getHours()) : String(tmp.getHours())) + ':' + (tmp.getMinutes() < 10 ? '0' + String(tmp.getMinutes()) : String(tmp.getMinutes())) + ':' + (tmp.getSeconds() < 10 ? '0' + String(tmp.getSeconds()) : String(tmp.getSeconds()));
+            if(tmp.getHours() == Number(crit_time[0]) && tmp.getMinutes() == Number(crit_time[1]) && tmp.getSeconds() == Number(crit_time[2]))
+                document.getElementById('timer').style.color = 'red';
+                
+            if(tmp.getHours() == 0 && tmp.getMinutes() == 0 && tmp.getSeconds() == 0)
+                clearInterval(timer);
         }
     },
   }
@@ -308,6 +317,7 @@ export default {
 #cross{
     height: 100%;
     width: 100%;
+    transform: none;
 }
 
 #dice{
@@ -317,6 +327,15 @@ export default {
     top: 44%;
     position: absolute;
 }
+
+img{
+  transition: transform .25s ease;
+}
+
+img:hover {
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 #generated_number{
     width: 3%;
     height: 5%;
@@ -365,5 +384,13 @@ export default {
     color: white;
     padding: 0.5% 2% 0.5% 2%;
     border-radius: 10px;
+}
+
+#next_round:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+#next_turn:hover {
+    box-shadow: 0 0 10px 100px orange inset;
 }
 </style>

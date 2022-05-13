@@ -280,7 +280,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 html {
     height: 100%;
     width: 100%;

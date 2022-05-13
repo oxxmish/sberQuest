@@ -67,8 +67,6 @@ export default {
     width: 20%;
     text-align: center;
     height: 94%;
-    padding-top: 1%;
-    padding-bottom: 1%;
     border-right: 2px solid silver;
     margin-right: 1%;
 }
@@ -82,6 +80,7 @@ export default {
     border-radius: 20px;
     border: solid black 2px;
     font-size: 180%;
+    margin-top: 5%;
 }
 
 #edit, #back, #delete, #save_product{

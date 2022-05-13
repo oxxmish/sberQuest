@@ -33,7 +33,7 @@ export default {
   name: 'GameStatus',
   data () {
     return {
-      question: ['Yrygvay', 'SHARK number ONE'],
+      question: ['Какой-то вопрос', 'Какой-то ответ'],
       polling: null
     }
   },
@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 html {
     height: 100%;
     width: 100%;

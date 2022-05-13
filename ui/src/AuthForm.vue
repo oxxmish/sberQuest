@@ -1,7 +1,7 @@
 <template>
 <div class="Auth">
   <div class="AuthLogo">
-      СберКвест
+      <div class="green_part">С</div><div class="black_part">бер</div><div class="green_part">К</div><div class="black_part">вест</div>
   </div>
   <div class="group_auth" >
     <div class="AuthHeader">
@@ -29,7 +29,7 @@
             <div id="reg_text">
             У вас ещё нет аккаунта?
             </div>
-            <div id="go_to_reg">
+            <div id="go_to_reg" @click="go_to_reg">
             Зарегистрируйтесь
             </div>
         </div>
@@ -38,7 +38,7 @@
         <input class="form-group" placeholder="id комнаты">
         <input class="form-group" placeholder="Ваше имя">
         <div :style="'visibility:' + check_failed()" id="failed_message_user">Неверный id комнаты</div>
-        <div id="enter">
+        <div id="enter" @click="test_action">
             Войти
         </div>
         <div id="user_message">
@@ -90,6 +90,17 @@ export default {
             else
                 return 'hidden';
         },
+        go_to_reg: function () {
+            this.$emit('go-to-reg');
+        },
+        test_action: function() {
+            fetch("http://localhost:8081/board/get/1", {
+            method: 'GET', 
+            headers: {
+                "Content-Type": "application/JSON",
+            }
+            }).then( res => res.json() ).then( data => console.log(data) );
+        }
   },
   mounted: function () {
   this.$nextTick(function () {
@@ -117,22 +128,36 @@ export default {
     text-align: center;
 }
 
+.green_part{
+    float: left;
+    color: rgb(33, 160, 56);
+}
+.black_part{
+    float: left;
+    color: #000000;
+}
+
 .AuthLogo{
     /* color: #3db33d; */
     /* font-size: 550%; */
     font-size: 5.5vw;
     margin-top: 2.5%;
     text-align: center;
+    width: 100%;
+    height: 10%;
+    display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .group_auth{
-    width: 33%;
+    width: 33.3%;
     height: 65%;
     background: #21A038;
     border-radius: 15px;
     margin-top: 3%;
     border: solid 2px;
-    margin-left: 33%;
+    margin-left: 33.3%;
 }
 
 #login_master{
@@ -197,6 +222,9 @@ export default {
     line-height: 2.75vw;
     margin-top: 4%;
 }
+#enter:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
 
 #get_pass{
     text-align: center;
@@ -239,5 +267,9 @@ export default {
     color: #f9fff9;
     text-align: center;
     margin-top: 1%;
+}
+
+#go_to_reg:hover, #get_pass:hover {
+    text-decoration: underline;
 }
 </style>

@@ -62,19 +62,19 @@
         <div id="room_id">cc85b209-77e1-47c4-b7dc-fe4cfeb1c35e</div>
         <div id="global_timer_header">Таймер</div>
         <div id="global_timer">
-            <input class="clock" type="text" value="00"> 
+            <input id="timer_hours" maxlength="2" class="clock" type="text" placeholder="00"> 
             <div class="clock_dil">:</div>
-            <input class="clock" type="text" value="00"> 
+            <input id="timer_min" maxlength="2" class="clock" type="text" placeholder="00"> 
             <div class="clock_dil">:</div>
-            <input class="clock" type="text" value="00">
+            <input id="timer_sec" maxlength="2" class="clock" type="text" placeholder="00">
         </div>
         <div id="critical_timer_header">Критическая отметка</div>
         <div id="critical_timer">
-            <input class="clock" type="text" value="00"> 
+            <input id="crit_timer_hours" maxlength="2" class="clock" type="text" placeholder="00"> 
             <div class="clock_dil">:</div>
-            <input class="clock" type="text" value="00"> 
+            <input id="crit_timer_min" maxlength="2" class="clock" type="text" placeholder="00"> 
             <div class="clock_dil">:</div>
-            <input class="clock" type="text" value="00">
+            <input id="crit_timer_sec" maxlength="2" class="clock" type="text" placeholder="00">
         </div>
         <div id="start_game" @click="start_game">Начать игру</div>
     </div>
@@ -87,9 +87,6 @@ export default {
   data(){
     return {
         team_1: [
-            'Игрок 1',
-            'Игрок 2',
-            'Игрок 3',
         ],
         team_2: [
         ],
@@ -121,7 +118,10 @@ export default {
                 this.team_4[event.target.parentElement.getAttribute('index')] = event.target.value;
         },
         start_game: function () {
-            this.$emit('start-game');
+            console.log(document.getElementById('timer_hours').value);
+            this.$emit('start-game', [this.team_1, this.team_2, this.team_3, this.team_4], 
+            [document.getElementById('timer_hours').value.length == 0 ? '00' : document.getElementById('timer_hours').value, document.getElementById('timer_min').value.length == 0 ? '00' : document.getElementById('timer_min').value, document.getElementById('timer_sec').value.length == 0 ? '00' : document.getElementById('timer_sec').value], 
+            [document.getElementById('crit_timer_hours').value.lenght == 0 ? '00' : document.getElementById('crit_timer_hours').value, document.getElementById('crit_timer_min').value.lenght == 0 ? '00' : document.getElementById('crit_timer_min').value, document.getElementById('crit_timer_sec').value.lenght == 0 ? '00' : document.getElementById('crit_timer_sec').value]);
         },
   },
   mounted: function () {
@@ -145,7 +145,7 @@ export default {
 
 #group_lobby{
     width: 100%;
-    height: 103%;
+    height: 98%;
     background: #21A038;
 }
 
@@ -266,6 +266,10 @@ hr{
     color: white;
     font-weight: bold;
     line-height: 150%;
+}
+
+#start_game:hover {
+    box-shadow: 0 0 10px 100px orange inset;
 }
 
 .wait_users{

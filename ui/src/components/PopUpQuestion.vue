@@ -14,10 +14,10 @@
            <div id="header3">баллов команде </div>
        </div>
        <div v-if="!collapse" id="group_buttons">
-           <div class="team_button" @click="give_puzzle('team_1')">Команда 1</div>
-           <div class="team_button" @click="give_puzzle('team_2')">Команда 2</div>
-           <div class="team_button" @click="give_puzzle('team_3')">Команда 3</div>
-           <div class="team_button" @click="give_puzzle('team_4')">Команда 4</div>
+           <div :style="'opacity:'+current_opacity[0]" class="team_button" @click="give_puzzle('team_1')">Команда 1</div>
+           <div :style="'opacity:'+current_opacity[1]" class="team_button" @click="give_puzzle('team_2')">Команда 2</div>
+           <div :style="'opacity:'+current_opacity[2]" class="team_button" @click="give_puzzle('team_3')">Команда 3</div>
+           <div :style="'opacity:'+current_opacity[3]" class="team_button" @click="give_puzzle('team_4')">Команда 4</div>
        </div>
     </div>
 </template>
@@ -25,10 +25,11 @@
 <script>
 export default {
   name: 'PopUpQuestion',
-  props:['question', 'tour'],
+  props:['question', 'tour', 'turn', 'second_turn'],
   data(){
     return {
         collapse:true,
+        current_opacity: [1,1,1,1]
     }
   },
   methods: {
@@ -83,7 +84,69 @@ export default {
                 clearInterval(timer);
 }
     }
-  }
+  },
+  watch: {
+        turn: function () {
+            if(this.turn == 0)
+            {
+                this.current_opacity[0] = 1;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.turn == 1)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 1;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.turn == 2)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 1;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.turn == 3)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 1;
+            }
+        },
+        second_turn: function () {
+            if(this.second_turn == 1 || this.second_turn == 5)
+            {
+                this.current_opacity[0] = 1;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.second_turn == 2 || this.second_turn == 6)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 1;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.second_turn == 3 || this.second_turn == 7)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 1;
+                this.current_opacity[3] = 0.5;
+            }
+            else if(this.second_turn == 4 || this.second_turn == 8)
+            {
+                this.current_opacity[0] = 0.5;
+                this.current_opacity[1] = 0.5;
+                this.current_opacity[2] = 0.5;
+                this.current_opacity[3] = 1;
+            }
+        },
+    }
 }
 </script>
 
@@ -136,7 +199,7 @@ export default {
 }
 
 #start_question{
-    width: 3%;
+    width: 5%;
     height: 5%;
     margin-top: 1%;
     margin-right: 1%;
@@ -144,11 +207,20 @@ export default {
     float: left;
 }
 
+img{
+  transition: transform .25s ease;
+}
+
+img:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 #answer_timer{
     width: 10%;
     height: 3%;
     float: left;
-    font-size: 175%;
+    /* font-size: 175%; */
+    font-size: 2vw;
     margin-top: 1%;
 }
 
@@ -170,6 +242,10 @@ export default {
     padding: 1.5% 2% 1.5% 2%;
     text-align: center;
     color: white;
+}
+
+.team_button:hover {
+    box-shadow: 0 0 10px 100px orange inset;
 }
 
 #header1{

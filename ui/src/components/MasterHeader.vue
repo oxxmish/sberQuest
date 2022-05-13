@@ -1,6 +1,8 @@
 <template>
     <div id="header">
-        <div class="logo">СберКвест</div>
+        <div class="logo">
+            <div class="green_part">С</div><div class="black_part">бер</div><div class="green_part">К</div><div class="black_part">вест</div>
+        </div>
         <div class="role">Ведущий</div>
         <div class="profile" @click="pop_up_profile_menu"><img src="@/assets/profile.png" alt=""></div>
         <div v-if="vis" id="profile_menu">
@@ -52,6 +54,14 @@ export default {
     float: left;
     width: 33.33%;
 }
+.green_part{
+    float: left;
+    color: rgb(33, 160, 56);
+}
+.black_part{
+    float: left;
+    color: #000000;
+}
 
 .role {
     float: left;
@@ -91,5 +101,9 @@ export default {
 #logout{
     margin-left: 8%;
     margin-top: 3%;
+}
+
+#change_pass:hover, #logout:hover {
+    text-decoration: underline;
 }
 </style>

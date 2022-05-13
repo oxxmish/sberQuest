@@ -51,6 +51,11 @@ export default {
     /* line-height:100px; */
     line-height: 7vw;
     color: white;
+    transition: transform .25s ease;
+}
+
+.grid_element:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .number{

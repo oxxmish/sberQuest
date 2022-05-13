@@ -106,9 +106,7 @@ export default {
     float: left;
     width: 20%;
     text-align: center;
-    height: 90%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    height: 89%;
     border-right: 2px solid silver;
     margin-right: 1%;
 }

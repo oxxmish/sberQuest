@@ -1,22 +1,162 @@
-###
-POST http://localhost:8080/board/create
+### Создание продукта
+POST  http://localhost:8081/product/create
 Content-Type: application/json
+
 {
- name: "Доска 1",
+  "name": "Okko",
+  "colour": "#cccccc",
+  "questions": [
+    {
+      "text": "Вам нравится сервис Окко?",
+      "shortText": "short text",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
+}
+
+###
+//
+//{
+//  "id": 1,
+//  "name": "Okko",
+//  "colour": "#cccccc",
+//  "questions": [] тут пусто но это детали реализации на самом деле все добавилось
+//}
+
+### Получение доступных продуктов
+GET  http://localhost:8081/product/getAll
+
+###
+#[
+#  {
+#    "id": 1,
+#    "name": "Okko",
+#    "colour": "#cccccc",
+#    "questions": [
+#      {
+#        "id": 1,
+#        "text": "Вам нравится сервис Окко?",
+#        "answer": "Да",
+#        "questionType": "TEXT"
+#      }
+#    ]
+#  }
+#]
+
+
+### Редакторование продукта (Id остается прежним)
+### Костыльно но работает, если хотим поменять вопрос то отправляем id вопроса и он измениться
+### Если хотим добавить вопрос то отправляем без id
+POST  http://localhost:8081/product/update
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Okko",
+  "colour": "#fffffff",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Вам нравится сервис Окко?",
+      "answer": "Нет",
+      "questionType": "TEXT"
+    },
+    {
+      "text": "Вы смотрели фильм don't blow up?",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
 }
 
 
+### Создание шаблона игрового поля (пока на беке не готово но входные данные будут такие)
+POST http://localhost:8081/board/create
+Content-Type: application/json
+
+{
+  "name": "Доска 1",
+  "products": [
+    {"productId": 1,
+      "numberOfRepeating": 4,
+      "questionIds": [1,2,3]
+    },
+    {"productId": 2,
+      "numberOfRepeating": 4,
+      "questionIds": [4,5,6]
+    },
+    {"productId": 3,
+      "numberOfRepeating": 4,
+      "questionIds": [7,8,9]
+    },
+    {"productId": 4,
+      "numberOfRepeating": 4,
+      "questionIds": [10,11,12]
+    }],
+  "numFields": 16,
+  "finalQuestionIds": [11,22,33]
+}
 
 ### кейс получения ответа на текущий вопрос
 
 ### Получаем игровую доску(начало игры)
-GET http://localhost:8080/board/get/1
-
-### Выбираем вопрос
-POST http://localhost:8080/game/chooseQuestion
+GET http://localhost:8081/board/get/1
 Content-Type: application/json
 
-{ "questionId": 1, "questionType": "REGULAR"}
+### Выбираем вопрос
+POST http://localhost:8081/game/chooseQuestion
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "questionType": "REGULAR"
+}
 
 ### Получаем ответ на основе текущей сессии
-GET http://localhost:8080/game/getAnswer
+GET http://localhost:8081/game/getAnswer
+
+#-------------------Запросы на боевой сервак------------------------------------
+
+### Получение доступных продуктов
+GET  http://api.vm-96694bec.na4u.ru/product/getAll
+Content-Type: application/json
+
+### Создание продукта
+POST  http://api.vm-96694bec.na4u.ru/product/create
+Content-Type: application/json
+
+{
+  "name": "Okko",
+  "colour": "#cccccc",
+  "questions": [
+    {
+      "text": "Вам нравится сервис Окко?",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
+}
+
+###
+POST  http://api.vm-96694bec.na4u.ru/product/update
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Okko",
+  "colour": "#fffffff",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Вам нравится сервис Окко?",
+      "answer": "Нет",
+      "questionType": "TEXT"
+    },
+    {
+      "text": "Вы смотрели фильм don't blow up?",
+      "answer": "Да",
+      "questionType": "TEXT"
+    }
+  ]
+}

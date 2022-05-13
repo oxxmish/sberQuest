@@ -1,5 +1,6 @@
 package com.sber.quest.controller
 
+import com.sber.quest.models.dto.AnswerDto
 import com.sber.quest.service.GameService
 import org.springframework.web.bind.annotation.*
 
@@ -12,7 +13,7 @@ class GameController(val gameService: GameService) {
     }
 
     @GetMapping("/getAnswer", produces = ["application/json"])
-    fun getAnswer(): String {
+    fun getAnswer(): AnswerDto {
         return gameService.getAnswerFromActiveSession()
     }
 }

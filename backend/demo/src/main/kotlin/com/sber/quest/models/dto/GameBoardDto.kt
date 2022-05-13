@@ -1,4 +1,4 @@
-package com.sber.quest.models.dto.questions
+package com.sber.quest.models.dto
 
 import com.sber.quest.models.questions.FinalQuestion
 import com.sber.quest.models.questions.RegularQuestion

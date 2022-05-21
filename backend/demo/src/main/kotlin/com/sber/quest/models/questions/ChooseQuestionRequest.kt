@@ -1,4 +1,4 @@
-package com.sber.quest.controller
+package com.sber.quest.models.questions
 
 import com.sber.quest.models.session.QuestionType
 

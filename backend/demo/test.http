@@ -59,11 +59,13 @@ Content-Type: application/json
     {
       "id": 1,
       "text": "Вам нравится сервис Окко?",
+      "shortText": "short text",
       "answer": "Нет",
       "questionType": "TEXT"
     },
     {
       "text": "Вы смотрели фильм don't blow up?",
+      "shortText": "short text",
       "answer": "Да",
       "questionType": "TEXT"
     }
@@ -76,19 +78,23 @@ Content-Type: application/json
 
 {
   "name": "Доска 1",
-  "colour": "#FFFFFF"
+  "productWithQuestions": [
+    {
+      "productId": 1,
+      "numberOfRepeating": 4,
+      "questionIds": [1, 2]
+    }
+  ],
+  "numFields": 16
 }
 
-###
-
+### Получаем игровую доску
+GET http://localhost:8081/board/get/2
+Content-Type: application/json
 
 
 
 ### кейс получения ответа на текущий вопрос
-
-### Получаем игровую доску(начало игры)
-GET http://localhost:8081/board/get/1
-Content-Type: application/json
 
 ### Выбираем вопрос
 POST http://localhost:8081/game/chooseQuestion

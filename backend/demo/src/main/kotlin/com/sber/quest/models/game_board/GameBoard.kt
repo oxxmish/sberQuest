@@ -1,6 +1,5 @@
-package com.sber.quest.models.questions
+package com.sber.quest.models.game_board
 
-import com.sber.quest.models.product.ProductsForBoard
 import javax.persistence.*
 
 @Entity
@@ -13,11 +12,6 @@ data class GameBoard (
     @Column(name = "name")
     val name: String,
     @Column(name = "num_fields")
-    val numFields: Int,
-    @OneToOne
-    val productsForBoard: ProductsForBoard,
-    @OneToMany
-    @JoinColumn(name = "final_questions")
-    val finalQuestions: List<FinalQuestion>
+    val numFields: Int
 ) {
 }

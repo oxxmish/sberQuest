@@ -1,76 +1,70 @@
--- auto-generated definition
-create table if not exists products
-(
-    id     bigserial not null
-        constraint products_pkey
-            primary key,
-    colour varchar(255),
-    name   varchar(255)
-);
-
-alter table products
-    owner to postgres;
-
-
-
 create table if not exists game_board
 (
-    id     bigserial not null
+    id bigserial not null
         constraint game_board_pkey
             primary key,
-    colour varchar(255),
-    name   varchar(255)
+    name varchar(500),
+    num_fields integer
 );
 
-alter table game_board
-    owner to postgres;
+alter table game_board owner to postgres;
 
-create table if not exists final_questions
+create table if not exists game_boards_questions
 (
-    id      bigserial not null
-        constraint final_questions_pkey
-            primary key,
-    answer        varchar(1500),
-    text          varchar(5000),
-    game_board_id bigint
-        constraint fk4ajlropjfpguifbl3b1fispeh
-            references game_board
+    game_board_id bigint not null,
+    question_id bigint not null,
+    constraint game_boards_questions_pkey
+        primary key (game_board_id, question_id)
 );
 
-alter table final_questions
-    owner to postgres;
+alter table game_boards_questions owner to postgres;
 
-create table if not exists regular_questions
+create table if not exists products
 (
-    id            bigserial not null
-        constraint regular_questions_pkey
+    id bigserial not null
+        constraint products_pkey
             primary key,
-    answer        varchar(1500),
-    type          varchar(255),
-    text          varchar(2000),
-    short_text          varchar(2000),
-    product_id    bigint
-        constraint fkgruqk22d9nl42xwbt855fvvux
-            references products,
-    game_board_id bigint
-        constraint fk1du07u8jpsa7f7ys7enc0n79i
-            references game_board
+    colour varchar,
+    name varchar
 );
 
-alter table regular_questions
-    owner to postgres;
+alter table products owner to postgres;
+
+create table if not exists products_for_boards
+(
+    game_board_id bigint not null,
+    product_id bigint not null,
+    num_of_repeating integer,
+    constraint products_for_boards_pkey
+        primary key (game_board_id, product_id)
+);
+
+alter table products_for_boards owner to postgres;
+
+create table if not exists questions
+(
+    id bigserial not null
+        constraint questions_pkey
+            primary key,
+    answer varchar,
+    type varchar(255),
+    short_text varchar,
+    text varchar,
+    product_id bigint
+        constraint fkdnt39hlm1bcye9ivenccipd5s
+            references products
+);
+
+alter table questions owner to postgres;
 
 create table if not exists sessions
 (
-    uuid           uuid not null
+    uuid uuid not null
         constraint sessions_pkey
             primary key,
-    current_answer varchar(1500),
-    current_state jsonb,
-    username       varchar(255)
+    current_answer varchar,
+    username varchar(255)
 );
 
-alter table sessions
-    owner to postgres;
-
+alter table sessions owner to postgres;
 

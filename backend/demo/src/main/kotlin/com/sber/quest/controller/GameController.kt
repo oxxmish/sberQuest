@@ -1,6 +1,7 @@
 package com.sber.quest.controller
 
-import com.sber.quest.models.dto.AnswerDto
+import com.sber.quest.dto.AnswerDto
+import com.sber.quest.models.questions.ChooseQuestionRequest
 import com.sber.quest.service.GameService
 import org.springframework.web.bind.annotation.*
 

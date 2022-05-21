@@ -1,6 +1,6 @@
 package com.sber.quest.controller
 
-import com.sber.quest.models.dto.ProductDto
+import com.sber.quest.dto.ProductDto
 import com.sber.quest.models.product.Product
 import com.sber.quest.service.ProductService
 import org.springframework.web.bind.annotation.*

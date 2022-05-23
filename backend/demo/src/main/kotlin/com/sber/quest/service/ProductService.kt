@@ -16,6 +16,7 @@ class ProductService(
 ) {
     fun createProduct(productDto: ProductDto): Product {
         val product = productRepository.save(productDto.toEntity())
+        // Перерписать с addQuestions
         val questions = productDto.questions.map { it.toEntity(product) }
         questionRepository.saveAll(questions)
         return product
@@ -34,6 +35,6 @@ class ProductService(
     }
 
     fun getCurrentProducts(): List<ProductDto> {
-        return productRepository.findAll().map { it.toDto() }
+        return productRepository.findAllByOrderById().map { it.toDto() }
     }
 }

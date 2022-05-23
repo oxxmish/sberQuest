@@ -1,16 +1,14 @@
 package com.sber.quest.service
 
-import com.sber.quest.mappers.toInitialEnt
 import com.sber.quest.dto.GameBoardRqDto
 import com.sber.quest.dto.GameBoardRsDto
 import com.sber.quest.dto.ProductForBoardRqDto
-import com.sber.quest.mappers.toDto
-import com.sber.quest.mappers.toDtoForGameBoard
-import com.sber.quest.mappers.toDtoWithQuestions
+import com.sber.quest.mappers.*
 import com.sber.quest.models.game_board.GameBoardQuestions
 import com.sber.quest.models.game_board.ProductsForGameBoards
 import com.sber.quest.repository.*
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import javax.transaction.Transactional
 
 @Service
@@ -39,13 +37,21 @@ class GameBoardService(
         gameBoardQuestionsRepo.saveAll(questions)
     }
 
+    fun updateBoard(gameBoardRqDto: GameBoardRqDto) {
+        if (gameBoardRepository.findById(gameBoardRqDto.id).isPresent) {
+            createBoard(gameBoardRqDto)
+        } else {
+            throw RuntimeException("Не найден редактируемый продукт")
+        }
+    }
+
     fun getGameBoardById(id: Long): GameBoardRsDto {
         val gameBoard = gameBoardRepository.getById(id)
         val questionIds = gameBoardQuestionsRepo.findAllByGameBoardId(id)
         val questions = questionsRepo.findAllById(questionIds)
         // групируем все вопросы по продукту
         // получаем мапу Product -> List<QuestionDto>
-        // пробугаемся по мапе и делаем из нее List<ProductDto>, но с вопросами из заначальной коллекции
+        // пробугаемся по мапе и делаем из нее List<ProductDto>, но с вопросами из начальной коллекции
         val productsDto = questions.groupBy(
             keySelector = { it.product },
             valueTransform = { it.toDto() })
@@ -57,7 +63,7 @@ class GameBoardService(
     }
 
     fun getAllGameBoards(): List<GameBoardRsDto> {
-        return gameBoardRepository.findAll().map { it.toDto() }
+        return gameBoardRepository.findAllByOrderById().map { it.toDto() }
     }
 
     private fun List<ProductsForGameBoards>.findNumByProductId(productId: Long) =

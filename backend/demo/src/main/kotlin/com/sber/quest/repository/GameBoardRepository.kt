@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface GameBoardRepository: JpaRepository<GameBoard, Long> {
+    fun findAllByOrderById(): List<GameBoard>
 }

@@ -1,4 +1,4 @@
-package com.sber.quest.models.dto
+package com.sber.quest.dto
 
 data class AnswerDto(val answer: String) {
 }

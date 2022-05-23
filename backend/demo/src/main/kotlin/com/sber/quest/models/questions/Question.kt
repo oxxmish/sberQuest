@@ -5,11 +5,11 @@ import com.sber.quest.models.product.Product
 import javax.persistence.*
 
 @Entity
-@Table(name = "regular_questions")
-data class RegularQuestion(
+@Table(name = "questions")
+data class Question(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="regular_questions_id_seq")
-    @SequenceGenerator(name="regular_questions_id_seq", sequenceName="regular_questions_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="questions_id_seq")
+    @SequenceGenerator(name="questions_id_seq", sequenceName="questions_id_seq", allocationSize=1)
     val id: Long = 0,
     @Column(name = "text", length = 2000)
     var text: String,
@@ -23,6 +23,6 @@ data class RegularQuestion(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @JsonIgnore
-    var product: Product?
+    var product: Product
 ) {
 }

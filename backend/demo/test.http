@@ -59,50 +59,42 @@ Content-Type: application/json
     {
       "id": 1,
       "text": "Вам нравится сервис Окко?",
+      "shortText": "short text",
       "answer": "Нет",
       "questionType": "TEXT"
     },
     {
       "text": "Вы смотрели фильм don't blow up?",
+      "shortText": "short text",
       "answer": "Да",
       "questionType": "TEXT"
     }
   ]
 }
 
-
-### Создание шаблона игрового поля (пока на беке не готово но входные данные будут такие)
+###
 POST http://localhost:8081/board/create
 Content-Type: application/json
 
 {
   "name": "Доска 1",
-  "products": [
-    {"productId": 1,
+  "productWithQuestions": [
+    {
+      "productId": 1,
       "numberOfRepeating": 4,
-      "questionIds": [1,2,3]
-    },
-    {"productId": 2,
-      "numberOfRepeating": 4,
-      "questionIds": [4,5,6]
-    },
-    {"productId": 3,
-      "numberOfRepeating": 4,
-      "questionIds": [7,8,9]
-    },
-    {"productId": 4,
-      "numberOfRepeating": 4,
-      "questionIds": [10,11,12]
-    }],
-  "numFields": 16,
-  "finalQuestionIds": [11,22,33]
+      "questionIds": [1, 2]
+    }
+  ],
+  "numFields": 16
 }
 
-### кейс получения ответа на текущий вопрос
-
-### Получаем игровую доску(начало игры)
-GET http://localhost:8081/board/get/1
+### Получаем игровую доску
+GET http://localhost:8081/board/get/2
 Content-Type: application/json
+
+
+
+### кейс получения ответа на текущий вопрос
 
 ### Выбираем вопрос
 POST http://localhost:8081/game/chooseQuestion

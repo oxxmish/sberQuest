@@ -59,50 +59,67 @@ Content-Type: application/json
     {
       "id": 1,
       "text": "Вам нравится сервис Окко?",
+      "shortText": "short text",
       "answer": "Нет",
       "questionType": "TEXT"
     },
     {
       "text": "Вы смотрели фильм don't blow up?",
+      "shortText": "short text",
       "answer": "Да",
       "questionType": "TEXT"
     }
   ]
 }
 
-
-### Создание шаблона игрового поля (пока на беке не готово но входные данные будут такие)
+###
 POST http://localhost:8081/board/create
 Content-Type: application/json
 
 {
   "name": "Доска 1",
-  "products": [
-    {"productId": 1,
+  "productWithQuestionRqs": [
+    {
+      "productId": 1,
       "numberOfRepeating": 4,
-      "questionIds": [1,2,3]
-    },
-    {"productId": 2,
-      "numberOfRepeating": 4,
-      "questionIds": [4,5,6]
-    },
-    {"productId": 3,
-      "numberOfRepeating": 4,
-      "questionIds": [7,8,9]
-    },
-    {"productId": 4,
-      "numberOfRepeating": 4,
-      "questionIds": [10,11,12]
-    }],
-  "numFields": 16,
-  "finalQuestionIds": [11,22,33]
+      "questionIds": [
+        1,
+        2
+      ]
+    }
+  ],
+  "numFields": 16
 }
 
-### кейс получения ответа на текущий вопрос
-
-### Получаем игровую доску(начало игры)
-GET http://localhost:8081/board/get/1
+### Получаем все игровые доски
+GET http://localhost:8081/board/getAll
 Content-Type: application/json
+
+### Получаем игровую доску 2
+GET http://localhost:8081/board/get/2
+Content-Type: application/json
+
+###
+POST http://localhost:8081/board/update
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Доска 123123",
+  "productWithQuestionRqs": [
+    {
+      "productId": 1,
+      "numberOfRepeating": 4,
+      "questionIds": [
+        5
+      ]
+    }
+  ],
+  "numFields": 20
+}
+
+
+### кейс получения ответа на текущий вопрос
 
 ### Выбираем вопрос
 POST http://localhost:8081/game/chooseQuestion
@@ -110,7 +127,8 @@ Content-Type: application/json
 
 {
   "questionId": 1,
-  "questionType": "REGULAR"
+  "questionType": "REGULAR",
+  "state": "2022-05-23 23:27:27.950  INFO 30472 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final 2022-05-23 23:27:28.114  INFO 30472 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}2022-05-23 23:27:28.225  INFO 30472 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect2022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.sber.quest.models.game_board.GameBoardProductIdClass2022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.sber.quest.models.game_board.GameBoardProductIdClass72022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.sber.quest.models.game_board.GameBoardQuestionsIdClass2022-05-23 23:27:28.569  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.sber.quest.models.game_board.GameBoardQuestionsIdClass2022-05-23 23:27:28.771  INFO 30472 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]2022-05-23 23:27:28.781  INFO 30472 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'2022-05-23 23:27:30.239  WARN 30472 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning2022-05-23 23:27:30.719  INFO 30472 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''2022-05-23 23:27:30.738  INFO 30472 --- [           main] com.sber.quest.DemoApplicationKt         : Started DemoApplicationKt in 6.455 seconds (JVM running for 7.613)"
 }
 
 ### Получаем ответ на основе текущей сессии
@@ -160,3 +178,38 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+POST  http://api.vm-96694bec.na4u.ru/board/update
+Content-Type: application/json
+
+{
+  "name": "Доска 1",
+  "productWithQuestionRqs": [
+    {
+      "productId": 1,
+      "numberOfRepeating": 2,
+      "questionIds": [
+        1
+      ]
+    }
+  ],
+  "numFields": 16
+}
+
+
+###
+### Выбираем вопрос
+POST http://api.vm-96694bec.na4u.ru/game/chooseQuestion
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "questionType": "REGULAR",
+  "state": "2022-05-23 23:27:27.950  INFO 30472 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final 2022-05-23 23:27:28.114  INFO 30472 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}2022-05-23 23:27:28.225  INFO 30472 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect2022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.sber.quest.models.game_board.GameBoardProductIdClass2022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.sber.quest.models.game_board.GameBoardProductIdClass72022-05-23 23:27:28.568  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.sber.quest.models.game_board.GameBoardQuestionsIdClass2022-05-23 23:27:28.569  WARN 30472 --- [           main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.sber.quest.models.game_board.GameBoardQuestionsIdClass2022-05-23 23:27:28.771  INFO 30472 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]2022-05-23 23:27:28.781  INFO 30472 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'2022-05-23 23:27:30.239  WARN 30472 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning2022-05-23 23:27:30.719  INFO 30472 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''2022-05-23 23:27:30.738  INFO 30472 --- [           main] com.sber.quest.DemoApplicationKt         : Started DemoApplicationKt in 6.455 seconds (JVM running for 7.613)"
+}
+
+
+### Получаем ответ на основе текущей сессии
+GET http://api.vm-96694bec.na4u.ru/game/getAnswer
+

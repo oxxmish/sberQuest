@@ -1,8 +1,8 @@
-package com.sber.quest.models.dto
+package com.sber.quest.dto
 
 import com.sber.quest.models.questions.QuestionType
 
-data class RegularQuestionDto(
+data class QuestionDto(
     val id: Long,
     var text: String,
     var shortText: String,

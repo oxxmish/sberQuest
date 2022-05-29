@@ -1,6 +1,6 @@
 package com.sber.quest.models.product
 
-import com.sber.quest.models.questions.RegularQuestion
+import com.sber.quest.models.questions.Question
 import javax.persistence.*
 
 @Entity
@@ -15,6 +15,6 @@ class Product(
     @Column(name ="colour")
     var colour: String,
     @OneToMany(mappedBy = "product")
-    var questions: Set<RegularQuestion> = emptySet()
+    var questions: Set<Question> = emptySet()
 ) {
 }

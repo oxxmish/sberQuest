@@ -12,6 +12,8 @@ data class Session(
     @Column(name = "username")
     val userName: String,
     @Column(name = "current_answer")
-    var currentAnswer: String
+    var currentAnswer: String,
+    @Column(name = "state")
+    var state: String
 ) {
 }

@@ -1,19 +1,25 @@
 package com.sber.quest.controller
 
-import com.sber.quest.models.dto.AnswerDto
+import com.sber.quest.dto.AnswerAndStateDto
+import com.sber.quest.models.questions.ChooseQuestionRequest
 import com.sber.quest.service.GameService
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("game")
 class GameController(val gameService: GameService) {
-    @PostMapping("/chooseQuestion", consumes = ["application/json"], produces = ["application/json"])
-    fun chooseQuestion(@RequestBody request: ChooseQuestionRequest) {
-        gameService.onChooseQuestion(request.questionId, request.questionType)
+    @PostMapping(
+        "/chooseQuestion",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun chooseQuestion(@RequestBody rq: ChooseQuestionRequest) {
+        gameService.onChooseQuestion(rq.questionId, rq.questionType, rq.state)
     }
 
-    @GetMapping("/getAnswer", produces = ["application/json"])
-    fun getAnswer(): AnswerDto {
-        return gameService.getAnswerFromActiveSession()
+    @GetMapping("/getAnswer", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getAnswer(): AnswerAndStateDto {
+        return gameService.getAnswerAndStateFromActiveSession()
     }
 }

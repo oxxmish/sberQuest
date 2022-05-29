@@ -1,35 +1,33 @@
 package com.sber.quest.service
 
-import com.sber.quest.mapper.ProductMapper
-import com.sber.quest.mapper.RegularQuestionsMapper
-import com.sber.quest.models.dto.ProductDto
+import com.sber.quest.mappers.toDto
+import com.sber.quest.mappers.toEntity
+import com.sber.quest.dto.ProductDto
 import com.sber.quest.models.product.Product
 import com.sber.quest.repository.ProductRepository
-import com.sber.quest.repository.RegularQuestionRepository
+import com.sber.quest.repository.QuestionRepository
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
-import kotlin.streams.toList
 
 @Service
 class ProductService(
     private val productRepository: ProductRepository,
-    private val productMapper: ProductMapper,
-    private val questionMapper: RegularQuestionsMapper,
-    private val regularQuestionRepository: RegularQuestionRepository
+    private val questionRepository: QuestionRepository
 ) {
     fun createProduct(productDto: ProductDto): Product {
-        val product = productRepository.save(productMapper.dtoToEntity(productDto))
-        val questions = productDto.questions.map { questionMapper.dtoToEntity(it, product) }
-        regularQuestionRepository.saveAll(questions)
+        val product = productRepository.save(productDto.toEntity())
+        // Перерписать с addQuestions
+        val questions = productDto.questions.map { it.toEntity(product) }
+        questionRepository.saveAll(questions)
         return product
     }
 
     fun updateProduct(productDto: ProductDto): Product {
         if (productRepository.findById(productDto.id).isPresent) {
-            val product = productRepository.save(productMapper.dtoToEntity(productDto))
-            val dtoQuestions = productDto.questions.map { questionMapper.dtoToEntity(it, product) }
+            val product = productRepository.save(productDto.toEntity())
+            val dtoQuestions = productDto.questions.map { it.toEntity(product) }
             val questions = product.questions.plus(dtoQuestions)
-            regularQuestionRepository.saveAll(questions)
+            questionRepository.saveAll(questions)
             return product
         } else {
             throw RuntimeException("Не найден редактируемый продукт")
@@ -37,6 +35,6 @@ class ProductService(
     }
 
     fun getCurrentProducts(): List<ProductDto> {
-        return productRepository.findAll().stream().map { productMapper.entityToDto(it) }.toList()
+        return productRepository.findAllByOrderById().map { it.toDto() }
     }
 }

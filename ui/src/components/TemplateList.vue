@@ -27,6 +27,7 @@ export default {
         },
         select_template: function (event) {
             // this.current_template = this.options[event.target.getAttribute('index')].products;
+            console.log(this.template_list[event.target.getAttribute('index')]);
             this.$emit('select-template', this.template_list[event.target.getAttribute('index')]);
         },
   }

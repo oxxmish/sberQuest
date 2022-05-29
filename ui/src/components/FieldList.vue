@@ -1,6 +1,6 @@
 <template>
      <div class="grid" id="grid">
-        <div class="grid_element" v-for="(option, index) in products" @click="select_product" :key="index" v-bind:style="option.color">{{ option.text }}</div>
+        <div class="grid_element" v-for="(option, index) in products" @click="select_product" :key="index" v-bind:style="option.color" :data-db_id="option.id">{{ option.text }}</div>
         <div class="grid_element plus" @click="add_product">+</div>
     </div>
 </template>
@@ -21,7 +21,14 @@ export default {
             this.$emit('add-field');
         },
         select_product: function (event) {
-            this.$emit('select-product', event.target.innerHTML, 'background:' + event.target.style.backgroundColor);
+            var q = null;
+            this.products.forEach(function(item) {
+                    if(item.id == event.target.dataset.db_id)
+                    {
+                        q = item.questions;
+                    }
+                });
+            this.$emit('select-product', event.target.innerHTML, 'background:' + event.target.style.backgroundColor, event.target.dataset.db_id, q);
         }
   }
 }

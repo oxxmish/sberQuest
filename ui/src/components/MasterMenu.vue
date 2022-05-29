@@ -1,6 +1,6 @@
 <template>
   <div id="menu" class="menu">
-    <input id="template_name" type="text" placeholder="Шаблон комнаты" class="themes_template">
+    <input id="template_name" type="text" placeholder="Шаблон комнаты" class="themes_template" @blur="save_tempalte_name">
     <div id="first_group_button">
         <div class="master_menu_button" @click="select_question" id="select_question">
             Выбор вопросов
@@ -12,8 +12,8 @@
             К другим шаблонам
         </div>
     </div>
-    <div id="second_group_button">
-        <div class="master_menu_button" id="save">
+    <div id="second_group_button" >
+        <div class="master_menu_button" id="save" @mouseover="get_questions" @click="save_template">
             Сохранить
         </div>
         <div class="master_menu_button" >
@@ -29,7 +29,7 @@
 <script>
 export default {
   name: 'MasterMenu',
-  props: ['template_name'],
+  props: ['template_name', 'count', 'questions'],
   data () {
     return {
     }
@@ -56,6 +56,22 @@ export default {
     },
     back_to_templates: function () {
       this.$emit('back-to-templates')
+    },
+    save_tempalte_name: function () {
+      this.$emit('save-tmpl-name', document.getElementById('template_name').value)
+    },
+    get_questions: function () {
+      this.$emit('get-questions')
+    },
+    save_template: function () {
+      console.log(this.template_name);
+      console.log(this.count ? this.count : 16);
+      console.log(this.questions);
+     fetch("http://api.vm-96694bec.na4u.ru/board/create", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
+                })
     },
   },
   mounted: function () {

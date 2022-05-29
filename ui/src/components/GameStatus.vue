@@ -38,17 +38,19 @@ export default {
     }
   },
   methods: {
-            pollData () {
-        //         this.polling = setInterval(() => {
-        //            fetch("endpoint", {
-        //             method: "GET",
-        //             headers: {'Content-Type': 'application/json'}, 
-        //             /*body: JSON.stringify(this.questions[this.players[this.turn].pos])*/
-        //             }).then(res => {
-        //             console.log("Request complete! response:", res);
-        // });
-        //         }, 1000)
-	}
+    pollData () {
+      this.polling = setInterval(() => {
+        fetch("http://api.vm-96694bec.na4u.ru/game/getAnswer", {
+        method: 'GET', 
+        headers: {
+        "Content-Type": "application/JSON",
+        }
+        }).then( res => res.json() ).then( data => this.save_ans(data) );
+        }, 5000)
+    },
+    save_ans: function(data){
+      this.question[1] = data.answer;
+    },
   },
     beforeUnmount () {
         clearInterval(this.polling)

@@ -2,7 +2,7 @@
      <div id="main_area">
         <div v-if="draw === 'questions'" class="grid" id="grid">
             <div class="scroll">
-                <div class="grid_element" v-for="(option, index) in get_questions()" @click="choose_question" :key="index" v-bind:el_id="option.id">{{ option.text }}</div>
+                <div class="grid_element" v-for="(option, index) in get_questions()" @click="choose_question" :key="index" v-bind:el_id="option.id">{{ option.shortText }}</div>
                 <div class="grid_element plus" @click="add_question">+</div>
                 <div class="grid_element load" id="load" @click="load_questions">Загрузить из файла</div>
             </div>
@@ -53,28 +53,34 @@
             </div>
         </div>
         <div v-if="draw === 'edit_question'" class="edit_question" id="edit_question">
-            <div id="first_line">
-                <img style="height:75%;" @click="to_questions" src="@/assets/go_back.png" alt="">
-                <div id="category_header">Категория вопроса</div>
+            <div id="first_line" style="width:100%;">
+                <img style="height:75%;width:7.5%;float:left;margin-right:5%" @click="to_questions" src="@/assets/go_back.png" alt="">
+                <div style="width:50%;float:left;" id="short_name_header" resize="false">Краткое обозначение вопроса</div>
+                <div style="width:30%;float:left;" id="category_header">Категория вопроса</div>
             </div>
-            <div id="second_line">
-                <select id="type_selector">
+            <div id="second_line" style="width:100%; height:15%;">
+                <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" >
+                <select style="float:left;width:30%;" id="type_selector">
                     <option>С выбором ответа</option>
                     <option>Без выбора ответа</option>
                     <option>Вопрос-аукцион</option>
                     <option>Вопрос с медиа фрагментом</option>
                 </select>
             </div>
-            <div id="third_line">
+            <!-- <div id="third_line">
                 <div id="short_name_header" resize="false">Краткое обозначение вопроса</div>
-            </div>
-            <div id="fourth_line">
-                <input type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.text" >
-            </div>
+            </div> -->
+            <!-- <div id="fourth_line">
+                <input type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" >
+            </div> -->
             <div id="fiveth_line">
                 <div id="wording_header" resize="false">Формулировка вопроса</div>
             </div>
-            <textarea rows="12" id="wording"></textarea>
+            <textarea rows="12" id="wording" :value="selected_el.text"></textarea>
+            <div id="fiveth_line">
+                <div id="wording_header" resize="false">Ответ</div>
+            </div>
+            <textarea rows="2" id="answer" :value="selected_el.answer"></textarea>
             <div class="delete_window_group_button">
                 <div @click="save_question" class="button">Сохранить</div>
                 <div @click="del_question" class="button">Удалить</div>
@@ -147,7 +153,8 @@ export default {
             var color = String(document.getElementById('hex').value);
             avatar.style.backgroundColor = color;
             var name = document.getElementById("edit_window_input").value;
-            if(name.value != "")
+            console.log(name);
+            if(name != "")
             {
                 avatar.textContent = name.value;
                 document.getElementById("edit_window_input").value = '';
@@ -156,9 +163,9 @@ export default {
             }
             else
             {
+                console.log(this.selected_product[0]);
                 this.$emit('final-edit-product', this.selected_product[0], 'color:white;background:' + color);
                 this.draw = 'questions';
-                
             }
             var edit = document.getElementById("edit");
             var click_delete = document.getElementById("delete");
@@ -170,19 +177,21 @@ export default {
             this.selected = event.target.getAttribute("el_id");
             var cur_el;
             var local_selected = this.selected;
-            console.log(local_selected);
             this.get_questions().forEach(function(item) {
                 if(local_selected == item.id)
                     cur_el = item;
             });
             this.selected_el = cur_el;
-            wording = cur_el.wording;
-            type = cur_el.type;
-            if(document.getElementById("type_selector"))
-            {
-                document.getElementById("type_selector").value = this.selected_el.type;
-                document.getElementById("wording").value = this.selected_el.wording;
-            }
+            let mapping = new Map();
+            mapping.set("TEXT", "Без выбора ответа").set("AUCTION", "Вопрос-аукцион").set("TEXT_WITH_ANSWERS", "С выбором ответа").set("MEDIA", "Вопрос с медиа фрагментом");
+            wording = cur_el.text;
+            
+            type = mapping.get(cur_el.questionType);
+            // if(document.getElementById("type_selector"))
+            // {
+            //     document.getElementById("type_selector").value = mapping.get(this.selected_el.questionType);
+            //     // document.getElementById("wording").value = this.selected_el.text;
+            // }
             
         },
         del_question: function () {
@@ -192,7 +201,6 @@ export default {
             this.draw = 'questions';
             var product_name = this.selected_product[0];
             var deleted_question = this.selected;
-            console.log(deleted_question);
             this.products.forEach(function(item) {
                 if(product_name == item.text)
                     item.questions = item.questions.filter(option => option.id != deleted_question);
@@ -202,7 +210,9 @@ export default {
             this.draw = 'edit_question';
         },
         save_question: function () {
-            this.$emit('edit-question', this.selected_product[0], this.selected, document.getElementById("type_selector").value, document.getElementById("wording").value);
+            let mapping = new Map();
+            mapping.set("Без выбора ответа", "TEXT").set("Вопрос-аукцион", "AUCTION").set("С выбором ответа", "TEXT_WITH_ANSWERS").set("Вопрос с медиа фрагментом", "MEDIA");
+            this.$emit('edit-question', this.selected_product[0], this.selected, mapping.get(document.getElementById("type_selector").value), document.getElementById("wording").value, document.getElementById('short_name').value, document.getElementById('answer').value);
         },
         get_questions: function () {
             var product_name = this.selected_product[0];
@@ -217,7 +227,7 @@ export default {
             var product_name = this.selected_product[0];
             this.products.forEach(function(item) {
                 if(product_name == item.text)
-                    item.questions.push({ id: item.questions.length + 1, text: 'Вопрос ' + String(item.questions.length + 1), type: 'С выбором ответа', wording: '' });
+                    item.questions.push({ text: '', shortText:"", questionType: 'TEXT', answer: '' });
             });
         },
         check_delete_product: function () {
@@ -227,15 +237,13 @@ export default {
             this.draw = 'edit';
         },
         save_short_name: function () {
-            console.log("save_short_name");
             var product_name = this.selected_product[0];
             var selected = this.selected_el;
             this.products.forEach(function(item) {
-                console.log(item);
                 if(product_name == item.text)
                     item.questions.forEach(function(inner_item) {
                         if(selected == inner_item)
-                            inner_item.text = document.getElementById('short_name').value;
+                            inner_item.shortText = document.getElementById('short_name').value;
                         
                     });
             });
@@ -303,7 +311,6 @@ document.addEventListener("DOMNodeInserted", function () {
 document.addEventListener("DOMNodeInserted", function () {
     if(document.getElementById("type_selector")){
         var selector = document.getElementById("type_selector");
-        
         selector.value = type;
         var wording_1 = document.getElementById("wording");
         wording_1.value = wording;
@@ -564,7 +571,7 @@ label[for=b], output[for=b]{
     font-size: 1.3vw;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
-    margin-left: 15%;
+    margin-left: 19%;
     margin-top: 1%;
     margin-bottom: 2%;
 }
@@ -578,7 +585,7 @@ label[for=b], output[for=b]{
 
 #wording{
     width: 70%;
-    height: 100%;
+    height: 85%;
     /* font-size: 140%; */
     font-size: 1.4vw;
     resize: none;
@@ -671,14 +678,14 @@ input{
 
 #short_name{
     width: 40%;
-    margin-left: 15%;
+    margin-left: 13%;
     margin-top: 2%;
 }
 
 #category_header{
     font-size: 2vw;
-    width: 70%;
-    margin-left: 15%;
+    /* width: 70%;
+    margin-left: 15%; */
 }
 
 #first_line{
@@ -687,12 +694,30 @@ input{
 
 #short_name_header{
     font-size: 2vw;
-    margin-left: 15%;
+    /* margin-left: 15%; */
 }
 
 #wording_header{
     font-size: 2vw;
     margin-left: 15%;
     margin-top: 2%;
+}
+
+img{
+    transition: transform .25s ease;
+}
+
+img:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+#answer{
+    width: 70%;
+    height: 30%;
+    /* font-size: 140%; */
+    font-size: 1.4vw;
+    resize: none;
+    margin-left: 15%;
+    margin-top: 1%;
 }
 </style>

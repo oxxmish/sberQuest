@@ -3,7 +3,7 @@
     <TeamPanel ref="team_2" id="team_2" :players="teams ? teams[1] : []" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
     <TeamPanel ref="team_3" id="team_3" :players="teams ? teams[2] : []" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
     <TeamPanel ref="team_4" id="team_4" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
-    <GameField :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" @set-question="set_question" @next-round="next_round" ref="MainField" />
+    <GameField :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" @set-question="set_question" @next-round="next_round" @set-config="set_config" ref="MainField" />
     <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
 </template>
 
@@ -14,9 +14,10 @@ import PopUpQuestion from './components/PopUpQuestion.vue'
 
 export default {
   name: 'ManageMasters',
-  props:['teams', 'timer', 'crit_timer'],
+  props:['teams', 'timer', 'crit_timer', 'tmpl_id'],
   data(){
     return {
+      state: {},
       current_question: ['Для получения вопроса бросьте кубик', 'Тип вопроса', 'Название продукта'],
       puzzles: [ 0, 0, 0, 0 ],
       scores: [ 0, 0, 0, 0 ],
@@ -100,6 +101,12 @@ export default {
         this.$refs.team_4.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[3];
       }
+      this.state.puzzles = this.puzzles;
+      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                  method: "POST",
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
+                  });
     },
     give_score: function (team, score) {
       if(team == 'team_1')
@@ -122,7 +129,48 @@ export default {
     },
     next_round: function () {
         this.tour = 2;
+    },
+    save_state: function (data) {
+        if(data.state != 'game_begin')
+        {
+          this.state = JSON.parse(data.state);
+          this.$refs.MainField.set_db_config(this.state.field_config);
+        }
+        else
+          this.state = data.state;
+        console.log(this.state);
+    },
+    set_config: function (config) {
+        this.state.field_config = config;
+        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                  method: "POST",
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
+                  });
+    },
+  },
+  mounted: function () {
+  this.$nextTick(function () {
+    fetch("http://api.vm-96694bec.na4u.ru/game/getAnswer", {
+              method: "GET",
+              headers: {'Content-Type': 'application/json'}
+              }).then( res => res.json() ).then( data => this.save_state(data) );
+
+    if(this.state == 'game_begin')
+    {
+      this.state.puzzles = this.puzzles;
+      this.state.scores = this.scores;
+      this.state.teams = this.teams;
+      this.state.timer = this.timer;
+      this.state.crit_timer = this.crit_timer;
+      this.state.tmpl_id = this.tmpl_id;
+      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                  method: "POST",
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
+                  });
     }
+  })
   }
 }
 </script>

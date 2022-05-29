@@ -180,9 +180,9 @@ export default {
     return {
       visible: 2,
       themes_sber: [
-          {product:'СберЗвук', color:'background:white;', font:'line-height:200%;'},
-          {product:'РаботаРу', color:'background:white;', font:'line-height:200%;'},
-          {product:'Окко', color:'background:white;', font:'line-height:200%;'}, 
+          {product:'test', color:'background:white;', font:'line-height:200%;'},
+          {product:'test2', color:'background:white;', font:'line-height:200%;'},
+          {product:'test3', color:'background:white;', font:'line-height:200%;'}, 
           {product:'СберДиск', color:'background:white;', font:'line-height:200%;'}, 
           {product:'СберБокс', color:'background:white;', font:'line-height:200%;'}, 
           {product:'СберМаркет', color:'background:white;', font:'font-size:78%;line-height:250%;'}, 

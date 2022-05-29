@@ -125,6 +125,11 @@ export default {
         },
   },
   mounted: function () {
+      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({questionId:1, questionType:"REGULAR", state:"game_begin"})
+                });
   this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений

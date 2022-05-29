@@ -85,11 +85,11 @@ export default {
             create_field: function(name, color){
             this.products.push({ text: name, value: this.products.lenght, color:"background:" + color, questions: [] });
         },
-        select_product: function(name, color){
+        select_product: function(name, color, id, questions){
             if(name == 'Финал' || name == 'Полуфинал')
-                this.selected_product = [name, color + ';color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;'];
+                this.selected_product = [name, color + ';color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;', id, questions];
             else
-                this.selected_product = [name, color + ';color:white;'];
+                this.selected_product = [name, color + ';color:white;', id, questions];
             this.current_view = 'questions';
         },
         delete_product: function(){
@@ -104,27 +104,33 @@ export default {
         },
         final_edit_product: function(name, color){
             var old_name = this.selected_product[0];
-            this.selected_product = [name, color];
+            var old_id = this.selected_product[2];
+            var old_questions = this.selected_product[3];
+            this.selected_product = [name, color, old_id, old_questions];
             this.products.forEach(function(item) {
                     if(item.text == old_name)
                     {
-                    item.text = name;
-                    item.color = color;
+                        item.text = name;
+                        item.color = color;
+                        item.id = old_id;
+                        item.questions = old_questions;
                     }
                     
                 });
         },
-        edit_question: function(product, question_id, new_type, new_wording){
+        edit_question: function(product, question_id, new_type, new_wording, short_text, answer){
         this.products.forEach(function(item) {
                 if(item.text == product)
                 {
                 item.questions.forEach(function(item) {
                     if(item.id == question_id)
                     {
-                    console.log("In");
-                    item.type = new_type;
-                    item.wording = new_wording;
-                    return;
+                        item.questionType = new_type;
+                        item.text = new_wording;
+                        item.shortText = short_text;
+                        item.answer = answer;
+                        console.log(item.answer);
+                        return;
                     }
                     
                 });   
@@ -134,6 +140,16 @@ export default {
         log_out: function(){
             this.$emit('logout');
         },
+  }, mounted: function () {
+      let product_ref = this.products;
+      product_ref.length = 0;
+  this.$nextTick(function () {
+    fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => data.forEach(function(item) {
+                product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) )
+  })
   }
 }
 </script>

@@ -161,6 +161,7 @@ export default {
     border: solid black 2px;
     background-color: white;
     border-radius: 5px;
+    z-index: 5;
 }
 
 #text{

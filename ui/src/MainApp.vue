@@ -56,9 +56,10 @@ export default {
       this.timer = timer;
       this.crit_timer = crit_timer;
     },
-    create_game() {
+    create_game(tmpl_id) {
       window.location.href = "#/lobby";
-      this.currentPath = window.location.hash
+      this.currentPath = window.location.hash;
+      this.tmpl_id = tmpl_id;
     },
     already_registered() {
       window.location.href = "#/";
@@ -86,7 +87,7 @@ export default {
 </script>
 
 <template>
-  <component ref="component" :is="currentView" :teams="teams" :timer="timer" :crit_timer="crit_timer" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" @already-registered="already_registered" @go-to-reg="go_to_reg" />
+  <component ref="component" :is="currentView" :teams="teams" :timer="timer" :crit_timer="crit_timer" :tmpl_id="tmpl_id" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" @already-registered="already_registered" @go-to-reg="go_to_reg" />
 </template>
 
 <style>

@@ -2,9 +2,9 @@
 <!-- <MasterMenu @select-question= "visible1" @select-themes= "visible2"  /> -->
 <div v-if="visible==1" class="item_block_scroll">
       <div v-for="(product,index) in products" :key="index" id="size_themes">
-        <div class="themes_themes" :style="product.color" >
+        <div class="themes_themes" :style="product.colour" >
             <div class="text_themes" >
-              {{product.text}}
+              {{product.name}}
             </div>
             <button class="button_themes" v-on:click="product.visible_question=!product.visible_question"><img src="@/assets/Polygon_1.png" @click="rotate"></button>
         </div>
@@ -13,7 +13,7 @@
               {{question.text}}
             </div>
             <div class="type_quest">
-              {{question.type}}
+              {{get_readiable_type(question.questionType)}}
             </div>
             <div class="check_quest">
                 <input class="check_quest_2" type="checkbox" :checked="question.Need_quest" v-on:click="question.Need_quest= !question.Need_quest">
@@ -58,9 +58,9 @@
   <div class="item_block_scroll_2" >
       <div class="block_all_themes_filed" >
         <div v-for="(product,index) in products" :key="index" id="size_themes_2">
-              <div class="themes_themes_2" :style="product.color"  >
+              <div class="themes_themes_2" :style="product.colour"  >
                   <div class="text_fields_themes" >
-                    {{product.text}}
+                    {{product.name}}
                   </div>
                   <form>
                     <div class="radio_text_2">
@@ -82,7 +82,7 @@
 
 export default {
   name: 'TemplateSettings',
-  props: ['products', 'visible'],
+  props: ['visible', 'id'],
   data () {
     return {
       // visible: 1,
@@ -92,21 +92,28 @@ export default {
       progress: 0,
       radio_buttons: [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-      ]
+      ],
+      current_template: {},
+      products: [],
+      template_products: []
     }
   },
   methods: {
-    count_field_16: function () { // смена количества полей в игре на 16
-      this.count_field = 16
-      this.count_field_now()
+    count_field_16: function () { 
+      this.count_field = 16;
+      this.$emit('change-count', this.count_field);
+      this.count_field_now();
+      console.log(this.products);
     },
     count_field_20: function () { // смена количества полей в игре на 20
-      this.count_field = 20
-      this.count_field_now()
+      this.count_field = 20;
+      this.$emit('change-count', this.count_field);
+      this.count_field_now();
     },
     count_field_24: function () { // смена количества полей в игре на 24
-      this.count_field = 24
-      this.count_field_now()
+      this.count_field = 24;
+      this.$emit('change-count', this.count_field);
+      this.count_field_now();
     },
     count_field_now: function () { // подсчет текущего количества выбранных полей
       this.count_field_now_pole = 0
@@ -128,26 +135,107 @@ export default {
       else
         event.target.style = 'transform:rotate(180deg);';
     },
+    get_readiable_type: function (type) {
+      let mapping = new Map();
+      mapping.set("TEXT", "Без выбора ответа").set("AUCTION", "Вопрос-аукцион").set("TEXT_WITH_ANSWERS", "С выбором ответа").set("MEDIA", "Вопрос с медиа фрагментом");
+      return mapping.get(type);
+    },
+    save_template_product: function (data) {
+      this.current_template = data;
+      this.template_products = this.current_template.products;
+      console.log("Template");
+      console.log(this.template_products);
+      fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+              method: "GET",
+              headers: {'Content-Type': 'application/json'}
+              }).then( res => res.json() ).then( data => this.save_all_product(data) );
+    },
+    save_all_product: function (data) {
+      // this.current_template = data;
+      this.products = data;
+      if(!this.id)
+      {
+        this.products.forEach(element => {
+          element.current_checked = 1;
+          element.count = 1;
+          element.visible_question = true;
+          element.questions.forEach( question => {
+            question.Need_quest = false;
+          });
+        });
+      }
+      else
+      {
+        console.log("else");
+        console.log(this.products);
+        console.log(this.template_products);
+        this.products.forEach(element => {
+          element.visible_question = false;
+          this.template_products.forEach(template_element => { 
+            if( template_element.id == element.id )
+            {
+              element.current_checked = template_element.numOfRepeating;
+              element.count = template_element.numOfRepeating;
+              element.questions.forEach( question => {
+                template_element.questions.forEach( template_question => {
+                    if(question.id == template_question.id)
+                      question.Need_quest = true;
+                 });
+              });
+            }
+          });
+          // element.current_checked = 1;
+          // element.count = 1;
+          // element.visible_question = true;
+          // element.questions.forEach( question => {
+          //   question.Need_quest = false;
+          // });
+        });
+      }
+    },
+    get_product: function () {
+      let result = [];
+      this.products.forEach(element => {
+        let cur_id = element.id;
+        let cur_count = element.count;
+        let cur_qs = [];
+        element.questions.forEach( question => {
+            if(question.Need_quest)
+              cur_qs.push(question.id);
+          });
+        result.push({productId: cur_id, numberOfRepeating: cur_count, questionIds: cur_qs});
+      });
+      return result;
+    },
   },
   mounted: function () {
+      // var template_ref;
+      let products_ref = this.products;
+      products_ref.length = 0;
+      let id = this.id;
+      console.log("Check");
+      if(id)
+        fetch("http://api.vm-96694bec.na4u.ru/board/get/" + String(id), {
+              method: "GET",
+              headers: {'Content-Type': 'application/json'}
+              }).then( res => res.json() ).then( data => this.save_template_product(data) );
+      else
+        fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+              method: "GET",
+              headers: {'Content-Type': 'application/json'}
+              }).then( res => res.json() ).then( data => this.save_all_product(data) );
+      // console.log(template_ref);
     this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений
-      this.count_field_now()
+      this.count_field_now();
     })
   },
   updated: function () {
     this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений
-      this.count_field_now()
-      console.log(this.products);
-    })
-  }
-  ,
-  beforeUpdate: function () {
-    this.$nextTick(function () {
-      console.log(this.products);
+      this.count_field_now();
     })
   }
 }

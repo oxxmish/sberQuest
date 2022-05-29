@@ -37,9 +37,24 @@ class GameBoardService(
         gameBoardQuestionsRepo.saveAll(questions)
     }
 
+    @Transactional
     fun updateBoard(gameBoardRqDto: GameBoardRqDto) {
         if (gameBoardRepository.findById(gameBoardRqDto.id).isPresent) {
-            createBoard(gameBoardRqDto)
+            val gameBoard = gameBoardRepository.save(gameBoardRqDto.toInitialEnt())
+            val products = gameBoardRqDto.productWithQuestionRqs.map {
+                ProductsForGameBoards(
+                    gameBoardId = gameBoard.id,
+                    productId = it.productId,
+                    numOfRepeating = it.numberOfRepeating
+                )
+            }
+            productsForGameRepo.saveAll(products)
+            gameBoardQuestionsRepo.deleteGameBoardQuestionsByGameBoardId(gameBoard.id)
+            val questions = gameBoardRqDto.productWithQuestionRqs
+                .map(ProductForBoardRqDto::questionIds)
+                .flatten()
+                .map { GameBoardQuestions(gameBoardId = gameBoard.id, questionId = it) }
+            gameBoardQuestionsRepo.saveAll(questions)
         } else {
             throw RuntimeException("Не найден редактируемый продукт")
         }
@@ -48,7 +63,7 @@ class GameBoardService(
     fun getGameBoardById(id: Long): GameBoardRsDto {
         val gameBoard = gameBoardRepository.getById(id)
         val questionIds = gameBoardQuestionsRepo.findAllByGameBoardId(id)
-        val questions = questionsRepo.findAllById(questionIds)
+        val questions = questionsRepo.findAllByIdOrderById(questionIds)
         // групируем все вопросы по продукту
         // получаем мапу Product -> List<QuestionDto>
         // пробугаемся по мапе и делаем из нее List<ProductDto>, но с вопросами из начальной коллекции

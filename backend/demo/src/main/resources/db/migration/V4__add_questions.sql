@@ -1,3 +1,6 @@
+truncate questions cascade;
+alter sequence questions_id_seq restart;
+
 /*Вопросы для Okko */
 
 insert into questions(text, answer, type, product_id)

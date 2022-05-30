@@ -14,15 +14,14 @@ data class Question(
     @Column(name = "text", length = 2000)
     var text: String,
     @Column(name = "short_text", length = 500)
-    var shortText: String,
+    var shortText: String? = " ",
     @Column(name = "answer", length = 1500)
     var answer: String,
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     var questionType: QuestionType,
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnore
     var product: Product
 ) {
 }

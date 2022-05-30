@@ -15,6 +15,6 @@ class Product(
     @Column(name ="colour")
     var colour: String,
     @OneToMany(mappedBy = "product")
-    var questions: Set<Question> = emptySet()
+    var questions: Set<Question>? = emptySet()
 ) {
 }

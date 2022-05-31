@@ -26,8 +26,8 @@ class ProductService(
         if (productRepository.findById(productDto.id).isPresent) {
             val product = productRepository.save(productDto.toEntity())
             val dtoQuestions = productDto.questions.map { it.toEntity(product) }
-            val questions = product.questions.plus(dtoQuestions)
-            questionRepository.saveAll(questions)
+            val questions = product.questions?.plus(dtoQuestions)
+            questions?.apply { questionRepository.saveAll(questions) }
             return product
         } else {
             throw RuntimeException("Не найден редактируемый продукт")

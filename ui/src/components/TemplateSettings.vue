@@ -2,15 +2,15 @@
 <!-- <MasterMenu @select-question= "visible1" @select-themes= "visible2"  /> -->
 <div v-if="visible==1" class="item_block_scroll">
       <div v-for="(product,index) in products" :key="index" id="size_themes">
-        <div class="themes_themes" :style="product.colour" >
+        <div class="themes_themes" :style="get_color(product)" >
             <div class="text_themes" >
               {{product.name}}
             </div>
-            <button class="button_themes" v-on:click="product.visible_question=!product.visible_question"><img src="@/assets/Polygon_1.png" @click="rotate"></button>
+            <button class="button_themes" v-on:click="product.visible_question=!product.visible_question"><img class="polygon" src="@/assets/Polygon_1.png" @click="rotate"></button>
         </div>
         <div v-for="(question,index) in product.questions" :key="index" class="quest_themes"  v-show="product.visible_question">
             <div class="name_quest2">
-              {{question.text}}
+              {{question.shortText}}
             </div>
             <div class="type_quest">
               {{get_readiable_type(question.questionType)}}
@@ -26,7 +26,7 @@
       <div class="text_fields">
         Число игровых полей
       </div>
-        <form>
+        <form style="height:85%">
           <div class="radio_text">
           <input type="radio" id="Choice1" class="radio_fields" checked
           name="Fields_Count" v-on:click="count_field_16">
@@ -50,21 +50,21 @@
       <div class="progressbar">
         <span class="progress_1" id="progress_1"></span>
       </div>
-      <label class="fields_number_progressbar">{{count_field}}</label>
+      <label id="total_field" class="fields_number_progressbar">{{calc_sum_field()}} из {{count_field}}</label>
   </div>
   <div class="tex_themes_before">
     Укажите количество повторений темы на игровом поле
   </div>
   <div class="item_block_scroll_2" >
       <div class="block_all_themes_filed" >
-        <div v-for="(product,index) in products" :key="index" id="size_themes_2">
-              <div class="themes_themes_2" :style="product.colour"  >
+        <div v-for="(product,index) in products.filter(option => option.name != 'Финал' && option.name != 'Полуфинал')" :key="index" id="size_themes_2" >
+              <div class="themes_themes_2" :style="product.colour">
                   <div class="text_fields_themes" >
                     {{product.name}}
                   </div>
-                  <form>
+                  <form style="height:100%;">
                     <div class="radio_text_2">
-                      <div v-for="(r_butt,index) in radio_buttons" :key="index">
+                      <div v-for="(r_butt,index) in radio_buttons" :key="index" style="height:100%;float:left;width:10%">
                           <input type="radio" class="radio_fields_2" name="Fields_Count" v-on:click="product.count = r_butt, product.current_checked = index, count_field_now()" style="float:left;" :checked="product.current_checked == index">
                           <label style="float:left;margin-top:1%;">{{r_butt}}</label>
                       </div>
@@ -99,6 +99,17 @@ export default {
     }
   },
   methods: {
+    calc_sum_field: function () { 
+      let tmp = 0;
+      for (var field = 0; field < this.products.length; field++) {
+        tmp = tmp + this.products[field].count;
+      }
+      if(document.getElementById('total_field') && tmp > this.count_field)
+        document.getElementById('total_field').style.color = 'red';
+      else if(document.getElementById('total_field'))
+        document.getElementById('total_field').style.color = 'white';
+      return tmp;
+    },
     count_field_16: function () { 
       this.count_field = 16;
       this.$emit('change-count', this.count_field);
@@ -140,6 +151,12 @@ export default {
       mapping.set("TEXT", "Без выбора ответа").set("AUCTION", "Вопрос-аукцион").set("TEXT_WITH_ANSWERS", "С выбором ответа").set("MEDIA", "Вопрос с медиа фрагментом");
       return mapping.get(type);
     },
+    get_color: function (product) {
+      if(product.name == "Финал" || product.name == "Полуфинал")
+        return "background-color:#bebebe;color:black;"
+      else
+        return product.colour;
+    },
     save_template_product: function (data) {
       this.current_template = data;
       this.template_products = this.current_template.products;
@@ -156,8 +173,16 @@ export default {
       if(!this.id)
       {
         this.products.forEach(element => {
-          element.current_checked = 1;
-          element.count = 1;
+          if(element.name == 'Финал' || element.name == 'Полуфинал')
+          {
+            element.current_checked = 0;
+            element.count = 0;
+          }
+          else
+          {
+            element.current_checked = 1;
+            element.count = 1;
+          }
           element.visible_question = true;
           element.questions.forEach( question => {
             question.Need_quest = false;
@@ -274,7 +299,7 @@ width: 30%;
 height: 70%;
 /* font-size: 200%; */
 font-size: 2vw;
-color:#ffffff;
+/* color:#ffffff; */
 margin-left: 30%;
 margin-top: 1%;
 text-align: center;
@@ -292,8 +317,8 @@ text-align: center;
 
   margin-left:1% ;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 50%;
+  height: 70%;
   background: white;
   border: 2px solid #999;
   transition: 0.2s all linear;
@@ -372,8 +397,8 @@ text-align: center;
 
   margin-left:6% ;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 7%;
+  height: 100%;
   background: white;
   border: 2px solid #999;
   transition: 0.2s all linear;
@@ -431,6 +456,7 @@ margin-left:2% ;
  height: 70%;
  width: 40%;
  float: left;
+ font-size: 1.7vw;
 }
 .count_field{
 margin-top: 0.5%;
@@ -455,7 +481,7 @@ width: 100%;
 float: left;
 height: 90%;
 width: 30%;
-font-size: 150%;
+font-size: 1.6vw;
 margin-top: 0.5%;
 margin-left: 5%;
 }
@@ -463,9 +489,8 @@ margin-left: 5%;
 float: left;
 height: 90%;
 width: 30%;
-font-size: 20px;
 margin-left: 15%;
-font-size: 150%;
+font-size: 1.6vw;
 margin-top: 0.5%;
 }
 .check_quest{
@@ -632,5 +657,10 @@ body {
 
 #edit:hover, #back:hover, #delete:hover {
     box-shadow: 0 0 10px 100px orange inset;
+}
+
+.polygon{
+  height: 80%;
+  width: 70%;
 }
 </style>

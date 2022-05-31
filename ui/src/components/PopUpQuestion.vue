@@ -1,6 +1,6 @@
 <template>
     <div id="collapser">
-       <div id="text">{{ question[1] }}</div>
+       <div id="text">{{ collapse ? question[2] : question[1]}}</div>
        <img id="dots_pop_up" @click="pop_up" src="@/assets/dots.png" alt="">
        <img v-if="!collapse" src="@/assets/start.png" alt="" id="start_question" @click="start_timer">
        <div v-if="!collapse" id="answer_timer">00:30</div>
@@ -9,15 +9,15 @@
         </div>
        <div v-if="!collapse && tour == 1" id="header1">Зачесть пазл команде</div>
        <div v-if="!collapse && tour == 2" id="group_header">
-           <div id="header2">Зачесть</div>
-           <input id="custom_score"/>
-           <div id="header3">баллов команде </div>
+           <div id="header2">Зачесть баллы команде</div>
+           <!-- <input id="custom_score"/>
+           <div id="header3">баллов команде </div> -->
        </div>
        <div v-if="!collapse" id="group_buttons">
            <div :style="'opacity:'+current_opacity[0]" class="team_button" @click="give_puzzle('team_1')">Команда 1</div>
            <div :style="'opacity:'+current_opacity[1]" class="team_button" @click="give_puzzle('team_2')">Команда 2</div>
-           <div :style="'opacity:'+current_opacity[2]" class="team_button" @click="give_puzzle('team_3')">Команда 3</div>
-           <div :style="'opacity:'+current_opacity[3]" class="team_button" @click="give_puzzle('team_4')">Команда 4</div>
+           <div :style="'opacity:'+current_opacity[3]" class="team_button" @click="give_puzzle('team_3')">Команда 4</div>
+           <div :style="'opacity:'+current_opacity[2]" class="team_button" @click="give_puzzle('team_4')">Команда 3</div>
        </div>
     </div>
 </template>
@@ -59,13 +59,14 @@ export default {
         }
     },
     give_puzzle(team) {
+        console.log(team);
         if(this.tour == 1)
         {
             document.getElementById('answer_timer').innerText = '00:30';
             this.$emit('give-puzzle', team, this.question[2]);
         }
         else
-            this.$emit('give-score', team, document.getElementById('custom_score').value);
+            this.$emit('give-score', team);
         
     },
     start_timer() {
@@ -73,7 +74,7 @@ export default {
         if(field.innerText != '00:30')
             return;
         var secs = 30;
-        var timer = setInterval(tick,1000)
+        let timer = setInterval(tick,1000)
         function tick(){
             (--secs);
             if(secs < 10)
@@ -170,7 +171,7 @@ export default {
     margin-top: 0.5%;
     margin-left: 5%;
     text-align: center;
-    font-size: 150%;
+    font-size: 1.5vw;
 }
 
 #dots_pop_up{
@@ -196,7 +197,7 @@ export default {
     height: 90%;
     text-align: justify;
     text-indent: 5%;
-    font-size: 150%;
+    font-size: 1.6vw;
 }
 
 #start_question{
@@ -243,6 +244,7 @@ img:hover {
     padding: 1.5% 2% 1.5% 2%;
     text-align: center;
     color: white;
+    font-size: 1vw;
 }
 
 .team_button:hover {
@@ -252,7 +254,7 @@ img:hover {
 #header1{
     margin-top: 1.5%;
     margin-bottom: 0.5%;
-    font-size: 150%;
+    font-size: 1.5vw;
     text-align: center;
 }
 
@@ -264,10 +266,10 @@ img:hover {
 #header2{
     margin-top: 1.5%;
     margin-bottom: 0.5%;
-    margin-left: 30%;
+    margin-left: 35%;
     font-size: 150%;
     text-align: center;
-    width: 12%;
+    width: 30%;
     float: left;
 }
 

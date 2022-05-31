@@ -14,7 +14,7 @@
             <hr>
             <div class="scroll">
                 <div id="list_team_1" class="one_player" v-for="(option, index) in team_1" :key="index" :index="index">
-                    <input type="text" :value="option" class="wait_users" @blur="save_edit">
+                    <input type="text" :placeholder="option" class="wait_users" @blur="save_edit">
                     <div id="delete_player" @click="team_1.pop()">x</div>
                 </div>
                 <div id="plus_player" @click="team_1.push('Новый игрок')">+</div>
@@ -25,7 +25,7 @@
             <hr>
             <div class="scroll">
                 <div id="list_team_2" class="one_player" v-for="(option, index) in team_2" :key="index" :index="index">
-                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
                     <div id="delete_player" @click="team_2.pop()">x</div>
                 </div>
                 <div id="plus_player" @click="team_2.push('Новый игрок')">+</div>
@@ -36,7 +36,7 @@
             <hr>
             <div class="scroll">
                 <div id="list_team_3" class="one_player" v-for="(option, index) in team_3" :key="index" :index="index">
-                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
                     <div id="delete_player" @click="team_3.pop()">x</div>
                 </div>
                 <div id="plus_player" @click="team_3.push('Новый игрок')">+</div>
@@ -47,7 +47,7 @@
             <hr>
             <div class="scroll">
                 <div id="list_team_4" class="one_player" v-for="(option, index) in team_4" :key="index" :index="index">
-                    <input type="text"  :value="option" class="wait_users" @blur="save_edit">
+                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
                     <div id="delete_player" @click="team_4.pop()">x</div>
                 </div>
                 <div id="plus_player" @click="team_4.push('Новый игрок')">+</div>
@@ -118,10 +118,19 @@ export default {
                 this.team_4[event.target.parentElement.getAttribute('index')] = event.target.value;
         },
         start_game: function () {
+            this.sleep(300);
             console.log(document.getElementById('timer_hours').value);
             this.$emit('start-game', [this.team_1, this.team_2, this.team_3, this.team_4], 
             [document.getElementById('timer_hours').value.length == 0 ? '00' : document.getElementById('timer_hours').value, document.getElementById('timer_min').value.length == 0 ? '00' : document.getElementById('timer_min').value, document.getElementById('timer_sec').value.length == 0 ? '00' : document.getElementById('timer_sec').value], 
             [document.getElementById('crit_timer_hours').value.lenght == 0 ? '00' : document.getElementById('crit_timer_hours').value, document.getElementById('crit_timer_min').value.lenght == 0 ? '00' : document.getElementById('crit_timer_min').value, document.getElementById('crit_timer_sec').value.lenght == 0 ? '00' : document.getElementById('crit_timer_sec').value]);
+        },
+        sleep: function (milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
         },
   },
   mounted: function () {

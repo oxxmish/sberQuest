@@ -5,7 +5,7 @@
     <AddFields  v-if="current_view == 'fields'" @close-add-field="close_add_field" @create-field="create_field"  :is_add_product="is_add_product" />
 
     <ProductMenu v-if="current_view == 'questions'" :selected_product="selected_product" @to-fields="to_fields" @delete-product="delete_product" @edit-product="edit_product" />
-    <QuestionsList v-if="current_view == 'questions'" @to-masters="to_masters"  @edit-question="edit_question" @final-delete-product="final_delete_product" @final-edit-product="final_edit_product" :selected_product="selected_product" :draw="draw" :products="products" ref="q_list" />
+    <QuestionsList v-if="current_view == 'questions'" @to-masters="to_masters"  @edit-question="edit_question" @add-question="add_question" @final-delete-product="final_delete_product" @final-edit-product="final_edit_product" :selected_product="selected_product" :draw="draw" :products="products" ref="q_list" />
 </template>
 
 <script>
@@ -33,40 +33,7 @@ export default {
         current_view: 'fields',
         selected_product: ['СберАптека', 'background:red;color:white;'],
         draw: 'questions',
-        products: [
-        { text: 'Полуфинал', value: '1', color:"color:black;font-size:2.2vw;", 
-          questions:[
-            { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1' }, 
-            { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2' }, 
-            { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 3' }, 
-            { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4' },
-            ] 
-        },
-        { text: 'Финал', value: '2', color:"color:black;font-size:2.2vw;", 
-          questions:[
-            { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 5' }, 
-            { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 6' }, 
-            { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 7' }, 
-            { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 8' },
-            ]  
-        },
-        { text: 'СберАптека', value: '3', color:"color:white;background:red", 
-          questions:[
-            { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 1' }, 
-            { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 2' }, 
-            { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 3' }, 
-            { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 4' },
-            ] 
-        },
-        { text: 'ДомКлик', value: '4', color:"color:white;background:purple", 
-          questions:[
-            { id: '1', text: 'Вопрос 1', type: 'С выбором ответа', wording: 'Какой-то вопрос 5' }, 
-            { id: '2', text: 'Вопрос 2', type: 'Без выбора ответа', wording: 'Какой-то вопрос 6' }, 
-            { id: '3', text: 'Вопрос 3', type: 'Вопрос-аукцион', wording: 'Какой-то вопрос 7' }, 
-            { id: '4', text: 'Вопрос 4', type: 'Вопрос с медиа фрагментом', wording: 'Какой-то вопрос 8' },
-            ]  
-        },
-      ],
+        products: [],
     }
   },
   methods: {
@@ -75,6 +42,13 @@ export default {
         },
         to_fields: function () {
             this.current_view = 'fields';
+            let product_ref = this.products;
+            product_ref.length = 0;
+            fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => data.forEach(function(item) {
+                product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) );
         },
         add_field: function(){
             this.is_add_product = true;
@@ -86,11 +60,11 @@ export default {
             this.products.push({ text: name, value: this.products.lenght, color:"background:" + color, questions: [] });
         },
         select_product: function(name, color, id, questions){
+            this.current_view = 'questions';
             if(name == 'Финал' || name == 'Полуфинал')
-                this.selected_product = [name, color + ';color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;', id, questions];
+                this.selected_product = [name, color + 'background-color:white;;color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;', id, questions];
             else
                 this.selected_product = [name, color + ';color:white;', id, questions];
-            this.current_view = 'questions';
         },
         delete_product: function(){
             this.$refs.q_list.check_delete_product();
@@ -118,24 +92,43 @@ export default {
                     
                 });
         },
-        edit_question: function(product, question_id, new_type, new_wording, short_text, answer){
+        edit_question: function(product, question, question_id, new_type, new_wording, short_text, answer){
+            console.log(question_id);
         this.products.forEach(function(item) {
                 if(item.text == product)
                 {
                 item.questions.forEach(function(item) {
-                    if(item.id == question_id)
+                    if(question_id && item.id == question_id)
                     {
                         item.questionType = new_type;
                         item.text = new_wording;
                         item.shortText = short_text;
                         item.answer = answer;
-                        console.log(item.answer);
                         return;
                     }
-                    
+                    else if(question.tmp_id && question.tmp_id == item.tmp_id)
+                    {
+                        item.questionType = new_type;
+                        item.text = new_wording;
+                        item.shortText = short_text;
+                        item.answer = answer;
+                        return;
+                    }
+
                 });   
                 }
             });
+            console.log(this.products);
+        },
+        add_question: function(name){
+            this.products.forEach(function(item) {
+                if(name == item.text)
+                {
+                    item.questions.push({ text: '', shortText:"", questionType: 'TEXT', answer: '', tmp_id: -item.questions.length });
+                    this.selected_product[3] = item.questions;
+                }
+            });
+            console.log(this.products);
         },
         log_out: function(){
             this.$emit('logout');

@@ -84,6 +84,14 @@ export default {
       this.current_template = tmpl;
     },
     back_to_templates: function () {
+      let option_ref = this.options;
+      option_ref.length = 0;
+      fetch("http://api.vm-96694bec.na4u.ru/board/getAll", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => data.forEach(function(item) {
+                option_ref.push({id: item.id, text: item.name, num_fields: item.numFields})}) );
+      console.log(option_ref);
       this.draw = 'grid';
     },
     add_template: function () {

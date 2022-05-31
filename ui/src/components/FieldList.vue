@@ -1,7 +1,9 @@
 <template>
+    <div class="scroll">
      <div class="grid" id="grid">
-        <div class="grid_element" v-for="(option, index) in products" @click="select_product" :key="index" v-bind:style="option.color" :data-db_id="option.id">{{ option.text }}</div>
+        <div class="grid_element" v-for="(option, index) in products" @click="select_product" :key="index" v-bind:style="get_color(option)" :data-db_id="option.id">{{ option.text }}</div>
         <div class="grid_element plus" @click="add_product">+</div>
+     </div>
     </div>
 </template>
 
@@ -20,16 +22,28 @@ export default {
         add_product: function () {
             this.$emit('add-field');
         },
+        get_color: function (product) {
+            if(product.text == "Финал" || product.text == "Полуфинал")
+                return 'color:black;background-color:white;'
+            else
+                return product.color;
+        },
         select_product: function (event) {
             var q = null;
             this.products.forEach(function(item) {
+                    console.log(item.id);
+                    console.log(event.target.dataset.db_id);
                     if(item.id == event.target.dataset.db_id)
                     {
+                        console.log(item.questions);
                         q = item.questions;
                     }
                 });
             this.$emit('select-product', event.target.innerHTML, 'background:' + event.target.style.backgroundColor, event.target.dataset.db_id, q);
-        }
+        },
+        save_template_product: function (data) {
+            this.db_products = data;
+    },
   }
 }
 </script>
@@ -54,9 +68,9 @@ export default {
     border-radius: 20px;
     text-align: center;
     /* font-size: 220%; */
-    font-size: 2vw;
+    font-size: 1.8vw;
     /* line-height:100px; */
-    line-height: 7vw;
+    line-height: 6.8vw;
     color: white;
     transition: transform .25s ease;
 }
@@ -76,5 +90,17 @@ export default {
     font-size: 6vw;
     border: 2px solid silver;
     color: silver;
+}
+
+.scroll{
+    height: 90%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 </style>

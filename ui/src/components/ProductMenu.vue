@@ -45,7 +45,16 @@ export default {
             edit.style.opacity = 0.5;
             this.$emit('delete-product');
         },
+        sleep: function (milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
+        },
         save_product: function () {
+            console.log({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]});
             if(this.selected_product[2])
             {
                 fetch("http://api.vm-96694bec.na4u.ru/product/update", {
@@ -62,7 +71,9 @@ export default {
                 body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
                 })
             }
-            // console.log(this.selected_product);
+            console.log(this.selected_product);
+            this.sleep(300);
+            this.$emit('to-fields');
         },
   },
   mounted: function () {
@@ -98,7 +109,7 @@ export default {
     padding-bottom: 15%;
     border-radius: 20px;
     border: solid black 2px;
-    font-size: 180%;
+    font-size: 1.5vw;
     margin-top: 5%;
 }
 
@@ -110,7 +121,7 @@ export default {
     width: 80%;
     color: white;
     background-color: green;
-    font-size: 120%;
+    font-size: 1.1vw;
     font-weight: bold;
 }
 #edit{

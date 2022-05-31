@@ -1,22 +1,26 @@
 <template>
-    <TeamPanel ref="team_1" id="team_1" :players="teams ? teams[0] : []" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" />
-    <TeamPanel ref="team_2" id="team_2" :players="teams ? teams[1] : []" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
-    <TeamPanel ref="team_3" id="team_3" :players="teams ? teams[2] : []" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
-    <TeamPanel ref="team_4" id="team_4" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
-    <GameField :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" @set-question="set_question" @next-round="next_round" @set-config="set_config" ref="MainField" />
+    <TeamPanel ref="team_1" id="team_1" :unique_products="unique_products" :players="teams ? teams[0] : []" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" />
+    <TeamPanel ref="team_2" id="team_2" :unique_products="unique_products" :players="teams ? teams[1] : []" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
+    <TeamPanel ref="team_3" id="team_3" :unique_products="unique_products" :players="teams ? teams[2] : []" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
+    <TeamPanel ref="team_4" id="team_4" :unique_products="unique_products" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
+    <GameField  :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" @set-question="set_question" @next-round="next_round" @set-config="set_config" @set-unique="set_unique" @end-game="end_game" ref="MainField" />
     <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
+    <LeaderBoard v-if="leaderboard_on" :scores="[puzzles[0] + scores[0], puzzles[1] + scores[1], puzzles[2] + scores[2], puzzles[3] + scores[3]]"/>
 </template>
 
 <script>
 import TeamPanel from './components/TeamPanel.vue'
 import GameField from './components/GameField.vue'
 import PopUpQuestion from './components/PopUpQuestion.vue'
+import LeaderBoard from './components/LeaderBoard.vue'
 
 export default {
   name: 'ManageMasters',
   props:['teams', 'timer', 'crit_timer', 'tmpl_id'],
   data(){
     return {
+      leaderboard_on: false,
+      unique_products: [],
       state: {},
       current_question: ['Для получения вопроса бросьте кубик', 'Тип вопроса', 'Название продукта'],
       puzzles: [ 0, 0, 0, 0 ],
@@ -64,9 +68,13 @@ export default {
   components: {
     TeamPanel,
     GameField,
-    PopUpQuestion
+    PopUpQuestion,
+    LeaderBoard
   }, 
   methods: {
+    end_game: function () {
+      this.leaderboard_on = true;
+    },
     set_question: function (question, turn) {
       this.current_question = question;
       this.turn = turn;
@@ -74,8 +82,10 @@ export default {
     give_puzzle: function (team, product) {
       if(team == 'team_1')
       {
+        console.log(product);
         if(this.$refs.team_1.check_color(product) != 'background:white;')
           return;
+        console.log(this.$refs.MainField.get_color(product));
         this.$refs.team_1.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[0];
       }
@@ -108,23 +118,23 @@ export default {
                   body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
                   });
     },
-    give_score: function (team, score) {
+    give_score: function (team) {
       if(team == 'team_1')
       {
-        this.scores[0] += Number(score);
+        this.scores[0] += Number(this.$refs.MainField.get_price());
       }
         
       if(team == 'team_2')
       {
-        this.scores[1] += Number(score);
+        this.scores[1] += Number(this.$refs.MainField.get_price());
       }
       if(team == 'team_3')
       {
-        this.scores[2] += Number(score);
+        this.scores[2] += Number(this.$refs.MainField.get_price());
       }
       if(team == 'team_4')
       {
-        this.scores[3] += Number(score);
+        this.scores[3] += Number(this.$refs.MainField.get_price());
       }
     },
     next_round: function () {
@@ -141,12 +151,21 @@ export default {
         console.log(this.state);
     },
     set_config: function (config) {
+      if(this.state == 'game_begin')
+        this.state = {};
         this.state.field_config = config;
         fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
                   method: "POST",
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
                   });
+    },
+    set_unique: function (unique_products) {
+        this.unique_products = unique_products;
+        this.$refs.team_1.fill_themes_sber(unique_products);
+        this.$refs.team_2.fill_themes_sber(unique_products);
+        this.$refs.team_3.fill_themes_sber(unique_products);
+        this.$refs.team_4.fill_themes_sber(unique_products);
     },
   },
   mounted: function () {

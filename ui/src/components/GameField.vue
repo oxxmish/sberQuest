@@ -2,6 +2,7 @@
     <img v-if="next=='Второй раунд'" src="@/assets/dice.png" alt="" id="dice" @click="generate_random_number">
     <div v-if="next=='Второй раунд'" id="generated_number">{{ current_number }}</div>
     <div v-if="next=='Завершить игру'" id="next_turn" @click="next_turn">Следующий ход</div>
+    <input id="price" v-show="next=='Второй раунд'" placeholder="Баллы за 2-ой раунд" @blur="save_price">
     <div id="next_round" @click="next_round">{{ next }}</div>
     <img src="@/assets/start.png" alt="" id="start" @click="go_timer">
     <div id="timer">{{timer[0]}}:{{timer[1]}}:{{timer[2]}}</div>
@@ -30,21 +31,21 @@
                 <div class="inner_field">
                     <div class="first_line_inner">
                         <div class="half_final_one">
-                          <div class="product_main_one">Полуфинал</div>
+                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
                         </div>
                         <div class="half_final_two">
-                          <div class="product_main_one">Полуфинал</div>
+                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
                         </div>
                     </div>
                     <div class="second_line_inner">
-                      <div class="product_final">FINAL</div>
+                      <div class="product_final">Финал</div>
                     </div>
                     <div class="third_line_inner">
                         <div class="half_final_third">
-                          <div class="product_main_one">Полуфинал</div>
+                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
                         </div>
                         <div class="half_final_four">
-                          <div class="product_main_one">Полуфинал</div>
+                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,7 @@
             </div>
             <div class ="third_line">
               <div class="start_third" id="start_three">
-                <div class="product_main_one">Старт 3</div>
+                <div class="product_main_one">Старт</div>
               </div>
               <!-- <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_4" :style="calc_margin_hor()">
                 <div class="product_themes_one" :id="'field_product_' + (3*current_template.numFields/4 - i)" :style="field_config[i - 1 + 3*(current_template.numFields / 4)].colour">{{ field_config[i - 1 + 3*(current_template.numFields / 4)].name }}</div>
@@ -68,7 +69,7 @@
                 <div class="product_themes_one" :id="'field_product_' + (3*current_template.numFields/4 - i)" :style="field_config[3*current_template.numFields/4 - i].colour">{{ field_config[3*current_template.numFields/4 - i].name }}</div>
               </div>
               <div class="start_four" id="start_four" :style="calc_margin_hor()">
-                <div class="product_main_one">Старт 4</div>
+                <div class="product_main_one">Старт</div>
               </div>
             </div>
         </div>
@@ -86,6 +87,11 @@ export default {
   props: ['timer', 'crit_timer', 'tmpl_id', 'state'],
   data(){
     return {
+        final_questions: [],
+        semifinal_questions: [],
+        second_tour_ids_question: [],
+        second_round_price: 0,
+        unique_products: [],
         current_template: {numFields: 16},
         field_config: [ {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
                         {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
@@ -126,52 +132,52 @@ export default {
         second_round_tour: 0,
         second_round_states: [
             [
-                { pos:'top:31%;left:40.15%;', color:'background:blue;' },
+                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
                 { pos:'top:10.5%;left:68%;', color:'background:red;' },
                 { pos:'top:83.5%;left:68%;', color:'background:lime;' },
                 { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:31%;left:40.15%;', color:'background:blue;' },
-                { pos:'top:31%;left:59.2%;', color:'background:red;' },
+                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
+                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
                 { pos:'top:83.5%;left:68%;', color:'background:lime;' },
                 { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:31%;left:40.15%;', color:'background:blue;' },
-                { pos:'top:31%;left:59.2%;', color:'background:red;' },
-                { pos:'top:83.5%;left:68%;', color:'background:lime;' },
-                { pos:'top:69%;left:40.15%;', color:'background:cyan;' },
+                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
+                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
+                { pos:'top:67%;left:59%;', color:'background:lime;' },
+                { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:31%;left:40.15%;', color:'background:blue;' },
-                { pos:'top:31%;left:59.2%;', color:'background:red;' },
-                { pos:'top:69%;left:59.2%;', color:'background:lime;' },
-                { pos:'top:69%;left:40.15%;', color:'background:cyan;' },
+                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
+                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
+                { pos:'top:67%;left:59%;', color:'background:lime;' },
+                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:42%;left:48%;', color:'background:blue;' },
-                { pos:'top:31%;left:59.2%;', color:'background:red;' },
-                { pos:'top:69%;left:59.2%;', color:'background:lime;' },
-                { pos:'top:69%;left:40.15%;', color:'background:cyan;' },
+                { pos:'top:42%;left:47%;', color:'background:blue;' },
+                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
+                { pos:'top:67%;left:59%;', color:'background:lime;' },
+                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:42%;left:48%;', color:'background:blue;' },
+                { pos:'top:42%;left:47%;', color:'background:blue;' },
                 { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:69%;left:59.2%;', color:'background:lime;' },
-                { pos:'top:69%;left:40.15%;', color:'background:cyan;' },
+                { pos:'top:67%;left:59%;', color:'background:lime;' },
+                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:42%;left:48%;', color:'background:blue;' },
+                { pos:'top:42%;left:47%;', color:'background:blue;' },
                 { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:69%;left:59.2%;', color:'background:lime;' },
-                { pos:'top:52%;left:48%;', color:'background:cyan;' },
+                { pos:'top:52%;left:51%;', color:'background:lime;' },
+                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
             ],
             [
-                { pos:'top:42%;left:48%;', color:'background:blue;' },
+                { pos:'top:42%;left:47%;', color:'background:blue;' },
                 { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:52%;left:51%;;', color:'background:lime;' },
-                { pos:'top:52%;left:48%;', color:'background:cyan;' },
+                { pos:'top:52%;left:51%;', color:'background:lime;' },
+                { pos:'top:52%;left:47%;', color:'background:cyan;' },
             ],
         ],
         players: [
@@ -295,6 +301,27 @@ export default {
             ++this.turn;
         },
     next_round () {
+        if(document.getElementById('round').innerText != '2 раунд' && this.second_round_price == 0)
+        {
+          alert("Количество баллов на второй тур не установлено");
+          return;
+        }
+        this.second_round_questions.length = 0;
+        this.second_tour_ids_question.length = 0;
+        for( let i = 0; i < this.semifinal_questions.length; ++i )
+        {
+          this.second_round_questions.push(this.semifinal_questions[i].text);
+          this.second_tour_ids_question.push(this.semifinal_questions[i].id);
+        }
+          
+        for( let i = 0; i < this.final_questions.length; ++i )
+        {
+          this.second_round_questions.push(this.final_questions[i].text);
+          this.second_tour_ids_question.push(this.final_questions[i].id);
+        }
+          
+
+        console.log(this.second_round_questions);
         if(document.getElementById('round').innerText != '2 раунд')
         {
             this.players = [
@@ -306,7 +333,7 @@ export default {
             this.$emit('next-round');
         }
         else
-            alert('Игра окончена');
+            this.$emit('end-game');
         this.next = 'Завершить игру';  
         document.getElementById('round').innerText = '2 раунд';
         },
@@ -319,13 +346,17 @@ export default {
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
-       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', null], this.second_round_tour);
+       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour < 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+       fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({questionId:this.second_tour_ids_question[this.second_round_tour - 1], questionType:"REGULAR", state:"smth"})}) 
     },  
     get_color (product) {
         for(var i = 0; i < this.field_config.length; ++i)
         {
-            if(this.field_config[i].colour == product)
-                return this.options[i].colour; 
+            if(this.field_config[i].name == product)
+                return this.field_config[i].colour; 
         }
     },
     go_timer () {
@@ -348,6 +379,12 @@ export default {
       let ar_ref = this.field_config;
       ar_ref.length = 0;
       this.current_template.products.forEach(element => {
+          if(element.name == "Финал")
+            element.questions.forEach(question => {this.final_questions.push(question);} )
+          if(element.name == "Полуфинал")
+            element.questions.forEach(question => {this.semifinal_questions.push(question);} )
+          if(element.numOfRepeating > 0)
+            this.unique_products.push(element);
           for( let i = 0; i < element.numOfRepeating; ++i )
             ar_ref.push(element);
       });
@@ -356,7 +393,6 @@ export default {
           this.custom_shuffle(element.questions);
       });
       this.set_field_config();
-      console.log(this.field_config);
     },
     custom_shuffle: function (array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -482,12 +518,27 @@ export default {
     set_field_config: function () {
       console.log("set_congfig");
       this.$emit('set-config', this.field_config);
+      this.$emit('set-unique', this.unique_products);
     },
     set_db_config: function (config) {
       console.log(config);
       this.current_template.numFields = config.length;
       this.field_config = config;
     },
+    save_price: function () {
+      this.second_round_price = document.getElementById("price").value;
+    },
+    get_price: function () {
+      return this.second_round_price;
+    },
+    sleep: function (milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
+        },
   },
   mounted: function () {
       let id = this.tmpl_id;
@@ -539,7 +590,7 @@ export default {
 #timer{
     left: 37%;
     position: absolute;
-    font-size: 220%;
+    font-size: 2.2vw;
 }
 
 #start{
@@ -553,7 +604,7 @@ export default {
 #round{
     left: 60%;
     position: absolute;
-    font-size: 220%;
+    font-size: 2.2vw;
 }
 
 #cross{
@@ -585,19 +636,29 @@ img:hover {
     top: 47%;
     position: absolute;
     text-align: center;
-    font-size: 250%;
+    font-size: 2.8vw;
     border: solid;
     line-height: 90%;
+}
+
+#price{
+  position: absolute;
+  text-align: center;
+  width: 10%;
+    height: 5%;
+    left: 81.5%;
+    top: 43%;
+    font-size: 1vw;
 }
 
 #next_round{
     width: 15%;
     height: 5%;
     left: 77.5%;
-    top: 47%;
+    top: 50%;
     position: absolute;
     text-align: center;
-    font-size: 150%;
+    font-size: 1.6vw;
     line-height: 130%;
     background: rgba(33, 160, 56, 1);
     color: white;
@@ -621,7 +682,7 @@ img:hover {
     top: 47%;
     position: absolute;
     text-align: center;
-    font-size: 150%;
+    font-size: 1.5vw;
     line-height: 130%;
     background: rgba(33, 160, 56, 1);
     color: white;
@@ -648,17 +709,17 @@ img:hover {
 }
 .half_final_two{
     margin-top: 14%;
-    margin-left: 56%;
+    margin-left: 54%;
   float: left;
 }
 .half_final_third{
-    margin-top: -6%;
-    margin-left: 12%;
+    margin-top: -12%;
+    margin-left: 14%;
   float: left;
 }
 .half_final_four{
-    margin-top: -6%;
-    margin-left: 72%;
+  margin-top: -12%;
+  margin-left: 67%;
   float: left;
 }
 .first_line_inner{
@@ -694,15 +755,15 @@ width: 9%;
     background:
          linear-gradient(to top left,
              rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 3px),
+             rgba(0,0,0,0) calc(50% - 6px),
              rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 3px),
+             rgba(0,0,0,0) calc(50% + 6px),
              rgba(0,0,0,0) 100%),
          linear-gradient(to top right,
              rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 3px),
+             rgba(0,0,0,0) calc(50% - 6px),
              rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 3px),
+             rgba(0,0,0,0) calc(50% + 6px),
              rgba(0,0,0,0) 100%),
           white;
 }
@@ -774,20 +835,21 @@ width: 9%;
     border: solid black 2px;
     position: absolute;
     text-align: center;
-    line-height: 400%;
+    line-height: 360%;
     float: left;
     z-index:2;
+    font-size: 1.1vw;
 }
 .product_final{
     border-radius: 50%;
-    height: 52%;
+    height: 51%;
     width: 30%;
     margin-left: 34%;
-    margin-top: 13%;
+    margin-top: 14%;
     background-color: white;
     border: solid black 2px;
     text-align: center;
-    font-size: 300%;
+    font-size: 2.5vw;
     line-height: 400%;
     float: left;
     z-index:2;
@@ -805,6 +867,7 @@ width: 9%;
     line-height: 400%;
     float: left;
     z-index:2;
+    font-size: 0.9vw;
 }
 .first_line{
   width: 100%;

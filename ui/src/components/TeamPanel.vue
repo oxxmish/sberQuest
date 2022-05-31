@@ -3,23 +3,23 @@
     <div v-if="visible==2" class="all_cont">
     <div class="top_item_team">
         <div class="question">
-          <img src="@/assets/question.png" alt="Кнопка «button»" @click="up_hand">
+          <img src="@/assets/question.png" alt="Кнопка «button»" @click="up_hand" style="height:100%">
         </div>
         <div v-if="team_number == 'team_1'" class="name_team">Команда 1</div>
         <div v-if="team_number == 'team_2'" class="name_team">Команда 2</div>
-        <div v-if="team_number == 'team_3'" class="name_team">Команда 3</div>
-        <div v-if="team_number == 'team_4'" class="name_team">Команда 4</div>
+        <div v-if="team_number == 'team_4'" class="name_team">Команда 3</div>
+        <div v-if="team_number == 'team_3'" class="name_team">Команда 4</div>
         <div class="change_label">
-          <button class="button" v-on:click="visible1"><img src="@/assets/menu.png" alt="Кнопка «button»"></button>
+          <button class="button" v-on:click="visible1" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
     </div>
       <div class="center_item_team">
         <div class="column_prompt_1">
             <div class="prompt_1">
-            <button class="button"><img class="help" src="@/assets/replace_f.png" alt="Кнопка «button»"></button>
+            <button class="button" style="height:80%"><img class="help" v-show="helps[0]" @click="helps[0] = false" src="@/assets/replace_f.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
             <div class="prompt_1">
-            <button class="button"><img class="help" src="@/assets/help_player.png" alt="Кнопка «button»"></button>
+            <button class="button" style="height:80%"><img class="help" v-show="helps[1]" @click="helps[1] = false" src="@/assets/help_player.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
         </div>
         <div class="column_img">
@@ -30,16 +30,16 @@
         </div>
         <div class="column_prompt_2">
             <div class="prompt_1">
-            <button class="button"><img class="help" src="@/assets/replace_q.png" alt="Кнопка «button»"></button>
+            <button class="button" style="height:80%"><img class="help" v-show="helps[2]" @click="helps[2] = false" src="@/assets/replace_q.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
             <div class="prompt_1">
-            <button class="button"><img class="help" src="@/assets/help_master.png" alt="Кнопка «button»"></button>
+            <button class="button" style="height:80%"><img class="help" v-show="helps[3]" @click="helps[3] = false" src="@/assets/help_master.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
         </div>
       </div>
       <div class="bottom_item_team">
         <div class="themes1">
-            <div v-for="(item, index) in themes_sber" class="themes4" :style="item.color+item.font" :key="index">
+            <div v-for="(item, index) in unique_products" class="themes4" :style="themes_sber[index].color" :key="index">
             </div>
         </div>
         <div  class="button_themes">
@@ -63,20 +63,20 @@
             /
           </div>
           <div class="puzzle_4">
-            16
+            {{unique_products.length}}
           </div>
       </div>
     </div>
     <div v-else-if="visible==1" class="all_cont">
       <div class="top_item_team">
-        <div class="question">
-          <img src="@/assets/question.png" alt="Кнопка «button»">
+        <div class="question" style="height:100%">
+          <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
         </div>
         <div class="name_team">
           Состав команды
         </div>
         <div class="change_label">
-          <button class="button" v-on:click="visible2"><img src="@/assets/menu.png" alt="Кнопка «button»"></button>
+          <button class="button" v-on:click="visible2" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
       </div>
       <div class="lobby_team" id="lobby_team_1">
@@ -88,61 +88,23 @@
             <div id="plus_player" @click="team.push('Новый игрок')">+</div>
         </div>
       </div>
-      <!-- <div class="table1">
-        <div class="tr1">
-          <div class="td1" id="list_1">
-          </div>
-          <div class="td2" id="list_2">
-          </div>
-        </div>
-        <div class="tr1">
-          <div class="td1" id="list_3">
-          </div>
-          <div class="td2" id="list_4">
-          </div>
-        </div>
-        <div class="tr1">
-          <div class="td1" id="list_5">
-          </div>
-          <div class="td2" id="list_6">
-          </div>
-        </div>
-        <div class="tr1">
-          <div class="td1" id="list_7">
-          </div>
-          <div class="td2" id="list_8">
-          </div>
-        </div>
-        <div class="tr1">
-          <div class="td1" id="list_9">
-          </div>
-          <div class="td2" id="list_10">
-          </div>
-        </div>
-        <div class="tr2">
-          <div class="td1" id="list_11">
-          </div>
-          <div class="td2" id="list_12">
-          </div>
-        </div>
-      </div> -->
     </div>
     <div v-else class="all_cont">
       <div class="top_item_team">
-        <div class="question">
-          <!-- <img src="@/assets/free-icon-question-2476199 4.png" alt="Кнопка «button»"> -->
+        <div class="question" style="height:100%">
+          <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
         </div>
         <div v-if="team_number == 'team_1'" class="name_team">Команда 1</div>
         <div v-if="team_number == 'team_2'" class="name_team">Команда 2</div>
-        <div v-if="team_number == 'team_3'" class="name_team">Команда 3</div>
-        <div v-if="team_number == 'team_4'" class="name_team">Команда 4</div>
-        <div class="change_label">
-          <button class="button" v-on:click="visible2"><img src="@/assets/menu.png" alt="Кнопка «button»"></button>
+        <div v-if="team_number == 'team_3'" class="name_team">Команда 4</div>
+        <div v-if="team_number == 'team_4'" class="name_team">Команда 3</div>
+        <div class="change_label" >
+          <button class="button" v-on:click="visible2" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
       </div>
       <div class="themes2">
-        <div v-for="(item, index) in themes_sber" class="themes3" :style="item.color+item.font" :key="index">
-          {{ item.product }}
+        <div v-for="(item, index) in unique_products" class="themes3" :style="themes_sber[index].color" :key="index">
+          {{ item.name }}
         </div>
       </div>
       <div class="button_themes2">
@@ -165,7 +127,7 @@
             /
           </div>
           <div class="puzzle_4">
-            16
+            {{unique_products.length}}
           </div>
       </div>
     </div>
@@ -175,7 +137,7 @@
 <script>
 export default {
   name: 'TeamPanel',
-  props:['team_number', 'puzzle', 'score', 'players'],
+  props:['team_number', 'puzzle', 'score', 'players', 'unique_products'],
   data: function () {
     return {
       visible: 2,
@@ -197,7 +159,8 @@ export default {
           {product:'СберЗдоровье', color:'background:white;', font:'font-size:70%;line-height:290%;'}, 
           {product:'СберМегаМаркет', color:'background:white;', font:'font-size:56%;line-height:360%;'},
           ],
-      team: ['Игрок 1']
+      team: ['Игрок 1'],
+      helps: [true, true, true, true]
     }
   },
   methods: {
@@ -205,6 +168,7 @@ export default {
     visible2 () { this.visible = 2;  },
     visible3 () { this.visible = 3;  },
     action(product, color) {
+      console.log(this.themes_sber);
       for(var i = 0; i < this.themes_sber.length; ++i)
       {
           if(this.themes_sber[i].product == product)
@@ -218,6 +182,11 @@ export default {
               return this.themes_sber[i].color;
       }
     },
+    fill_themes_sber(unique_products) {
+      this.themes_sber.length = 0;
+      for( let i = 0; i < unique_products.length; ++i)
+        this.themes_sber.push({product: unique_products[i].name, color: 'background:white;'});
+    },
     up_hand () { 
       console.log(document.getElementById(this.team_number));
       var current_team = this.team_number;
@@ -229,7 +198,7 @@ export default {
           if(secs % 2 == 0)
               document.getElementById(current_team).style.border = "4px rgba(255, 255, 255, 0) solid";
           else
-              document.getElementById(current_team).style.border = "4px blue solid";
+              document.getElementById(current_team).style.border = "8px blue solid";
           console.log(secs);
           if(secs == 0)
               clearInterval(timer);
@@ -268,6 +237,7 @@ export default {
   color: black;
   border-radius: 15%;
   text-align: center;
+  font-size: 1vw;
 }
 .button_themes2{
   width: 10%;
@@ -359,7 +329,7 @@ height: 15%;
   text-align:  center;
   margin-top: 3%;
   float: left ;
-  font-size: 160%;
+  font-size: 1.5vw;
   color: black;
   margin-left: 4%;
 
@@ -374,7 +344,7 @@ height: 15%;
   width: 100%;
   height: 50%;
   margin-top: 5%;
-  margin-left: 8%;
+  margin-left: 7%;
 }
 .column_prompt_1{
   width: 20%;
@@ -424,7 +394,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 1vw;
+  font-size: 1.1vw;
   color: black;
   margin-left: 5%;
 }
@@ -433,7 +403,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1.2vw;
   color: black;
 }
 .puzzle_1{
@@ -441,7 +411,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 1vw;
+  font-size: 1.1vw;
   color: black;
   margin-left: 38%;
 }
@@ -450,7 +420,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1.1vw;
   color: black;
 }
 .puzzle_3{
@@ -458,7 +428,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1.1vw;
   color: black;
 }
 .puzzle_4{
@@ -466,7 +436,7 @@ background: white;
   height: 95%;
 
   float: left ;
-  font-size: 20px;
+  font-size: 1.1vw;
   color: black;
 }
 

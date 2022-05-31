@@ -66,7 +66,7 @@ export default {
 }
 
 .plus{
-    font-size: 600%;
+    font-size: 6vw;
     border: 2px solid silver;
     color: silver;
 }

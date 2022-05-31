@@ -63,15 +63,25 @@ export default {
     get_questions: function () {
       this.$emit('get-questions')
     },
+    sleep: function (milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
+        },
     save_template: function () {
       console.log(this.template_name);
       console.log(this.count ? this.count : 16);
       console.log(this.questions);
-     fetch("http://api.vm-96694bec.na4u.ru/board/create", {
+      fetch("http://api.vm-96694bec.na4u.ru/board/create", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
-                })
+                });
+      this.sleep(300);
+      this.$emit('back-to-templates');
     },
   },
   mounted: function () {
@@ -96,7 +106,7 @@ export default {
   width: 70%;
   height: 20%;
   text-align: center;
-  font-size: 150%;
+  font-size: 1.3vw;
   border-radius: 10px;
 }
 .menu{
@@ -130,7 +140,7 @@ export default {
     width: 80%;
     color: white;
     background-color: rgb(38, 146, 17);
-    font-size: 120%;
+    font-size: 1vw;
     font-weight: bold;
 }
 

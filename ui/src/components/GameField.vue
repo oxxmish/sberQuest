@@ -333,7 +333,11 @@ export default {
             this.$emit('next-round');
         }
         else
-            this.$emit('end-game');
+        {
+          this.$emit('end-game');
+          return;
+        }
+            
         this.next = 'Завершить игру';  
         document.getElementById('round').innerText = '2 раунд';
         },
@@ -342,7 +346,7 @@ export default {
         {
             this.next = 'Конец';
             this.players = this.second_round_states[this.second_round_tour++];
-            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', null]);
+            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour < 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
@@ -510,7 +514,9 @@ export default {
       if(this.field_config[current_index].questions.length > 1)
       {
         console.log("update");
+        console.log(this.field_config[current_index].questions.length);
         this.field_config[current_index].questions.shift();
+        console.log(this.field_config[current_index].questions.length);
         this.init_questions();
       }
       console.log(this.field_config);

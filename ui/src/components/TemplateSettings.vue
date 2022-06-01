@@ -101,9 +101,12 @@ export default {
   methods: {
     calc_sum_field: function () { 
       let tmp = 0;
-      for (var field = 0; field < this.products.length; field++) {
+      for (let field = 0; field < this.products.length; ++field) 
+      {
+        console.log(this.products[field].count)
         tmp = tmp + this.products[field].count;
       }
+      
       if(document.getElementById('total_field') && tmp > this.count_field)
         document.getElementById('total_field').style.color = 'red';
       else if(document.getElementById('total_field'))
@@ -139,7 +142,7 @@ export default {
       this.progress = String(this.progress) + '%'
       document.getElementById('progress_1').style = 'width:' + this.progress
     },
-    rotate: function (event) { // обновление прогресс бара
+    rotate: function (event) {
     console.log(event.target.style);
       if(event.target.style.transform == 'rotate(180deg)')
         event.target.style = 'transform:rotate(0deg);';
@@ -196,6 +199,11 @@ export default {
         console.log(this.template_products);
         this.products.forEach(element => {
           element.visible_question = false;
+          element.current_checked = 0;
+          element.count = 0;
+          element.questions.forEach( question => {
+            question.Need_quest = false;
+          });
           this.template_products.forEach(template_element => { 
             if( template_element.id == element.id )
             {
@@ -209,12 +217,6 @@ export default {
               });
             }
           });
-          // element.current_checked = 1;
-          // element.count = 1;
-          // element.visible_question = true;
-          // element.questions.forEach( question => {
-          //   question.Need_quest = false;
-          // });
         });
       }
     },

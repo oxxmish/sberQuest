@@ -70,7 +70,7 @@ export default {
     /* font-size: 220%; */
     font-size: 1.8vw;
     /* line-height:100px; */
-    line-height: 6.8vw;
+    line-height: 6.3vw;
     color: white;
     transition: transform .25s ease;
 }
@@ -93,10 +93,11 @@ export default {
 }
 
 .scroll{
-    height: 90%;
+    height: 86%;
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    margin-top: 1%;
 }
 
 .scroll::-webkit-scrollbar {

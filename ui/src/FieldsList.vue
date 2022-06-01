@@ -31,7 +31,7 @@ export default {
         current_text: 'Ведущие',
         is_add_product: false,
         current_view: 'fields',
-        selected_product: ['СберАптека', 'background:red;color:white;'],
+        selected_product: ['СберАптека', 'background:red;color:white;', -1000, []],
         draw: 'questions',
         products: [],
     }
@@ -98,16 +98,26 @@ export default {
                 if(item.text == product)
                 {
                 item.questions.forEach(function(item) {
+                    console.log(question_id);
+                    console.log(question);
+                    console.log(new_type);
+                    console.log(new_wording);
+                    console.log(short_text);
+                    console.log(answer);
+                    console.log(question.tmp_id);
+                    console.log(item.tmp_id);
                     if(question_id && item.id == question_id)
                     {
+                        console.log('first');
                         item.questionType = new_type;
                         item.text = new_wording;
                         item.shortText = short_text;
                         item.answer = answer;
                         return;
                     }
-                    else if(question.tmp_id && question.tmp_id == item.tmp_id)
+                    else if((question.tmp_id && question.tmp_id == item.tmp_id) || question.tmp_id == 0)
                     {
+                        console.log('second');
                         item.questionType = new_type;
                         item.text = new_wording;
                         item.shortText = short_text;
@@ -121,11 +131,12 @@ export default {
             console.log(this.products);
         },
         add_question: function(name){
+            let ar_ref = this.selected_product;
             this.products.forEach(function(item) {
                 if(name == item.text)
                 {
-                    item.questions.push({ text: '', shortText:"", questionType: 'TEXT', answer: '', tmp_id: -item.questions.length });
-                    this.selected_product[3] = item.questions;
+                    item.questions.push({ text: '', shortText:"", questionType: 'TEXT', answer: '', tmp_id: item.questions.length == 0 ? 0 : -item.questions.length });
+                    ar_ref[3] = item.questions;
                 }
             });
             console.log(this.products);

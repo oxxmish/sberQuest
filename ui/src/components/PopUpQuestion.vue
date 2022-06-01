@@ -88,28 +88,28 @@ export default {
   },
   watch: {
         turn: function () {
-            if(this.turn == 0)
+            if(this.tour == 1 && this.turn == 0 || this.tour == 2 && (this.turn == 0 || this.turn == 4))
             {
                 this.current_opacity[0] = 1;
                 this.current_opacity[1] = 0.5;
                 this.current_opacity[2] = 0.5;
                 this.current_opacity[3] = 0.5;
             }
-            else if(this.turn == 1)
+            else if(this.tour == 1 && this.turn == 1 || this.tour == 2 && (this.turn == 1 || this.turn == 5))
             {
                 this.current_opacity[0] = 0.5;
                 this.current_opacity[1] = 1;
                 this.current_opacity[2] = 0.5;
                 this.current_opacity[3] = 0.5;
             }
-            else if(this.turn == 2)
+            else if(this.tour == 1 && this.turn == 2 || this.tour == 2 && (this.turn == 2 || this.turn == 6))
             {
                 this.current_opacity[0] = 0.5;
                 this.current_opacity[1] = 0.5;
                 this.current_opacity[2] = 1;
                 this.current_opacity[3] = 0.5;
             }
-            else if(this.turn == 3)
+            else if(this.tour == 1 && this.turn == 3 || this.tour == 2 && (this.turn == 3 || this.turn == 7))
             {
                 this.current_opacity[0] = 0.5;
                 this.current_opacity[1] = 0.5;

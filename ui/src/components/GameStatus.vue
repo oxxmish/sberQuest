@@ -33,7 +33,7 @@ export default {
   name: 'GameStatus',
   data () {
     return {
-      question: ['Какой-то вопрос', 'Какой-то ответ'],
+      question: ['', ''],
       polling: null
     }
   },

@@ -5,7 +5,7 @@
     <TeamPanel ref="team_4" id="team_4" :unique_products="unique_products" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
     <GameField  :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" @set-question="set_question" @next-round="next_round" @set-config="set_config" @set-unique="set_unique" @end-game="end_game" ref="MainField" />
     <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
-    <LeaderBoard v-if="leaderboard_on" :scores="[puzzles[0] + scores[0], puzzles[1] + scores[1], puzzles[2] + scores[2], puzzles[3] + scores[3]]"/>
+    <LeaderBoard @click="leaderboard_on = !leaderboard_on" v-if="leaderboard_on" :scores="[puzzles[0] + scores[0], puzzles[1] + scores[1], puzzles[2] + scores[2], puzzles[3] + scores[3]]"/>
 </template>
 
 <script>

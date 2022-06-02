@@ -90,6 +90,7 @@ export default {
     padding-bottom: 3.2%;
     padding-left: 0.2%;
     padding-right: 0.2%;
+    font-size: 1vw;
 }
 
 .login_button:hover {
@@ -108,6 +109,7 @@ export default {
     border-radius: 20px;
     padding-top: 3%;
     padding-bottom: 3%;
+    font-size: 1vw;
 }
 
 .alreadyLogin_button:hover {

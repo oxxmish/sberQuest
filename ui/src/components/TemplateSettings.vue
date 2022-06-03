@@ -207,7 +207,7 @@ export default {
           }
           element.visible_question = true;
           element.questions.forEach( question => {
-            question.Need_quest = false;
+            question.Need_quest = true;
           });
         });
       }

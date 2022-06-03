@@ -207,7 +207,7 @@ export default {
           }
           element.visible_question = true;
           element.questions.forEach( question => {
-            question.Need_quest = true;
+            question.Need_quest = false;
           });
         });
       }
@@ -231,7 +231,7 @@ export default {
               element.questions.forEach( question => {
                 template_element.questions.forEach( template_question => {
                     if(question.id == template_question.id)
-                      question.Need_quest = false;
+                      question.Need_quest = true;
                  });
               });
             }

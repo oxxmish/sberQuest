@@ -163,12 +163,31 @@ export default {
     save_template_product: function (data) {
       this.current_template = data;
       this.template_products = this.current_template.products;
+      console.log(this.current_template.numFields);
+      
+        // this.count_field_24();
       console.log("Template");
       console.log(this.template_products);
       fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_all_product(data) );
+
+      if(this.current_template.numFields == 16)
+      {
+        document.getElementById("Choice1").checked = true;
+        this.count_field_16();
+      }
+      if(this.current_template.numFields == 20)
+      {
+        document.getElementById("Choice2").checked = true;
+        this.count_field_20();
+      }
+      if(this.current_template.numFields == 24)
+      {
+        document.getElementById("Choice3").checked = true;
+        this.count_field_24();
+      }
     },
     save_all_product: function (data) {
       // this.current_template = data;
@@ -188,7 +207,7 @@ export default {
           }
           element.visible_question = true;
           element.questions.forEach( question => {
-            question.Need_quest = false;
+            question.Need_quest = true;
           });
         });
       }
@@ -263,6 +282,21 @@ export default {
     // Код, который будет запущен только после
     // отображения всех представлений
       this.count_field_now();
+      if(this.current_template.numFields == 16)
+      {
+        document.getElementById("Choice1").checked = true;
+        this.count_field_16();
+      }
+      if(this.current_template.numFields == 20)
+      {
+        document.getElementById("Choice2").checked = true;
+        this.count_field_20();
+      }
+      if(this.current_template.numFields == 24)
+      {
+        document.getElementById("Choice3").checked = true;
+        this.count_field_24();
+      }
     })
   }
 }

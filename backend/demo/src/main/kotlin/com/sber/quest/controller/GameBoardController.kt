@@ -26,4 +26,9 @@ class GameBoardController(private val gameBoardService: GameBoardService) {
 
     @GetMapping("get/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getBoard(@PathVariable id: Long): GameBoardRsDto = gameBoardService.getGameBoardById(id)
+
+    @DeleteMapping("delete/{id}")
+    fun deleteGameBoard(@PathVariable id: Long) {
+        gameBoardService.deleteBoard(id)
+    }
 }

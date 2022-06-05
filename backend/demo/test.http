@@ -118,6 +118,10 @@ Content-Type: application/json
   "numFields": 20
 }
 
+###
+DELETE http://localhost:8081/board/delete/6
+Content-Type: application/json
+
 
 ### кейс получения ответа на текущий вопрос
 

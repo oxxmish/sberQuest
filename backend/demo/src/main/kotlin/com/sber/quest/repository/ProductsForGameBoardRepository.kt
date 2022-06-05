@@ -12,4 +12,6 @@ interface ProductsForGameBoardRepository: JpaRepository<ProductsForGameBoards, L
             " from ProductsForGameBoards g" +
             " where g.gameBoardId = :id")
     fun findAllByGameBoardId(@Param("id") id: Long): List<ProductsForGameBoards>
+
+    fun deleteProductsForGameBoardsByGameBoardId(id :Long)
 }

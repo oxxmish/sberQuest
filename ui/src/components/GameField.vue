@@ -286,10 +286,13 @@ export default {
         
         this.$emit('set-question', this.questions[this.players[this.turn].pos], this.turn);
         console.log(this.questions[this.players[this.turn].pos][3]);
+        let cur_q = {};
+        cur_q.current_question = this.questions[this.players[this.turn].pos];
+
         fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({questionId:this.questions[this.players[this.turn].pos][3], questionType:"REGULAR", state:"smth"})}) 
+                body: JSON.stringify({questionId:this.questions[this.players[this.turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
         this.update_questions(this.players[this.turn].pos);
 
         if(this.turn == 3)
@@ -346,15 +349,15 @@ export default {
         {
             this.next = 'Конец';
             this.players = this.second_round_states[this.second_round_tour++];
-            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour < 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
-       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour < 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({questionId:this.second_tour_ids_question[this.second_round_tour - 1], questionType:"REGULAR", state:"smth"})}) 
+                body: JSON.stringify({questionId:this.second_tour_ids_question[this.second_round_tour - 1], questionType:"REGULAR", state:this.second_round_questions[this.second_round_tour - 1]})}) 
     },  
     get_color (product) {
         for(var i = 0; i < this.field_config.length; ++i)

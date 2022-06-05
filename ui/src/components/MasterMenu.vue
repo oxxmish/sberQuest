@@ -16,6 +16,9 @@
         <div class="master_menu_button" id="save" @mouseover="get_questions" @click="save_template">
             Сохранить
         </div>
+        <div class="master_menu_button" id="delete" @click="check_delete">
+            Удалить
+        </div>
         <div class="master_menu_button" >
             Поделиться
         </div>
@@ -29,7 +32,7 @@
 <script>
 export default {
   name: 'MasterMenu',
-  props: ['template_name', 'count', 'questions'],
+  props: ['template_name', 'count', 'questions', 'tmpl_id'],
   data () {
     return {
     }
@@ -50,6 +53,9 @@ export default {
       themes.style.opacity = 0.5
       question.style.opacity = 1
       this.$emit('select-themes')
+    },
+    check_delete: function () {
+      this.$emit('check-delete')
     },
     create_game: function () {
       this.$emit('create-game')
@@ -75,13 +81,28 @@ export default {
       console.log(this.template_name);
       console.log(this.count ? this.count : 16);
       console.log(this.questions);
-      fetch("http://api.vm-96694bec.na4u.ru/board/create", {
+      console.log(this.tmpl_id);
+      if(!this.tmpl_id)
+      {
+        fetch("http://api.vm-96694bec.na4u.ru/board/create", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
                 });
-      this.sleep(300);
-      this.$emit('back-to-templates');
+        this.sleep(300);
+        this.$emit('back-to-templates');
+      }
+      else
+      {
+        fetch("http://api.vm-96694bec.na4u.ru/board/update", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id:this.tmpl_id, name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
+                });
+        this.sleep(300);
+        this.$emit('back-to-templates');
+      }
+      
     },
   },
   mounted: function () {
@@ -153,7 +174,7 @@ export default {
 }
 
 #second_group_button{
-  margin-top: 58%;
+  margin-top: 40%;
 }
 
 

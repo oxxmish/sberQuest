@@ -154,11 +154,11 @@ export default {
       if(this.state == 'game_begin')
         this.state = {};
         this.state.field_config = config;
-        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
-                  method: "POST",
-                  headers: {'Content-Type': 'application/json'},
-                  body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
-                  });
+        // fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+        //           method: "POST",
+        //           headers: {'Content-Type': 'application/json'},
+        //           body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
+        //           });
     },
     set_unique: function (unique_products) {
         this.unique_products = unique_products;

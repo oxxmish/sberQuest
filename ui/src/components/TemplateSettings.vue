@@ -1,5 +1,13 @@
 <template>
-<!-- <MasterMenu @select-question= "visible1" @select-themes= "visible2"  /> -->
+<div v-if="visible==3" id="group_delete">
+    <div id="delete_product_warning">
+          Вы действительно хотите удалить этот шаблон?
+      </div>
+      <div class="delete_window_group_button">
+          <div @click="delete_tmpl" class="button">Да</div>
+          <div @click="cancel_tmpl" class="button">Нет</div>
+    </div>
+</div>
 <div v-if="visible==1" class="item_block_scroll">
       <div v-for="(product,index) in products" :key="index" id="size_themes">
         <div class="themes_themes" :style="get_color(product)" >
@@ -163,6 +171,7 @@ export default {
     save_template_product: function (data) {
       this.current_template = data;
       this.template_products = this.current_template.products;
+      this.count_field = this.current_template.numFields;
       console.log(this.current_template.numFields);
       
         // this.count_field_24();
@@ -253,6 +262,19 @@ export default {
       });
       return result;
     },
+    delete_tmpl: function () {
+      console.log(this.current_template.id);
+      // fetch("http://api.vm-96694bec.na4u.ru/board/delete", {
+      //           method: "POST",
+      //           headers: {'Content-Type': 'application/json'},
+      //           body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
+      //           });
+      //   this.sleep(300);
+      //   this.$emit('back-to-templates');
+    },
+    cancel_tmpl: function () {
+      this.$emit('to-questions');
+    },
   },
   mounted: function () {
       // var template_ref;
@@ -282,17 +304,17 @@ export default {
     // Код, который будет запущен только после
     // отображения всех представлений
       this.count_field_now();
-      if(this.current_template.numFields == 16)
+      if(this.count_field == 16)
       {
         document.getElementById("Choice1").checked = true;
         this.count_field_16();
       }
-      if(this.current_template.numFields == 20)
+      if(this.count_field == 20)
       {
         document.getElementById("Choice2").checked = true;
         this.count_field_20();
       }
-      if(this.current_template.numFields == 24)
+      if(this.count_field == 24)
       {
         document.getElementById("Choice3").checked = true;
         this.count_field_24();
@@ -698,5 +720,51 @@ body {
 .polygon{
   height: 80%;
   width: 70%;
+}
+
+#group_delete{
+  width: 70%;
+  height: 70%;
+  margin-left: 20%;
+}
+
+#delete_product_window{
+    margin-top: 13%;
+    width: 100%;
+}
+
+#delete_product_warning{
+    width: 100%;
+    font-size: 250%;
+    text-align: center;
+    margin-top: 20%;
+    margin-left: 5%;
+}
+
+.delete_window_group_button{
+    width: 80%;
+    margin-left: 22%;
+    height: 30%;
+}
+
+.button{
+    float: left;
+    width: 30%;
+    background-color: green;
+    text-align: center;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    color: white;
+    /* font-size: 120%; */
+    font-size: 1.2vw;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-left: 4%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+.button:hover{
+    box-shadow: 0 0 10px 100px orange inset;
 }
 </style>

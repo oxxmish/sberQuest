@@ -81,6 +81,15 @@ class GameBoardService(
         return gameBoardRepository.findAllByOrderById().map { it.toDto() }
     }
 
+
+
     private fun List<ProductsForGameBoards>.findNumByProductId(productId: Long) =
         this.findLast { it.productId == productId }!!.numOfRepeating
+
+    @Transactional
+    fun deleteBoard(id: Long) {
+        productsForGameRepo.deleteProductsForGameBoardsByGameBoardId(id)
+        gameBoardQuestionsRepo.deleteGameBoardQuestionsByGameBoardId(id)
+        gameBoardRepository.deleteAllById(listOf(id))
+    }
 }

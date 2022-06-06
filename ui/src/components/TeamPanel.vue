@@ -322,6 +322,7 @@ height: 15%;
 .button{
   margin-top: 10%;
   margin-left: 10%;
+  width: 50%;
 }
 .name_team{
   width: 54%;

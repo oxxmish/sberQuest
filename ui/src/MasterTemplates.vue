@@ -2,7 +2,7 @@
     <MasterHeader @logout="log_out" @click="test" />
     <MasterMenu v-if="draw == 'settings'" @select-question= "visible1" @select-themes= "visible2" @create-game="create_game" @back-to-templates="back_to_templates" @save-tmpl-name="save_tmpl_name" @get-questions="get_questions" @check-delete="visible3" :template_name="current_template.text" :count="current_template_count" :questions="current_questions" :tmpl_id="current_template.id" />
     <TemplateList v-if="draw == 'grid'" :template_list="options" @select-template="select_template" @add-template="add_template" />
-    <TemplateSettings v-if="draw == 'settings'" ref="settings" :visible="visible" :products="current_template.products" :id="current_template.id" @change-count="set_count" @to-questions="visible1"/>
+    <TemplateSettings v-if="draw == 'settings'" ref="settings" :visible="visible" :products="current_template.products" :id="current_template.id" @change-count="set_count" @to-questions="visible1" @back-to-templates="back_to_templates"/>
 </template>
 
 <script>

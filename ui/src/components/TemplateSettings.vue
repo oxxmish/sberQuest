@@ -264,14 +264,21 @@ export default {
     },
     delete_tmpl: function () {
       console.log(this.current_template.id);
-      // fetch("http://api.vm-96694bec.na4u.ru/board/delete", {
-      //           method: "POST",
-      //           headers: {'Content-Type': 'application/json'},
-      //           body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
-      //           });
-      //   this.sleep(300);
-      //   this.$emit('back-to-templates');
+      fetch("http://api.vm-96694bec.na4u.ru/board/delete/" + String(this.current_template.id), {
+                method: "DELETE",
+                headers: {'Content-Type': 'application/json'}
+                });
+        this.sleep(300);
+        this.$emit('back-to-templates');
     },
+    sleep: function (milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
+        },
     cancel_tmpl: function () {
       this.$emit('to-questions');
     },

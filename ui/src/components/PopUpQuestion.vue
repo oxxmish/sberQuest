@@ -266,7 +266,7 @@ img:hover {
 #header2{
     margin-top: 1.5%;
     margin-bottom: 0.5%;
-    font-size: 150%;
+    font-size: 1.5vw;
     text-align: center;
     float: left;
     margin-left: 25%;

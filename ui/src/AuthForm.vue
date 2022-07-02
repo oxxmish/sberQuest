@@ -1,7 +1,7 @@
 <template>
 <div class="Auth">
   <div class="AuthLogo">
-      <div class="green_part">С</div><div class="black_part">бер</div><div class="green_part">К</div><div class="black_part">вест</div>
+      <div class="green_part">Э</div><div class="black_part">ко</div><div class="green_part">К</div><div class="black_part">вест</div>
   </div>
   <div class="group_auth" >
     <div class="AuthHeader">

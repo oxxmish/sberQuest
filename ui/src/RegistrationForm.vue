@@ -2,7 +2,7 @@
 <div class="container-login100">
     <div class="wrap-login100 col-sm-3 mx-auto">             
             <div class="login100-form-title">
-                <div class="green_part">С</div><div class="black_part">бер</div><div class="green_part">К</div><div class="black_part">вест</div>
+                <div class="green_part">Э</div><div class="black_part">ко</div><div class="green_part">К</div><div class="black_part">вест</div>
             </div>
 
             <div class="login100-">

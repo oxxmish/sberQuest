@@ -8,24 +8,24 @@
         <div class="diagram" id="teams">
             <div class="skillBLock">
                 <div class="teamImage">
-                    <img src="@/assets/team_logo_1.png" class="ms-auto" style="position: absolute; bottom: 55%; left: 10%;width: 5%;" />
+                    <img src="@/assets/team_logo_1.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 10%;width: 5%;" />
                 </div>
                 <div id="leader_team_1" class="column" style="position:absolute;bottom:1%;left:1%;width:23.5%;background:rgba(76,28,214,0.35);">{{scores[0]}}</div>
             </div>
             <div class="skillBLock">
                 <div class="teamImage">
-                    <img src="@/assets/team_logo_2.png" class="ms-auto" style="position: absolute; bottom: 55%; left: 35%;width: 5%;" />
+                    <img src="@/assets/team_logo_2.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 35%;width: 5%;" />
                 </div>
                 <div id="leader_team_2" class="column" style="position:absolute;bottom:1%;left:25.5%;width:23.6%;background:rgba(214,28,28,0.68);">{{scores[1]}}</div>
             </div>
             <div class="skillBLock">
                 <div class="teamImage">
-                    <img src="@/assets/team_logo_3.png" class="ms-auto" style="position: absolute; bottom: 55%; left: 59%;width: 5%;" />
+                    <img src="@/assets/team_logo_3.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 59%;width: 5%;" />
                 </div>
                 <div id="leader_team_3" class="column" style="position:absolute;bottom:1%;left:50.1%;width:23.8%;background:rgba(28,180,214,0.35);">{{scores[2]}}</div>
             <div class="skillBLock">
                 <div class="teamImage">
-                    <img src="@/assets/team_logo_4.png" class="ms-auto" style="position: absolute; bottom: 55%; left: 83.5%;width: 5%;" />
+                    <img src="@/assets/team_logo_4.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 83.5%;width: 5%;" />
                 </div>
                 <div id="leader_team_4" class="column" style="position:absolute;bottom:1%;left:75%;width:24%;background:rgba(117,205,6,0.65);">{{scores[3]}}</div>
             </div>

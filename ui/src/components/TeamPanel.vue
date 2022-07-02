@@ -1,20 +1,47 @@
 <template>
   <div id="block" class="block">
     <div v-if="visible==2" class="all_cont">
-    <div class="top_item_team">
+    <!-- <div class="top_item_team">
         <div class="question">
           <img src="@/assets/question.png" alt="Кнопка «button»" @click="up_hand" style="height:100%">
         </div>
-        <div v-if="team_number == 'team_1'" class="name_team">Команда 1</div>
-        <div v-if="team_number == 'team_2'" class="name_team">Команда 2</div>
-        <div v-if="team_number == 'team_4'" class="name_team">Команда 3</div>
-        <div v-if="team_number == 'team_3'" class="name_team">Команда 4</div>
+        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')">Команда 1</div>
+        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')">Команда 2</div>
+        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_4')">Команда 3</div>
+        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_3')">Команда 4</div>
         <div class="change_label">
           <button class="button" v-on:click="visible1" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
-    </div>
+    </div> -->
       <div class="center_item_team">
-        <div class="column_prompt_1">
+         <div class="column_img" style="float:left;">
+            <img v-if="team_number == 'team_1'" id="logo" src="@/assets/team_logo_1.svg">
+            <img v-if="team_number == 'team_2'" id="logo" src="@/assets/team_logo_2.svg">
+            <img v-if="team_number == 'team_3'" id="logo" src="@/assets/team_logo_3.svg">
+            <img v-if="team_number == 'team_4'" id="logo" src="@/assets/team_logo_4.svg">
+        </div>
+        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')">Команда 1</div>
+        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')">Команда 2</div>
+        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_4')">Команда 3</div>
+        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_3')">Команда 4</div>
+        <div class="change_label">
+          <button class="button" v-on:click="visible1" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
+        </div>
+        <div id="group_help">
+            <div class="help_border" style="margin-left:20%">
+              <img class="help" v-show="helps[0]" @click="up_hand" src="@/assets/help_master.png">
+            </div>
+            <div class="help_border" style="margin-right:15%">
+              <img class="help" v-show="helps[1]" @click="helps[1] = false" src="@/assets/help_player.png">
+            </div>
+            <div class="help_border" style="margin-left:20%">
+              <img class="help" v-show="helps[2]" @click="replace_question" src="@/assets/replace_q.png">
+            </div>
+            <div class="help_border" style="margin-right:15%">
+              <img class="help" v-show="helps[3]" @click="replace_field" src="@/assets/replace_f.png">
+            </div>
+        </div>
+        <!-- <div class="column_prompt_1">
             <div class="prompt_1">
             <button class="button" style="height:80%"><img class="help" v-show="helps[0]" @click="helps[0] = false" src="@/assets/replace_f.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
@@ -35,26 +62,11 @@
             <div class="prompt_1">
             <button class="button" style="height:80%"><img class="help" v-show="helps[3]" @click="helps[3] = false" src="@/assets/help_master.png" alt="Кнопка «button»" style="height:100%"></button>
             </div>
-        </div>
+        </div> -->
       </div>
-      <div class="bottom_item_team">
-        <div class="themes1">
-            <div v-for="(item, index) in unique_products" class="themes4" :style="themes_sber[index].color" :key="index">
-            </div>
-        </div>
-        <div  class="button_themes">
-          <button id="dots_parent" class="button" v-on:click="visible3"><img id="dots" src="@/assets/dots.png" alt="Кнопка «button»"></button>
-        </div>
-      </div>
-      <div class="footer_item_team">
-        <div class="points_1">
-            Баллы:
-          </div>
-          <div class="points_2">
-            {{score}}
-          </div>
+      <div class="team_score">
           <div class="puzzle_1">
-            Пазлы:
+            1 раунд
           </div>
           <div class="puzzle_2">
             {{puzzle}}
@@ -65,17 +77,33 @@
           <div class="puzzle_4">
             {{unique_products.length}}
           </div>
+          <div class="points_1">
+            2 раунд
+          </div>
+          <div class="points_2">
+            {{score}}
+          </div>
       </div>
+      <div class="bottom_item_team">
+        <div class="themes1">
+            <div v-for="(item, index) in unique_products" class="themes4" :style="themes_sber[index].color" :key="index">
+            </div>
+        </div>
+        <div  class="button_themes">
+          <img id="dots" src="@/assets/dots.png" alt="Кнопка «button»" v-on:click="visible3">
+        </div>
+      </div>
+      
     </div>
     <div v-else-if="visible==1" class="all_cont">
       <div class="top_item_team">
-        <div class="question" style="height:100%">
+        <!-- <div class="question" style="height:100%">
           <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
-        </div>
-        <div class="name_team">
+        </div> -->
+        <div class="name_team" style="width:70%;">
           Состав команды
         </div>
-        <div class="change_label">
+        <div class="change_label" style="height:82%;">
           <button class="button" v-on:click="visible2" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
       </div>
@@ -91,14 +119,14 @@
     </div>
     <div v-else class="all_cont">
       <div class="top_item_team">
-        <div class="question" style="height:100%">
+        <!-- <div class="question" style="height:100%">
           <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
-        </div>
-        <div v-if="team_number == 'team_1'" class="name_team">Команда 1</div>
-        <div v-if="team_number == 'team_2'" class="name_team">Команда 2</div>
-        <div v-if="team_number == 'team_3'" class="name_team">Команда 4</div>
-        <div v-if="team_number == 'team_4'" class="name_team">Команда 3</div>
-        <div class="change_label" >
+        </div> -->
+        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')" style="width:50%;">Команда 1</div>
+        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')" style="width:50%;">Команда 2</div>
+        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_4')" style="width:50%;">Команда 4</div>
+        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_3')" style="width:50%;">Команда 3</div>
+        <div class="change_label" style="height:82%;margin-left:23%;">
           <button class="button" v-on:click="visible2" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
       </div>
@@ -108,9 +136,9 @@
         </div>
       </div>
       <div class="button_themes2">
-          <button id="dots_parent" class="button" v-on:click="visible2"><img id="dots" src="@/assets/dots.png" alt="Кнопка «button»"></button>
+          <button id="dots_parent" class="button" v-on:click="visible2" style="height:100%;width:90%;"><img id="dots" src="@/assets/dots.png" alt="Кнопка «button»"></button>
       </div>
-      <div class="footer_item_team">
+      <div class="team_score">
         <div class="points_1">
             Баллы:
           </div>
@@ -137,7 +165,7 @@
 <script>
 export default {
   name: 'TeamPanel',
-  props:['team_number', 'puzzle', 'score', 'players', 'unique_products'],
+  props:['team_number', 'puzzle', 'score', 'players', 'unique_products', 'tour', 'question'],
   data: function () {
     return {
       visible: 2,
@@ -196,14 +224,32 @@ export default {
       function tick(){
           (--secs);
           if(secs % 2 == 0)
-              document.getElementById(current_team).style.border = "4px rgba(255, 255, 255, 0) solid";
+              document.getElementById(current_team).style.border = "0.1vw rgba(255, 255, 255, 0) solid";
           else
-              document.getElementById(current_team).style.border = "8px blue solid";
+              document.getElementById(current_team).style.border = "0.4vw red solid";
           console.log(secs);
           if(secs == 0)
               clearInterval(timer);
       }
-      // document.getElementById(this.team_number).style.border = "4px orange solid";
+    },
+    give_puzzle(team) {
+        console.log(team);
+        if(this.tour == 1)
+        {
+            // document.getElementById('answer_timer').innerText = '00:30';
+            this.$emit('give-puzzle', team, this.question[2]);
+        }
+        else
+            this.$emit('give-score', team);
+        
+    },
+    replace_question() {
+        this.helps[2] = false;
+        this.$emit('replace-question');
+    },
+    replace_field() {
+        this.helps[3] = false;
+        this.$emit('replace-field');
     },
   },
   created () {
@@ -215,17 +261,20 @@ export default {
 
 <style scoped>
 .help{
-  width: 130%;
+  width: 90%;
+  height: 90%;
+  margin-top: 5%;
+  margin-left: 5%;
 }
 .themes4{
-  margin-top: 4%;
-  margin-left: 6%;
-  width: 5%;
-  height: 20%;
+  margin-top: 2%;
+  margin-left: 1%;
+  width: 10%;
+  height: 40%;
   float: left ;
   background-color: white;
-  border: solid 2px black;
-  border-radius: 100%;
+  border: solid 0.15vw black;
+  border-radius: 0.3vw;
 }
 .themes3{
   margin-top: 2%;
@@ -254,54 +303,25 @@ height: 15%;
   float: left ;
 }
 .button_themes{
-  width: 10%;
+  width: 7%;
   height: 50%;
   float: left ;
-  margin-top: 4.5% ;
+  margin-top: 5.5%;
 }
 .themes1{
-  width: 90%;
+  width: 89%;
   height: 100%;
-
-  float: left ;
-}
-.table1{
-  width: 100%;
-  height: 100%;
-
-}
-.tr1{
-  width: 80%;
-  height: 15%;
-  border-bottom: 2px solid black;
-  margin-left: auto;
-  margin-right: auto;
-}
-.tr2{
-  width: 80%;
-  height: 15%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.td1{
-  width: 48%;
-  height: 90%;
-  border-right: 2px solid black;
-  float: left ;
-}
-.td2{
-  width: 48%;
-  height: 90%;
-  margin-left: 1%;
+  margin-left: 3%;
   float: left ;
 }
 .block{
-  width: 25%;
+  width: 22%;
   height: 35%;
-  background: rgba(76, 28, 214, 0.35);
-  border-radius: 25px;
+  background-color: white;
+  border-radius: 1.5vw;
   position: absolute;
-  border: 4px rgba(255, 255, 255, 1) solid;
+  border: 0.1vw black solid;
+  box-shadow: 0.7vw 0.4vw 0.2vw gray;
 }
 .all_cont{
   margin-top: 2%;
@@ -325,27 +345,44 @@ height: 15%;
   width: 50%;
 }
 .name_team{
-  width: 54%;
+  /* width: 38%;
   height: 70%;
   text-align:  center;
   margin-top: 3%;
   float: left ;
   font-size: 1.5vw;
   color: black;
-  margin-left: 4%;
-
+  margin-left: 12%;
+  margin-right: 10%; */
+  width: 38%;
+  height: 25%;
+  text-align: center;
+  margin-top: 1.5%;
+  float: left;
+  font-size: 1.5vw;
+  color: black;
+  margin-left: 10%;
 }
+
+.name_team:hover {
+  transform: scale(1.15); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 .change_label{
-  width: 20%;
+  /* width: 20%;
   height: 90%;
   margin-left: 5%;
-  float: left ;
+  float: left ; */
+    width: 15%;
+  height: 27%;
+  margin-left: 1%;
+  float: left;
+  /* margin-top: 2.5%; */
 }
 .center_item_team{
   width: 100%;
   height: 50%;
   margin-top: 5%;
-  margin-left: 7%;
 }
 .column_prompt_1{
   width: 20%;
@@ -363,14 +400,36 @@ height: 15%;
 }
 .column_img{
   width: 30%;
-height: 95%;
-float: left;
-margin-right: 5%;
-border: solid;
-border-radius: 50%;
-margin-left: 5%;
-background: white;
+  height: 100%;
+  float: left;
+  background: white;
+  margin-left: 5%;
 }
+
+#logo{
+  /* width: 100%;
+  height: 100%;
+  transform: none; */
+  width: 120%;
+height: 175%;
+transform: none;
+margin-top: -25%;
+}
+
+#group_help{
+  width: 65%;
+  height: 100%;
+  float: left;
+  margin-top: 3%;
+}
+.help_border{
+  border: solid 0.2vw rgb(210 , 210 , 210);
+  height: 40%;
+  width: 25%;
+  float: left;
+  border-radius: 0.5vw;
+}
+
 .prompt_1{
   width: 100%;
   height: 45%;
@@ -383,21 +442,20 @@ background: white;
   margin-left: auto;
   margin-right: auto;
 }
-.footer_item_team{
+.team_score{
   width: 100%;
-  height: 15%;
-  margin-top: 2.5%;
+  height: 10%;
+  margin-top: 1.5%;
   margin-left: 4%;
   margin-right: auto;
 }
 .points_1{
-  width: 15%;
-  height: 95%;
-
-  float: left ;
-  font-size: 1.1vw;
-  color: black;
-  margin-left: 5%;
+  width: 25%;
+height: 95%;
+float: left;
+font-size: 1.1vw;
+color: black;
+margin-left: 25%;
 }
 .points_2{
   width: 5%;
@@ -408,13 +466,12 @@ background: white;
   color: black;
 }
 .puzzle_1{
-  width: 15%;
+  width: 25%;
   height: 95%;
 
   float: left ;
   font-size: 1.1vw;
   color: black;
-  margin-left: 38%;
 }
 .puzzle_2{
   width: 3%;
@@ -439,6 +496,7 @@ background: white;
   float: left ;
   font-size: 1.1vw;
   color: black;
+  margin-left: 1.75%;
 }
 
 button{
@@ -448,27 +506,13 @@ border: none;
 
 #dots{
     height: 100%;
-    width: 100%;
-}
-
-#dots_parent{
-    margin-top: 0;
-    margin-left: 0;
-    height: 100%;
-    width: 100%;
-}
-
-#logo{
-    margin-top: 14%;
-margin-left: 22%;
-width: 55%;
-transform: none;
+    width: 120%;
 }
 
 .lobby_team{
-    width: 90%;
+    width: 95%;
     height: 90%;
-    margin-left: 4.5%;
+    margin-left: 2.5%;
     margin-top: 3%;
 }
 
@@ -525,6 +569,6 @@ img{
 }
 
 img:hover {
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 </style>

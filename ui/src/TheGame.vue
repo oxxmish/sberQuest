@@ -1,17 +1,17 @@
 <template>
-    <TeamPanel ref="team_1" id="team_1" :unique_products="unique_products" :players="teams ? teams[0] : []" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" />
-    <TeamPanel ref="team_2" id="team_2" :unique_products="unique_products" :players="teams ? teams[1] : []" :team_number="'team_2'" :style="'background:rgba(214, 28, 28, 0.68);'" :puzzle="puzzles[1]" :score="scores[1]" />
-    <TeamPanel ref="team_3" id="team_3" :unique_products="unique_products" :players="teams ? teams[2] : []" :team_number="'team_3'" :style="'background:rgba(28, 180, 214, 0.35);'" :puzzle="puzzles[2]" :score="scores[2]" />
-    <TeamPanel ref="team_4" id="team_4" :unique_products="unique_products" :players="teams ? teams[3] : []" :team_number="'team_4'" :style="'background:rgba(117, 205, 6, 0.65);'" :puzzle="puzzles[3]" :score="scores[3]" />
-    <GameField  :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" @set-question="set_question" @next-round="next_round" @set-config="set_config" @set-unique="set_unique" @end-game="end_game" ref="MainField" />
-    <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" />
+    <TeamPanel ref="team_1" id="team_1" :unique_products="unique_products" :players="teams ? teams[0] : []" :team_number="'team_1'" :puzzle="puzzles[0]" :score="scores[0]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
+    <TeamPanel ref="team_2" id="team_2" :unique_products="unique_products" :players="teams ? teams[1] : []" :team_number="'team_2'" :puzzle="puzzles[1]" :score="scores[1]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
+    <TeamPanel ref="team_3" id="team_3" :unique_products="unique_products" :players="teams ? teams[2] : []" :team_number="'team_3'" :puzzle="puzzles[2]" :score="scores[2]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
+    <TeamPanel ref="team_4" id="team_4" :unique_products="unique_products" :players="teams ? teams[3] : []" :team_number="'team_4'" :puzzle="puzzles[3]" :score="scores[3]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
+    <GameField  :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" :question='current_question' :number_round="tour" @set-question="set_question" @next-round="next_round" @set-config="set_config" @set-unique="set_unique" @end-game="end_game" ref="MainField" />
+    <!-- <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" /> -->
     <LeaderBoard @click="leaderboard_on = !leaderboard_on" v-if="leaderboard_on" :scores="[puzzles[0] + scores[0], puzzles[1] + scores[1], puzzles[2] + scores[2], puzzles[3] + scores[3]]"/>
 </template>
 
 <script>
 import TeamPanel from './components/TeamPanel.vue'
 import GameField from './components/GameField.vue'
-import PopUpQuestion from './components/PopUpQuestion.vue'
+// import PopUpQuestion from './components/PopUpQuestion.vue'
 import LeaderBoard from './components/LeaderBoard.vue'
 
 export default {
@@ -68,11 +68,18 @@ export default {
   components: {
     TeamPanel,
     GameField,
-    PopUpQuestion,
+    // PopUpQuestion,
     LeaderBoard
   }, 
   methods: {
+    replace_question: function () {
+      this.$refs.MainField.replace_q();
+    },
+    replace_field: function () {
+      this.$refs.MainField.replace_f();
+    },
     end_game: function () {
+      this.tour = 3;
       this.leaderboard_on = true;
     },
     set_question: function (question, turn) {
@@ -189,13 +196,21 @@ export default {
                   body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
                   });
     }
+    document.getElementById("html").style.backgroundColor = "rgb(210 , 210 , 210)";
+    document.getElementById("html").style.fontFamily = "Menlo";
+  })
+  },
+  unmounted: function () {
+  this.$nextTick(function () {
+    document.getElementById("html").style.backgroundColor = "white";
+    document.getElementById("html").style.fontFamily = "sans-serif";
   })
   }
 }
 </script>
 
 <style scoped>
-
+@import url('http://fonts.cdnfonts.com/css/menlo');
 #team_1{
   position: absolute;
   left: 1%;
@@ -203,7 +218,7 @@ export default {
 
 #team_2{
   position: absolute;
-  left: 74%;
+  left: 77%;
 }
 
 #team_3{
@@ -215,7 +230,6 @@ export default {
 #team_4{
   position: absolute;
    top: 63%;
-  left: 74%;
+  left: 77%;
 }
-
 </style>

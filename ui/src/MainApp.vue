@@ -91,6 +91,7 @@ export default {
 </template>
 
 <style>
+@import url('http://fonts.cdnfonts.com/css/menlo');
 #app{
   height: 100%;
 }

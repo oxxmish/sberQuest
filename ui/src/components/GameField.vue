@@ -2,91 +2,45 @@
     <img v-if="next=='Второй раунд'" src="@/assets/dice.png" alt="" id="dice" @click="generate_random_number">
     <div v-if="next=='Второй раунд'" id="generated_number">{{ current_number }}</div>
     <div v-if="next=='Завершить игру'" id="next_turn" @click="next_turn">Следующий ход</div>
-    <input id="price" v-show="next=='Второй раунд'" placeholder="Баллы за 2-ой раунд" @blur="save_price">
-    <div id="next_round" @click="next_round">{{ next }}</div>
+    <!-- <input id="price" v-show="next=='Второй раунд'" placeholder="Баллы за 2-ой раунд" @blur="save_price">
+    <div id="next_round" @click="next_round">{{ next }}</div> -->
+    <div class="round">1 раунд</div>
+    <div class="round" @click="next_round">2 раунд</div>
+    <input id="price" @blur="save_price">
+    <div class="round" @click="next_round">Финал</div>
     <img src="@/assets/start.png" alt="" id="start" @click="go_timer">
     <div id="timer">{{timer[0]}}:{{timer[1]}}:{{timer[2]}}</div>
-    <div id="round">1 раунд</div>
-    <div id="outer_field">
-            <div class="first_line">
-              <div class="start_one" id="start_one">
-                <div class="product_main_one">Старт</div>
-              </div>
-              <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_1" :style="calc_margin_hor()">
-                <div class="product_themes_one" :id="'field_product_' + (i - 1)" :style="field_config[i - 1].colour">{{ field_config[i - 1].name }}</div>
-              </div>
-              <div class="start_two" id="start_two" :style="calc_margin_hor()">
-                <div class="product_main_one">Старт</div>
-              </div>
-            </div>
-            <div class="second_line">
-                <div class="left_border">
-                  <!-- <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_2" :style="calc_margin_ver_left(i)">
-                    <div class="product_themes_one" :id="'field_product_' + (current_template.numFields - i)" :style="field_config[i - 1 + (current_template.numFields / 4)].colour">{{ field_config[i - 1 + (current_template.numFields / 4)].name }}</div>
-                  </div> -->
-                  <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_2" :style="calc_margin_ver_left(i)">
-                    <div class="product_themes_one" :id="'field_product_' + (current_template.numFields - i)" :style="field_config[current_template.numFields - i].colour">{{ field_config[current_template.numFields - i].name }}</div>
-                  </div>
-                </div>
-                <div class="inner_field">
-                    <div class="first_line_inner">
-                        <div class="half_final_one">
-                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
-                        </div>
-                        <div class="half_final_two">
-                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
-                        </div>
-                    </div>
-                    <div class="second_line_inner">
-                      <div class="product_final">Финал</div>
-                    </div>
-                    <div class="third_line_inner">
-                        <div class="half_final_third">
-                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
-                        </div>
-                        <div class="half_final_four">
-                          <div class="product_main_one" style="height:14%;width:14%;font-size:1vw;line-height:500%;">Полуфинал</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="right_border">
-                  <!-- <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_3" :style="calc_margin_ver_right(i)">
-                    <div class="product_themes_one" :id="'field_product_' + (i - 1 + (current_template.numFields / 4))" :style="field_config[i - 1 + 2*(current_template.numFields / 4)].colour">{{ field_config[i - 1 + 2*(current_template.numFields / 4)].name }}</div>
-                  </div> -->
-                  <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_3" :style="calc_margin_ver_right(i)">
-                    <div class="product_themes_one" :id="'field_product_' + (i - 1 + (current_template.numFields / 4))" :style="field_config[i - 1 + (current_template.numFields / 4)].colour">{{ field_config[i - 1 + (current_template.numFields / 4)].name }}</div>
-                  </div>
-                </div>
-            </div>
-            <div class ="third_line">
-              <div class="start_third" id="start_three">
-                <div class="product_main_one">Старт</div>
-              </div>
-              <!-- <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_4" :style="calc_margin_hor()">
-                <div class="product_themes_one" :id="'field_product_' + (3*current_template.numFields/4 - i)" :style="field_config[i - 1 + 3*(current_template.numFields / 4)].colour">{{ field_config[i - 1 + 3*(current_template.numFields / 4)].name }}</div>
-              </div> -->
-              <div v-for="i in (current_template.numFields / 4)" :key="i" class="start_themes_4" :style="calc_margin_hor()">
-                <div class="product_themes_one" :id="'field_product_' + (3*current_template.numFields/4 - i)" :style="field_config[3*current_template.numFields/4 - i].colour">{{ field_config[3*current_template.numFields/4 - i].name }}</div>
-              </div>
-              <div class="start_four" id="start_four" :style="calc_margin_hor()">
-                <div class="product_main_one">Старт</div>
-              </div>
-            </div>
-        </div>
-    <!-- <div id="outer_field">
-        <div id="inner_field"><img src="@/assets/cross.png" alt="" id="cross"></div>
-    </div> -->
-    <!-- <div class="product" v-for="(option, index) in options" :key="index" :style="option.style">{{option.text}}</div> -->
-    <div class="chip" v-for="(player, index) in players" :key="index" :style="player.pos+player.color"></div>
+    <img src="@/assets/start.png" id="question_start" @click="start_timer">
+    <div id="question_timer">00:30</div>
+    <FirstRoundField v-if="number_round == 1" ref="FirstRound" :current_template="current_template" :field_config="field_config" :question="question" :turn="turn" />
+    <SecondRoundField v-if="number_round != 1" :current_template="current_template" :field_config="field_config" :question="question" @second-round-pos="init_second_round_pos" />
+    <div class="chip" v-for="(player, index) in players" :key="index" :style="player.pos">
+      <img v-if="index == 0" src="@/assets/team_logo_1.svg" style="width:100%;height:100%;">
+      <img v-else-if="index == 1" src="@/assets/team_logo_2.svg" style="width:100%;height:100%;">
+      <img v-else-if="index == 3" src="@/assets/team_logo_3.svg" style="width:100%;height:100%;">
+      <img v-else-if="index == 2" src="@/assets/team_logo_4.svg" style="width:100%;height:100%;">
+    </div>
+
+     <!-- <img v-if="team_number == 'team_1'" id="logo" src="@/assets/team_logo_1.png">
+     <img v-if="team_number == 'team_2'" id="logo" src="@/assets/team_logo_2.png">
+     <img v-if="team_number == 'team_3'" id="logo" src="@/assets/team_logo_3.png">
+     <img v-if="team_number == 'team_4'" id="logo" src="@/assets/team_logo_4.png"> -->
     
 </template>
 
 <script>
+import FirstRoundField from './FirstRoundField.vue'
+import SecondRoundField from './SecondRoundField.vue'
 export default {
   name: 'GameField',
-  props: ['timer', 'crit_timer', 'tmpl_id', 'state'],
+  props: ['timer', 'crit_timer', 'tmpl_id', 'state', 'question', 'number_round'],
   data(){
     return {
+        global_question_timer: null,
+        global_timer: null,
+        current_global_timer: null,
+        current_time: null,
+        is_paused: false,
         final_questions: [],
         semifinal_questions: [],
         second_tour_ids_question: [],
@@ -97,45 +51,17 @@ export default {
                         {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
                         {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
                         {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, ],
-        // test_timer: new Date(2011, 0, 1, 4, 30, 20, 0),
-        options: [
-        { text: 'СберЗвук', value: '1', style:"top:11.5%;left:38.1%;font-size: 105%;background-color:#B22222;color:white;", color:'background-color:#B22222;color:white;' },
-        { text: 'РаботаРу', value: '2', style:"top:11.5%;left:44.5%;font-size: 105%;background-color:blue;color:white;", color:'background-color:blue;color:white;' },
-        { text: 'Окко', value: '3', style:"top:11.5%;left:50.9%;font-size: 110%;background-color:DeepPink;color:white;", color:'background-color:DeepPink;color:white;' },
-        { text: 'СберДиск', value: '4', style:"top:11.5%;left:57.2%;font-size: 105%;background-color:DarkCyan;color:white;", color:'background-color:DarkCyan;color:white;' },
-        { text: 'СберБокс', value: '5', style:"top:75%;left:38.1%;font-size: 105%;background-color:purple;color:white;", color:'background-color:purple;color:white;' },
-        { text: 'СберМаркет', value: '6', style:"top:75%;left:44.5%;font-size: 80%;line-height: 500%;background-color:Navy;color:white;", color:'background-color:Navy;color:white;' },
-        { text: 'ДеливериКлаб', value: '7', style:"top:75%;left:50.9%;font-size: 73%;line-height: 570%;background-color:MediumSlateBlue;color:white;", color:'background-color:MediumSlateBlue;color:white;' },
-        { text: 'Самокат', value: '8', style:"top:75%;left:57.2%;font-size: 105%;background-color:RosyBrown;color:white;", color:'background-color:RosyBrown;color:white;' },
-        { text: 'СитиМобил', value: '9', style:"top:24.3%;left:31.7%;font-size: 90%;line-height: 500%;background-color:DimGray;color:white;", color:'background-color:DimGray;color:white;' },
-        { text: 'СберПрайм', value: '10', style:"top:37%;left:31.7%;font-size: 90%;line-height: 500%;background-color:DarkOrange;color:white;", color:'background-color:DarkOrange;color:white;' },
-        { text: 'СберПрайм+', value: '11', style:"top:49.5%;left:31.7%;font-size: 85%;line-height: 550%;background-color:DarkSlateGrey;color:white;", color:'background-color:DarkSlateGrey;color:white;' },
-        { text: 'СберМобайл', value: '12', style:"top:62.4%;left:31.7%;font-size: 80%;line-height: 550%;background-color:SaddleBrown;color:white;", color:'background-color:SaddleBrown;color:white;' },
-        { text: 'СберЕАптека', value: '13', style:"top:24.3%;left:63.5%;font-size: 75%;line-height: 575%;background-color:Crimson;color:white;", color:'background-color:Crimson;color:white;' },
-        { text: 'ДомКлик', value: '14', style:"top:37%;left:63.5%;font-size: 105%;background-color:Indigo;color:white;", color:'background-color:Indigo;color:white;' },
-        { text: 'СберЗдоровье', value: '15', style:"top:49.5%;left:63.5%;font-size: 75%;line-height: 600%;background-color:Olive;color:white;", color:'background-color:Olive;color:white;' },
-        { text: 'СберМегаМаркет', value: '16', style:"top:62.4%;left:63.5%;font-size: 60%;line-height: 730%;background-color:Black;color:white;", color:'background-color:Black;color:white;' },
-        { text: 'Старт', value: '17', style:"top:11.5%;left:31.7%;font-size: 125%;line-height: 350%;font-weight: bold;" },
-        { text: 'Старт', value: '18', style:"top:75%;left:31.7%;font-size: 125%;line-height: 350%;font-weight: bold;" },
-        { text: 'Старт', value: '19', style:"top:11.5%;left:63.5%;font-size: 125%;line-height: 350%;font-weight: bold;" },
-        { text: 'Старт', value: '20', style:"top:75%;left:63.5%;font-size: 125%;line-height: 350%;font-weight: bold;" },
-        { text: 'Полуфинал', value: '21', style:"top:24.3%;left:38.1%;font-size: 85%;line-height: 500%;;font-weight: bold;" },
-        { text: 'Полуфинал', value: '22', style:"top:62.4%;left:38.1%;font-size: 85%;line-height: 500%;;font-weight: bold;" },
-        { text: 'Полуфинал', value: '23', style:"top:24.3%;left:57.2%;font-size: 85%;line-height: 500%;;font-weight: bold;" },
-        { text: 'Полуфинал', value: '24', style:"top:62.4%;left:57.2%;font-size: 85%;line-height: 500%;;font-weight: bold;" },
-        { text: 'Финал', value: '25', style:"top: 38%;left: 45%;font-size: 175%;line-height: 520%;font-weight: bold;height: 20%;width: 10%;" },
-        ],
         current_number: 0,
         next: 'Второй раунд',
-        turn: 0,
+        turn: null,
         tour: 1,
         second_round_tour: 0,
         second_round_states: [
             [
-                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
-                { pos:'top:10.5%;left:68%;', color:'background:red;' },
-                { pos:'top:83.5%;left:68%;', color:'background:lime;' },
-                { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
+                { pos:'top:42%;left:34.2%;', color:'background:blue;' },
+                { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
+                { pos:'top:71%;left:27.8%;', color:'background:lime;' },
+                { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
             ],
             [
                 { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
@@ -208,19 +134,6 @@ export default {
             'top:41.3%;left:30.3%;',
             'top:28.5%;left:30.3%;',
         ],
-
-        // top: 10.5%;left: 31%; top: 83.5%;left: 31%; top: 83.5%;left: 68%; top: 10.5%;left: 68%;
-        // top: 28.5%;left: 30.3%; top: 41.3%; top: 53.7%; top: 66.5%;
-        // top: 85.6%; left: 40%; left: 46.5%; left: 52.9%; left: 59.3%;
-        // top:66.5%;left:68.9%; top:53.5%; top:41%; top:28.3%;
-        // top: 8.5%;left:59.2%; left:52.8%; left:46.5%; left: 40.1%;
-
-        // 0 1 2 3 4 5
-        //         *
-        // step = 3
-        // i = 4
-        // length = 6
-        // arr[-(length - (step + i))]
         questions: {
             // 'СберЗвук': ['Вопрос1']
             'top:8.5%;left:40.1%;': ['Почему мне надо пользоваться приложением СберЗвук? Назовите минимум 3 преимущества', 'Без выбора ответа', 'СберЗвук'],
@@ -254,6 +167,10 @@ export default {
         current_question_id: null,
     }
   },
+  components: {
+    FirstRoundField,
+    SecondRoundField
+  },
   methods: {
     generate_random_number () { 
         if(this.current_number == 0)
@@ -261,6 +178,8 @@ export default {
             this.init_circle_chip_positions();
             this.init_questions();
         }
+        if( !this.turn && this.turn != 0 )
+          this.turn = 0;
             
         this.current_number = Math.floor(Math.random() * 6 + 1);
         let number = this.current_number;
@@ -288,12 +207,17 @@ export default {
         console.log(this.questions[this.players[this.turn].pos][3]);
         let cur_q = {};
         cur_q.current_question = this.questions[this.players[this.turn].pos];
+        console.log( this.turn );
 
         fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:this.questions[this.players[this.turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
         this.update_questions(this.players[this.turn].pos);
+        this.$refs.FirstRound.set_current_turn(this.turn);
+
+        clearInterval(this.global_question_timer);
+        document.getElementById("question_timer").innerText = '00:30';
 
         if(this.turn == 3)
         {
@@ -302,9 +226,10 @@ export default {
         }
         else
             ++this.turn;
+        console.log( this.turn );
         },
     next_round () {
-        if(document.getElementById('round').innerText != '2 раунд' && this.second_round_price == 0)
+        if(this.number_round == 1 && this.second_round_price == 0)
         {
           alert("Количество баллов на второй тур не установлено");
           return;
@@ -325,13 +250,13 @@ export default {
           
 
         console.log(this.second_round_questions);
-        if(document.getElementById('round').innerText != '2 раунд')
+        if(this.number_round != 2)
         {
             this.players = [
-            { pos:'top:10.5%;left:31%;', color:'background:blue;' },
-            { pos:'top:10.5%;left:68%;', color:'background:red;' },
-            { pos:'top:83.5%;left:68%;', color:'background:lime;' },
-            { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
+            { pos:'top:42%;left:27.8%;', color:'background:blue;' },
+            { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
+            { pos:'top:71%;left:27.8%;', color:'background:lime;' },
+            { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
             ];
             this.$emit('next-round');
         }
@@ -342,7 +267,7 @@ export default {
         }
             
         this.next = 'Завершить игру';  
-        document.getElementById('round').innerText = '2 раунд';
+        document.getElementById('next_round').innerText = '2 раунд';
         },
     next_turn () {
         if(this.second_round_tour + 1 == 8)
@@ -367,18 +292,59 @@ export default {
         }
     },
     go_timer () {
-        var tmp = new Date(2011, 0, 1, this.timer[0], this.timer[1], this.timer[2], 0);
-        var timer = setInterval(tick,1000);
-        var crit_time = this.crit_timer;
+        if( document.getElementById('timer').innerText != String(this.timer[0]) + ':' + String(this.timer[1]) + ':' + String(this.timer[2]) && !this.is_paused )
+        {
+          this.is_paused = true;
+          clearInterval(this.current_global_timer);
+          return;
+        }
+        this.is_paused = false;
+        if( !this.current_time )
+          this.current_time = new Date(2011, 0, 1, this.timer[0], this.timer[1], this.timer[2], 0);
+        else
+        {
+          let tmp_timer = document.getElementById('timer').innerText;
+          this.current_time = new Date(2011, 0, 1, tmp_timer.slice(0, 2), tmp_timer.slice(3, 5), tmp_timer.slice(6, 8), 0);
+        }
+          
+        this.current_global_timer = setInterval(tick,1000);
+        let cur_timer = this.current_global_timer;
+        let crit_time = this.crit_timer;
+        let time = this.current_time;
         function tick(){
-            tmp = new Date(tmp - 1000);
+            time = new Date(time - 1000);
 
-            document.getElementById('timer').innerText = (tmp.getHours() < 10 ? '0' + String(tmp.getHours()) : String(tmp.getHours())) + ':' + (tmp.getMinutes() < 10 ? '0' + String(tmp.getMinutes()) : String(tmp.getMinutes())) + ':' + (tmp.getSeconds() < 10 ? '0' + String(tmp.getSeconds()) : String(tmp.getSeconds()));
-            if(tmp.getHours() == Number(crit_time[0]) && tmp.getMinutes() == Number(crit_time[1]) && tmp.getSeconds() == Number(crit_time[2]))
+            document.getElementById('timer').innerText = (time.getHours() < 10 ? '0' + String(time.getHours()) : String(time.getHours())) + ':' + (time.getMinutes() < 10 ? '0' + String(time.getMinutes()) : String(time.getMinutes())) + ':' + (time.getSeconds() < 10 ? '0' + String(time.getSeconds()) : String(time.getSeconds()));
+            if(time.getHours() == Number(crit_time[0]) && time.getMinutes() == Number(crit_time[1]) && time.getSeconds() == Number(crit_time[2]))
                 document.getElementById('timer').style.color = 'red';
                 
-            if(tmp.getHours() == 0 && tmp.getMinutes() == 0 && tmp.getSeconds() == 0)
-                clearInterval(timer);
+            if(time.getHours() == 0 && time.getMinutes() == 0 && time.getSeconds() == 0)
+                clearInterval(cur_timer);
+        }
+    },
+    start_timer() {
+      console.log( "start_timer" );
+        let field = document.getElementById("question_timer");
+        if(field.innerText != '00:30')
+            return;
+        var secs = 30;
+        this.global_question_timer = setInterval(tick,1000);
+        let local_timer = this.global_question_timer;
+        function tick(){
+            (--secs);
+            if(secs < 10)
+                field.innerText = '00:0' + secs;
+            else
+                field.innerText = '00:' + secs;
+
+            if( field.innerText == '00:05' )
+              field.style.color = 'red';
+            if(secs == 0)
+            {
+              clearInterval(local_timer);
+              field.style.color = 'black';
+            }
+                
         }
     },
     save_template_product: function (data) {
@@ -406,39 +372,6 @@ export default {
             let j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
-    },
-    calc_margin_hor: function () {
-        console.log(this.current_template.numFields);
-        if(this.current_template.numFields == 16)
-            return "margin-left:5.6%";
-        else if(this.current_template.numFields == 20)
-            return "margin-left:3%";
-        else if(this.current_template.numFields == 24)
-            return "margin-left:1.2%";
-    },
-    calc_margin_ver_left: function (i) {
-        if(this.current_template.numFields == 16)
-            return "margin-top:75%";
-        else if(this.current_template.numFields == 20)
-            return "margin-top:45%";
-        else if(this.current_template.numFields == 24 && i == 1)
-            return "margin-top:17%";
-        else if(this.current_template.numFields == 24)
-            return "margin-top:28%";
-    },
-    calc_margin_ver_right: function (i) {
-        if(this.current_template.numFields == 16 && i == 1)
-            return "margin-top:65%";
-        if(this.current_template.numFields == 16)
-            return "margin-top:70%";
-        else if(this.current_template.numFields == 20 && i == 1)
-            return "margin-top:42%";
-        else if(this.current_template.numFields == 20)
-            return "margin-top:40%";
-        else if(this.current_template.numFields == 24 && i == 1)
-            return "margin-top:15%";
-        else if(this.current_template.numFields == 24)
-            return "margin-top:25%";
     },
     init_chip_positions: function () {
         let body = document.body;
@@ -524,6 +457,54 @@ export default {
       }
       console.log(this.field_config);
     },
+    replace_q: function () {
+      let prev_turn = this.turn - 1;
+      if( prev_turn ==  -1)
+        prev_turn = 3;
+      this.$emit('set-question', this.questions[this.players[prev_turn].pos], prev_turn);
+      let cur_q = {};
+        cur_q.current_question = this.questions[this.players[prev_turn].pos];
+        console.log( prev_turn );
+
+        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({questionId:this.questions[this.players[prev_turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
+        this.update_questions(this.players[prev_turn].pos);
+        this.$refs.FirstRound.set_current_turn(prev_turn);
+    },
+    replace_f: function () {
+      let prev_turn = this.turn - 1;
+      if( prev_turn ==  -1)
+        prev_turn = 3;
+      let number = 1;
+      for(var i = 0; i < this.circle.length; ++i)
+        {
+            if(this.circle[i] == this.players[prev_turn].pos && i + number < this.circle.length)
+            {
+                this.players[prev_turn].pos = this.circle[i + number];
+                break;
+            }
+            else if(this.circle[i] == this.players[prev_turn].pos && i + number >= this.circle.length)
+            {
+                this.players[prev_turn].pos = this.circle[-(this.circle.length - (number + i))];
+                break;
+            }
+        }
+        
+        this.$emit('set-question', this.questions[this.players[prev_turn].pos], prev_turn);
+        console.log(this.questions[this.players[prev_turn].pos][3]);
+        let cur_q = {};
+        cur_q.current_question = this.questions[this.players[prev_turn].pos];
+        console.log( prev_turn );
+
+        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({questionId:this.questions[this.players[prev_turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
+        this.update_questions(this.players[prev_turn].pos);
+        this.$refs.FirstRound.set_current_turn(prev_turn);
+    },
     set_field_config: function () {
       console.log("set_congfig");
       this.$emit('set-config', this.field_config);
@@ -548,6 +529,77 @@ export default {
                 }
             }
         },
+    calc_color_round_buttons: function ()
+    {
+        let list_round = document.getElementsByClassName("round");
+        if(this.number_round == 1)
+        {
+          list_round[0].style = "background-color:rgba(44, 192, 70, 1);top:38%;";
+          list_round[1].style = "background-color:rgba(188, 243, 197, 1); width:10%;left:80.5%;font-size:1.75vw;top:46.5%;height:4%;";
+          // list_round[2].style = "background-color:rgba(188, 243, 197, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:54%;height:3%;";
+          list_round[2].style = "background-color:rgba(210, 241, 215, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:54%;height:3%;";
+        }
+        if(this.number_round == 2)
+        {
+          list_round[0].style = "background-color:rgba(188, 243, 197, 1); width:10%;left:80.5%;font-size:1.75vw;top:38%;height:4%;";
+          list_round[1].style = "background-color:rgba(44, 192, 70, 1);top:45.5%;";
+          list_round[2].style = "background-color:rgba(188, 243, 197, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:54%;height:3%;";
+          document.getElementById("price").style = "left: 95.5%;";
+        }
+        if(this.number_round == 3)
+        {
+          
+          list_round[0].style = "background-color:rgba(210, 241, 215, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:38%;height:3%;";
+          list_round[1].style = "background-color:rgba(188, 243, 197, 1);width:10%;left:80.5%;font-size:1.75vw;height:4%;top:45.5%;";
+          list_round[2].style = "background-color:rgba(44, 192, 70, 1);top:54%;";
+          document.getElementById("price").style = "left: 93%;top:46.3%;";
+        }
+    },
+    init_second_round_pos: function ( ar, start, middle, finish )
+    {
+        console.log( ar, start, finish );
+        this.second_round_states.length = 0;
+        this.players = [
+            { pos:'top:42%;left:27.8%;', color:'background:blue;' },
+            { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
+            { pos:'top:71%;left:27.8%;', color:'background:lime;' },
+            { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
+            ];
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(start) + '%;'},
+                                       {pos: 'top:71%;left:' + String(start) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:71%;left:' + String(start) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
+
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:71%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
+        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:71%;left:' + String(finish) + '%;'},
+                                       {pos: 'top:85.5%;left:' + String(finish) + '%;'}]);
+        console.log(this.second_round_states);
+    },
   },
   mounted: function () {
       let id = this.tmpl_id;
@@ -559,47 +611,22 @@ export default {
                 }).then( res => res.json() ).then( data => this.save_template_product(data) );
                 this.init_chip_positions();
               // this.init_circle_chip_positions();
+    this.calc_color_round_buttons();
   })
+  },
+  updated: function () {
+      this.calc_color_round_buttons();
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#outer_field{
-    height: 81%;
-    width: 40.1%;
-    /* background-color:green; */
-    background-color: rgba(33, 160, 56, 1);
-    border-radius: 25px;
-    border: solid black 2px;
-    position: absolute;
-    left: 30%;
-    top: 7.5%;
-}
-#inner_field{
-    height: 80%;
-    width: 80%;
-    margin-top: 10%;
-    margin-left: 10%;
-    background-color:white;
-    border: solid black 2px;
-    border-radius: 25px;
-}
-.product{
-    border-radius: 50%;
-    height: 10%;
-    width: 5%;
-    background-color: white;
-    border: solid black 2px;
-    position: absolute;
-    text-align: center;
-    line-height: 400%;
-}
 #timer{
     left: 37%;
     position: absolute;
     font-size: 2.2vw;
+    /* margin-top: 1%; */
 }
 
 #start{
@@ -607,24 +634,12 @@ export default {
     height: 5%;
     left: 33%;
     position: absolute;
-    margin-top: 0.1%;
-}
-
-#round{
-    left: 60%;
-    position: absolute;
-    font-size: 2.2vw;
-}
-
-#cross{
-    height: 100%;
-    width: 100%;
-    transform: none;
+    /* margin-top: 1%; */
 }
 
 #dice{
-    width: 6%;
-    height: 10%;
+    width: 7%;
+    height: 11%;
     left: 5%;
     top: 44%;
     position: absolute;
@@ -639,47 +654,63 @@ img:hover {
 }
 
 #generated_number{
-    width: 3%;
-    height: 5%;
+    width: 3.3%;
+    height: 6%;
     left: 13%;
     top: 47%;
     position: absolute;
     text-align: center;
     font-size: 2.8vw;
-    border: solid;
-    line-height: 90%;
+    line-height: 110%;
+    background-color: white;
+    border-radius: 0.3vw;
 }
 
 #price{
   position: absolute;
   text-align: center;
-  width: 10%;
-    height: 5%;
-    left: 81.5%;
-    top: 43%;
+  width: 2%;
+height: 4%;
+left: 93%;
+top: 47%;
     font-size: 1vw;
 }
 
 #next_round{
     width: 15%;
     height: 5%;
-    left: 77.5%;
-    top: 50%;
+    left: 79%;
+    top: 47%;
     position: absolute;
     text-align: center;
-    font-size: 1.6vw;
+    font-size: 2.2vw;
     line-height: 130%;
-    background: rgba(33, 160, 56, 1);
-    color: white;
-    padding: 0.5% 2% 0.5% 2%;
+    /* background: rgba(33, 160, 56, 1); */
+    /* color: white; */
+    color: black;
+    /* padding: 0.5% 2% 0.5% 2%;
+    border-radius: 10px; */
+}
+
+.round{
+    width: 15%;
+    height: 5%;
+    left: 78%;
+    top: 38%;
+    position: absolute;
+    text-align: center;
+    font-size: 2.2vw;
+    line-height: 130%;
+    background: rgba(44, 192, 70, 1);
+    background: rgba(188, 243, 197, 1);
+    color: black;
+    padding: 0.5% 1% 0.5% 1%;
     border-radius: 10px;
 }
 
 .chip{
-    border-radius: 50%;
-    height: 2%;
-    width: 1%;
-    border: solid black 2px;
+    height: 4.6%;
+    width: 2.3%;
     position: absolute;
     z-index: 3;
 }
@@ -687,207 +718,39 @@ img:hover {
 #next_turn{
     width: 15%;
     height: 5%;
-    left: 4%;
-    top: 47%;
+    left: 2.5%;
+    top: 45%;
     position: absolute;
     text-align: center;
     font-size: 1.5vw;
     line-height: 130%;
-    background: rgba(33, 160, 56, 1);
-    color: white;
+    background: white;
+    color: black;
     padding: 0.5% 2% 0.5% 2%;
-    border-radius: 10px;
+    border-radius: 0.5vw;
+    border: solid 0.3vw rgba(44, 192, 70, 1);
 }
 
-#next_round:hover {
+/* #next_round:hover {
     box-shadow: 0 0 10px 100px orange inset;
-}
+} */
 
 #next_turn:hover {
-    box-shadow: 0 0 10px 100px orange inset;
+    box-shadow: 0 0 10px 100px rgba(44, 192, 70, 1) inset;
 }
 
-
-
-
-
-.half_final_one{
-    margin-top: 14%;
-    margin-left: 14%;
-  float: left;
-}
-.half_final_two{
-    margin-top: 14%;
-    margin-left: 54%;
-  float: left;
-}
-.half_final_third{
-    margin-top: -12%;
-    margin-left: 14%;
-  float: left;
-}
-.half_final_four{
-  margin-top: -12%;
-  margin-left: 67%;
-  float: left;
-}
-.first_line_inner{
-  width: 100%;
-  height: 20%;
-}
-.second_line_inner{
-  width: 100%;
-  height: 59%;
-}
-.third_line_inner{
-  width: 100%;
-  height: 20%;
-}
-.right_border{
-float: left;
-  height: 90%;
-  width: 10%;
-}
-.left_border{
-float: left;
-height: 90%;
-width: 9%;
-}
-.inner_field{
-    margin-left: 0.5%;
-    height: 100%;
-    width: 79%;
-    border: solid black 2px;
-    border-radius: 25px;
-    float: left;
-    margin-top: -5%;
-    background:
-         linear-gradient(to top left,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 6px),
-             rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 6px),
-             rgba(0,0,0,0) 100%),
-         linear-gradient(to top right,
-             rgba(0,0,0,0) 0%,
-             rgba(0,0,0,0) calc(50% - 6px),
-             rgba(0,0,0,1) 50%,
-             rgba(0,0,0,0) calc(50% + 6px),
-             rgba(0,0,0,0) 100%),
-          white;
-}
-.start_one{
-    margin-top: 5%;
-    margin-left: 4.5%;
-    height: 100%;
-    width: 10%;
-    float: left;
-}
-.start_two{
-    margin-top: 5%;
-    margin-left: 5.6%;
-    height: 100%;
-    width: 10%;
-  float: left;
-}
-.start_third{
-    margin-top: -7%;
-    margin-left: 4.5%;
-    height: 100%;
-    width: 10%;
-  float: left;
-}
-.start_four{
-    margin-top: -7%;
-    margin-left: 5%;
-    height: 100%;
-    width: 10%;
-  float: left;
-}
-.start_themes_1{
-    margin-left: 5.6%;
-    height: 100%;
-    width: 10%;
-    float: left;
-    z-index:2;
-    margin-top: 5%;
-}
-.start_themes_2{
-    margin-top: 75%;
-    height: 12%;
-    width: 100%;
-    float: left;
-    z-index:2;
-    margin-left: 50%;
-}
-.start_themes_3{
-    margin-top: 65%;
-    height: 12%;
-    width: 120%;
-    float: left;
-    z-index:2;
-    margin-left: -60%;
-}
-.start_themes_4{
-    margin-left: 5.5%;
-    height: 100%;
-    width: 10%;
-    float: left;
-    z-index:2;
-    margin-top: -7%;
-}
-.product_main_one{
-    border-radius: 50%;
-    height: 11%;
-    width: 11%;
-    background-color: white;
-    border: solid black 2px;
+#question_start{
+    width: 3%;
+    height: 5%;
+    left: 58%;
     position: absolute;
-    text-align: center;
-    line-height: 360%;
-    float: left;
-    z-index:2;
-    font-size: 1.1vw;
+    /* margin-top: 1%; */
 }
-.product_final{
-    border-radius: 50%;
-    height: 51%;
-    width: 30%;
-    margin-left: 34%;
-    margin-top: 14%;
-    background-color: white;
-    border: solid black 2px;
-    text-align: center;
-    font-size: 2.5vw;
-    line-height: 400%;
-    float: left;
-    z-index:2;
-}
-.product_themes_one{
-    border-radius: 50%;
-    height: 11%;
-    width: 11%;
-    /* height: 5%;
-    width: 5%; */
-    background-color: red;
-    border: solid black 2px;
+
+#question_timer{
+    left: 62%;
     position: absolute;
-    text-align: center;
-    line-height: 400%;
-    float: left;
-    z-index:2;
-    font-size: 0.9vw;
-}
-.first_line{
-  width: 100%;
-  height: 10%;
-}
-.third_line{
-  width: 100%;
-  height: 10%;
-}
-.second_line{
-  width: 100%;
-  height: 80%;
+    font-size: 2.2vw;
+    /* margin-top: 1%; */
 }
 </style>

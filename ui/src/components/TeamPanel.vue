@@ -131,7 +131,7 @@
         </div>
       </div>
       <div class="themes2">
-        <div v-for="(item, index) in unique_products" class="themes3" :style="themes_sber[index].color" :key="index">
+        <div v-for="(item, index) in unique_products" class="themes3" :id="team_number + '_info_puzzle_' + String(index)" :style="themes_sber[index].color" :key="index">
           {{ item.name }}
         </div>
       </div>
@@ -236,7 +236,6 @@ export default {
         console.log(team);
         if(this.tour == 1)
         {
-            // document.getElementById('answer_timer').innerText = '00:30';
             this.$emit('give-puzzle', team, this.question[2]);
         }
         else
@@ -250,11 +249,24 @@ export default {
     replace_field() {
         this.helps[3] = false;
         this.$emit('replace-field');
-    },
+    }
   },
   created () {
       if(this.players)
           this.team = this.players;
+    },
+    updated () {
+      let i = 0;
+      let cur_puzzle = document.getElementById(this.team_number + '_info_puzzle_' + String(i));
+      if( !cur_puzzle )
+        return;
+      while(cur_puzzle)
+      {
+        cur_puzzle.style.fontSize = String(1.4 * cur_puzzle.offsetWidth / cur_puzzle.innerText.length) + 'px';
+        ++i;
+        cur_puzzle = document.getElementById(this.team_number + '_info_puzzle_' + String(i));
+      }
+      
     }
 }
 </script>
@@ -287,6 +299,7 @@ export default {
   border-radius: 15%;
   text-align: center;
   font-size: 1vw;
+  line-height: 2.5vw;
 }
 .button_themes2{
   width: 10%;

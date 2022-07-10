@@ -24,8 +24,11 @@
             </div>
         </div>
         <div class="inner_field">
-            <div id="tour_one_question_header">
+            <div v-if="question[1] != 'Приветствуем Вас на игре по ЭкоСистеме Сбера.'" id="tour_one_question_header">
             {{question[2]}} ({{question[1]}})
+            </div>
+            <div v-else id="tour_one_question_header">
+            {{question[1]}}
             </div>
             <!-- <div id="tour_one_question_logo" style="border:solid;"> -->
               <img v-show="turn == 0" src="@/assets/team_logo_1.svg" style="width:10%;height:10%;float:left;margin-left:2%;">
@@ -35,7 +38,7 @@
             <!-- </div> -->
             <div id="tour_one_question_body">
               <div class="scroll">
-                {{ question[0] }}
+                <pre>{{ question[0] }}</pre>
               </div>
             </div>
         </div>
@@ -241,6 +244,12 @@ export default {
   width: 100%;
 }
 
+pre {
+white-space: pre-wrap; 
+word-wrap: break-word;
+font-family: inherit;
+}
+
 #tour_one_question_body{
   /* text-align: justify;
   margin-top: 3%;
@@ -252,7 +261,7 @@ export default {
   text-align: justify;
 margin-top: 8%;
 margin-left: 5%;
-font-size: 1.5vw;
+font-size: 1.35vw;
 height: 80%;
 width: 90%;
 text-indent: 5%;

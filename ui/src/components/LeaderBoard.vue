@@ -11,7 +11,7 @@
                     <img src="@/assets/team_logo_1.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 10%;width: 5%;" />
                 </div>
                 <div id="leader_team_1" class="column" style="position:absolute;bottom:1%;left:1%;width:23.5%;background:rgba(76,28,214,0.35);">{{scores[0]}}</div>
-            </div>
+            </div> <!-- Цвет -->
             <div class="skillBLock">
                 <div class="teamImage">
                     <img src="@/assets/team_logo_2.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 35%;width: 5%;" />

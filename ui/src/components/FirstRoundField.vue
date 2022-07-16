@@ -24,17 +24,20 @@
             </div>
         </div>
         <div class="inner_field">
-            <div v-if="question[1] != 'Приветствуем Вас на игре по ЭкоСистеме Сбера.'" id="tour_one_question_header">
-            {{question[2]}} ({{question[1]}})
+            <div v-if="question[1] != 'Приветствуем Вас в игре по ЭкоСистеме Сбера'" id="tour_one_question_header">
+            {{question[2]}}
             </div>
-            <div v-else id="tour_one_question_header">
+            <div v-if="question[1] != 'Приветствуем Вас в игре по ЭкоСистеме Сбера'" id="tour_one_question_sub_header">
+            {{question[1]}}
+            </div>
+            <div v-else id="tour_one_question_header" style="margin-bottom:8%;">
             {{question[1]}}
             </div>
             <!-- <div id="tour_one_question_logo" style="border:solid;"> -->
-              <img v-show="turn == 0" src="@/assets/team_logo_1.svg" style="width:10%;height:10%;float:left;margin-left:2%;">
-              <img v-show="turn == 1" src="@/assets/team_logo_2.svg" style="width:10%;height:10%;float:left;margin-left:2%;">
-              <img v-show="turn == 3" src="@/assets/team_logo_3.svg" style="width:10%;height:10%;float:left;margin-left:2%;">
-              <img v-show="turn == 2" src="@/assets/team_logo_4.svg" style="width:10%;height:10%;float:left;margin-left:2%;">
+              <img v-show="turn == 0" src="@/assets/team_logo_1.svg" style="width:7.5%;height:7.5%;position:absolute;left:20%;top:20%;">
+              <img v-show="turn == 1" src="@/assets/team_logo_2.svg" style="width:7.5%;height:7.5%;position:absolute;left:20%;top:20%;">
+              <img v-show="turn == 3" src="@/assets/team_logo_3.svg" style="width:7.5%;height:7.5%;position:absolute;left:20%;top:20%;">
+              <img v-show="turn == 2" src="@/assets/team_logo_4.svg" style="width:7.5%;height:7.5%;position:absolute;left:20%;top:20%;">
             <!-- </div> -->
             <div id="tour_one_question_body">
               <div class="scroll">
@@ -216,7 +219,7 @@ export default {
     border: solid black 0.2vw;
     position: absolute;
     text-align: center;
-    line-height: 360%;
+    line-height: 450%;
     float: left;
     z-index:2;
     font-size: 1.1vw;
@@ -244,6 +247,15 @@ export default {
   width: 100%;
 }
 
+#tour_one_question_sub_header{
+  margin-top: 1%;
+  text-align: center;
+  font-size: 1.35vw;
+  color: gray;
+  height: 6%;
+  width: 100%;
+}
+
 pre {
 white-space: pre-wrap; 
 word-wrap: break-word;
@@ -259,12 +271,12 @@ font-family: inherit;
   width: 72%;
   text-indent: 5%; */
   text-align: justify;
-margin-top: 8%;
+/*margin-top: 8%;*/
 margin-left: 5%;
 font-size: 1.35vw;
 height: 80%;
 width: 90%;
-text-indent: 5%;
+text-indent: 3%;
 }
 
 /* .first_line_inner{

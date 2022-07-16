@@ -1,8 +1,14 @@
 <template>
   <div id="outer_field">
     <div id="question_area">
-        <div id="question_header">{{question[2]}} ({{question[1]}})</div>
-        <div id="question_body"><div class="scroll">{{question[0]}}</div></div>
+        <!-- <div id="question_header">{{question[2]}} ({{question[1]}})</div> -->
+        <div v-if="question[2] != '2 раунд'" id="question_header">
+            {{question[2]}} ({{question[1]}})
+        </div>
+        <div v-else id="question_header">
+           {{question[2]}} 
+        </div>
+        <div id="question_body"><div class="scroll">{{question[0]}}</div></div> <!-- При старте второго раунда заголовок второй раунд и в качестве текста "За ответы команда получает n баллов" -->
     </div>
     <div v-for="(item, index) in teams" :key="index" style="width:100%;height:14%;margin-top:2%;">
         <div id="start_sec_round" class="questions">Старт</div>
@@ -131,7 +137,7 @@ export default {
   font-size: 1.5vw;
   text-align: center;
   vertical-align: center;
-  line-height: 4.5vw;
+  line-height: 5.1vw;
 }
 
 #cup{

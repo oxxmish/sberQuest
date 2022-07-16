@@ -234,6 +234,7 @@ export default {
           alert("Количество баллов на второй тур не установлено");
           return;
         }
+        this.$emit('set-question', ["За верный ответ играющей команде будет начислено " + String(this.second_round_price) + " баллов", '', '2 раунд'], this.second_round_tour - 1);
         this.second_round_questions.length = 0;
         this.second_tour_ids_question.length = 0;
         for( let i = 0; i < this.semifinal_questions.length; ++i )
@@ -274,11 +275,11 @@ export default {
         {
             this.next = 'Конец';
             this.players = this.second_round_states[this.second_round_tour++];
-            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
-       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], 'Второй тур', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},

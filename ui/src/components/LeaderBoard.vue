@@ -10,24 +10,24 @@
                 <div class="teamImage">
                     <img src="@/assets/team_logo_1.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 10%;width: 5%;" />
                 </div>
-                <div id="leader_team_1" class="column" style="position:absolute;bottom:1%;left:1%;width:23.5%;background:rgba(76,28,214,0.35);">{{scores[0]}}</div>
-            </div> <!-- Цвет -->
+                <div id="leader_team_1" class="column" style="position:absolute;bottom:1%;left:1%;width:23.5%;background:rgb(246, 171, 129);">{{scores[0]}}</div>
+            </div>
             <div class="skillBLock">
                 <div class="teamImage">
                     <img src="@/assets/team_logo_2.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 35%;width: 5%;" />
                 </div>
-                <div id="leader_team_2" class="column" style="position:absolute;bottom:1%;left:25.5%;width:23.6%;background:rgba(214,28,28,0.68);">{{scores[1]}}</div>
+                <div id="leader_team_2" class="column" style="position:absolute;bottom:1%;left:25.5%;width:23.6%;background:rgb(196, 196, 215);">{{scores[1]}}</div>
             </div>
             <div class="skillBLock">
                 <div class="teamImage">
                     <img src="@/assets/team_logo_3.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 59%;width: 5%;" />
                 </div>
-                <div id="leader_team_3" class="column" style="position:absolute;bottom:1%;left:50.1%;width:23.8%;background:rgba(28,180,214,0.35);">{{scores[2]}}</div>
+                <div id="leader_team_3" class="column" style="position:absolute;bottom:1%;left:50.1%;width:23.8%;background:rgb(188, 243, 197);">{{scores[2]}}</div>
             <div class="skillBLock">
                 <div class="teamImage">
                     <img src="@/assets/team_logo_4.svg" class="ms-auto" style="position: absolute; bottom: 55%; left: 83.5%;width: 5%;" />
                 </div>
-                <div id="leader_team_4" class="column" style="position:absolute;bottom:1%;left:75%;width:24%;background:rgba(117,205,6,0.65);">{{scores[3]}}</div>
+                <div id="leader_team_4" class="column" style="position:absolute;bottom:1%;left:75%;width:24%;background:rgb(255, 223, 104);">{{scores[3]}}</div>
             </div>
         </div>
     </div>

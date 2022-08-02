@@ -7,11 +7,11 @@
         <div @click="edit" id="edit">
             Редактировать
         </div>
-        <div @click="delete_button" id="delete">
-            Удалить
-        </div>
         <div @click="save_product" id="save_product">
             Сохранить
+        </div>
+        <div @click="delete_button" id="delete">
+            Удалить
         </div>
         <div @click="back" id="back">
             К другим полям
@@ -131,10 +131,10 @@ export default {
     margin-top: 5%;
 }
 #back{
-    margin-top: 5%;
+    margin-top: 80%;
 }
 #save_product{
-    margin-top: 92%;
+    margin-top: 5%;
 }
 
 #edit:hover, #back:hover, #delete:hover, #save_product:hover {

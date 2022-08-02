@@ -128,6 +128,22 @@ export default {
                 });   
                 }
             });
+        if(this.selected_product[2])
+        {
+            fetch("http://api.vm-96694bec.na4u.ru/product/update", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
+            })
+        }
+        else
+        {
+            fetch("http://api.vm-96694bec.na4u.ru/product/create", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
+            })
+        }
             console.log(this.products);
         },
         add_question: function(name){

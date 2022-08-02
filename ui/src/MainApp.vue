@@ -94,6 +94,7 @@ export default {
 @import url('http://fonts.cdnfonts.com/css/menlo');
 #app{
   height: 100%;
+  width: 100%;
 }
 html {
     height: 100%;

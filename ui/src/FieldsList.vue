@@ -15,6 +15,7 @@ import FieldList from './components/FieldList.vue'
 import AddFields from './components/AddFields.vue'
 import ProductMenu from './components/ProductMenu.vue'
 import QuestionsList from './components/QuestionsList.vue'
+import { SERVER_PATH } from './common_const.js'
 
 export default {
   name: 'FieldsList',
@@ -44,7 +45,7 @@ export default {
             this.current_view = 'fields';
             let product_ref = this.products;
             product_ref.length = 0;
-            fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+            fetch(SERVER_PATH + "/product/getAll", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {
@@ -130,7 +131,7 @@ export default {
             });
         if(this.selected_product[2])
         {
-            fetch("http://api.vm-96694bec.na4u.ru/product/update", {
+            fetch(SERVER_PATH + "/product/update", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
@@ -138,7 +139,7 @@ export default {
         }
         else
         {
-            fetch("http://api.vm-96694bec.na4u.ru/product/create", {
+            fetch(SERVER_PATH + "/product/create", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
@@ -164,7 +165,7 @@ export default {
       let product_ref = this.products;
       product_ref.length = 0;
   this.$nextTick(function () {
-    fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+    fetch(SERVER_PATH + "/product/getAll", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {

@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { SERVER_PATH } from '../common_const.js'
 //import MasterMenu from './MasterMenu.vue'
 
 export default {
@@ -177,7 +178,7 @@ export default {
         // this.count_field_24();
       console.log("Template");
       console.log(this.template_products);
-      fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+      fetch(SERVER_PATH + "/product/getAll", {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_all_product(data) );
@@ -264,7 +265,7 @@ export default {
     },
     delete_tmpl: function () {
       console.log(this.current_template.id);
-      fetch("http://api.vm-96694bec.na4u.ru/board/delete/" + String(this.current_template.id), {
+      fetch(SERVER_PATH + "/board/delete/" + String(this.current_template.id), {
                 method: "DELETE",
                 headers: {'Content-Type': 'application/json'}
                 });
@@ -290,12 +291,12 @@ export default {
       let id = this.id;
       console.log("Check");
       if(id)
-        fetch("http://api.vm-96694bec.na4u.ru/board/get/" + String(id), {
+        fetch(SERVER_PATH + "/board/get/" + String(id), {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_template_product(data) );
       else
-        fetch("http://api.vm-96694bec.na4u.ru/product/getAll", {
+        fetch(SERVER_PATH + "/product/getAll", {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_all_product(data) );

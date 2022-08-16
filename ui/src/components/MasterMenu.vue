@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { SERVER_PATH } from '../common_const.js'
+
 export default {
   name: 'MasterMenu',
   props: ['template_name', 'count', 'questions', 'tmpl_id'],
@@ -84,7 +86,7 @@ export default {
       console.log(this.tmpl_id);
       if(!this.tmpl_id)
       {
-        fetch("http://api.vm-96694bec.na4u.ru/board/create", {
+        fetch(SERVER_PATH + "/board/create", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})
@@ -94,7 +96,7 @@ export default {
       }
       else
       {
-        fetch("http://api.vm-96694bec.na4u.ru/board/update", {
+        fetch(SERVER_PATH + "/board/update", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({id:this.tmpl_id, name: this.template_name, productWithQuestionRqs: this.questions, numFields: this.count ? this.count : 16})

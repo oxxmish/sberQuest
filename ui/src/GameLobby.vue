@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import { SERVER_PATH } from './common_const.js'
 export default {
   name: 'AuthWin',
   data(){
@@ -134,7 +135,7 @@ export default {
         },
   },
   mounted: function () {
-      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+      fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:1, questionType:"REGULAR", state:"game_begin"})

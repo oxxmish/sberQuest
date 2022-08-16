@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { SERVER_PATH } from '../common_const.js'
 
 export default {
   name: 'GameStatus',
@@ -40,7 +41,7 @@ export default {
   methods: {
     pollData () {
       this.polling = setInterval(() => {
-        fetch("http://api.vm-96694bec.na4u.ru/game/getAnswer", {
+        fetch(SERVER_PATH + "/game/getAnswer", {
         method: 'GET', 
         headers: {
         "Content-Type": "application/JSON",

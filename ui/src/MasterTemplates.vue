@@ -10,6 +10,7 @@ import MasterHeader from './components/MasterHeader.vue'
 import MasterMenu from './components/MasterMenu.vue'
 import TemplateList from './components/TemplateList.vue'
 import TemplateSettings from './components/TemplateSettings.vue'
+import { SERVER_PATH } from './common_const.js'
 
 export default {
   name: 'MasterTemplates',
@@ -91,7 +92,7 @@ export default {
       this.visible = 1;
       let option_ref = this.options;
       option_ref.length = 0;
-      fetch("http://api.vm-96694bec.na4u.ru/board/getAll", {
+      fetch(SERVER_PATH + "/board/getAll", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {
@@ -119,7 +120,7 @@ export default {
       let option_ref = this.options;
       option_ref.length = 0;
   this.$nextTick(function () {
-    fetch("http://api.vm-96694bec.na4u.ru/board/getAll", {
+    fetch(SERVER_PATH + "/board/getAll", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {

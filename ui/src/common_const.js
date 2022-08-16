@@ -1,0 +1,1 @@
+export const SERVER_PATH = "http://api.vm-96694bec.na4u.ru";

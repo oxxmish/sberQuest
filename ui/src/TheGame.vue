@@ -13,6 +13,7 @@ import TeamPanel from './components/TeamPanel.vue'
 import GameField from './components/GameField.vue'
 // import PopUpQuestion from './components/PopUpQuestion.vue'
 import LeaderBoard from './components/LeaderBoard.vue'
+import { SERVER_PATH } from './common_const.js'
 
 export default {
   name: 'ManageMasters',
@@ -119,7 +120,7 @@ export default {
         ++this.puzzles[3];
       }
       this.state.puzzles = this.puzzles;
-      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+      fetch(SERVER_PATH + "/game/chooseQuestion", {
                   method: "POST",
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
@@ -177,7 +178,7 @@ export default {
   },
   mounted: function () {
   this.$nextTick(function () {
-    fetch("http://api.vm-96694bec.na4u.ru/game/getAnswer", {
+    fetch(SERVER_PATH + "/game/getAnswer", {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_state(data) );
@@ -190,7 +191,7 @@ export default {
       this.state.timer = this.timer;
       this.state.crit_timer = this.crit_timer;
       this.state.tmpl_id = this.tmpl_id;
-      fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+      fetch(SERVER_PATH + "/game/chooseQuestion", {
                   method: "POST",
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})

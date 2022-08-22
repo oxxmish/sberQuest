@@ -31,6 +31,7 @@
 <script>
 import FirstRoundField from './FirstRoundField.vue'
 import SecondRoundField from './SecondRoundField.vue'
+import { SERVER_PATH } from '../common_const.js'
 export default {
   name: 'GameField',
   props: ['timer', 'crit_timer', 'tmpl_id', 'state', 'question', 'number_round'],
@@ -209,7 +210,7 @@ export default {
         cur_q.current_question = this.questions[this.players[this.turn].pos];
         console.log( this.turn );
 
-        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+        fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:this.questions[this.players[this.turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
@@ -280,7 +281,7 @@ export default {
         }
        this.players = this.second_round_states[this.second_round_tour++];
        this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
-       fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+       fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:this.second_tour_ids_question[this.second_round_tour - 1], questionType:"REGULAR", state:this.second_round_questions[this.second_round_tour - 1]})}) 
@@ -467,7 +468,7 @@ export default {
         cur_q.current_question = this.questions[this.players[prev_turn].pos];
         console.log( prev_turn );
 
-        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+        fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:this.questions[this.players[prev_turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
@@ -499,7 +500,7 @@ export default {
         cur_q.current_question = this.questions[this.players[prev_turn].pos];
         console.log( prev_turn );
 
-        fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
+        fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:this.questions[this.players[prev_turn].pos][3], questionType:"REGULAR", state: cur_q.current_question[0]})}) 
@@ -606,7 +607,7 @@ export default {
       let id = this.tmpl_id;
   this.$nextTick(function () {
     if(id)
-      fetch("http://api.vm-96694bec.na4u.ru/board/get/" + String(id), {
+      fetch(SERVER_PATH + "/board/get/" + String(id), {
                 method: "GET",
                 headers: {'Content-Type': 'application/json'}
                 }).then( res => res.json() ).then( data => this.save_template_product(data) );

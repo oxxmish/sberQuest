@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { SERVER_PATH } from '../common_const.js'
 export default {
   name: 'ProductMenu',
   props:['selected_product'],
@@ -57,7 +58,7 @@ export default {
             console.log({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]});
             if(this.selected_product[2])
             {
-                fetch("http://api.vm-96694bec.na4u.ru/product/update", {
+                fetch(SERVER_PATH + "/product/update", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
@@ -65,7 +66,7 @@ export default {
             }
             else
             {
-                fetch("http://api.vm-96694bec.na4u.ru/product/create", {
+                fetch(SERVER_PATH + "/product/create", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})

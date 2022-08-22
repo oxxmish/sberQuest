@@ -10,13 +10,14 @@ import RegistrationForm from './RegistrationForm.vue'
 
 const routes = {
   '/': AuthForm,
+  '/auth/login': AuthForm,
   '/masters': ManageMasters,
   '/fields': FieldsList,
   '/templates': MasterTemplates,
   '/game': TheGame,
   '/lobby': GameLobby,
   '/status': MasterPanel,
-  '/reg': RegistrationForm
+  '/auth/registration': RegistrationForm
 }
 
 export default {
@@ -44,7 +45,7 @@ export default {
       this.currentPath = window.location.hash
     },
     log_out() {
-      window.location.href = "#/";
+      window.location.href = "#/auth/login";
       this.currentPath = window.location.hash
     },
     start_game(teams, timer, crit_timer) {
@@ -62,11 +63,11 @@ export default {
       this.tmpl_id = tmpl_id;
     },
     already_registered() {
-      window.location.href = "#/";
+      window.location.href = "#/auth/login";
       this.currentPath = window.location.hash
     },
     go_to_reg() {
-      window.location.href = "#/reg";
+      window.location.href = "#/auth/registration";
       this.currentPath = window.location.hash
     },
   },

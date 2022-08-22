@@ -1,0 +1,2 @@
+insert into users(id, first_name, last_name, middle_name, password, role, status, username)
+values (1, 'Админ', 'Админов', 'Админович', '$2y$12$D952kHbfpJMk1ekwhrVcy.w6Tg4SVsAERm9HZcZYHS0pp/NI2Ju0e', 'ROLE_ADMIN', 'ACTIVE' ,'admin')

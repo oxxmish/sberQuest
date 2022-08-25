@@ -19,9 +19,11 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
+            csrf { disable() }
+            cors { disable() }
             authorizeRequests {
-                authorize("/auth/registration", permitAll)
                 authorize("/auth/login", permitAll)
+                authorize("/auth/registration", permitAll)
                 authorize(
                     "/**", hasAnyAuthority(
                         Authorities.ROLE_PLAYER.name,
@@ -31,8 +33,10 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) {
                 )
             }
             formLogin {
-                loginPage = "/#/auth/login"
+                loginPage = "/auth/login"
+                defaultSuccessUrl("/#/fields", alwaysUse = false)
             }
+            logout { logoutUrl = "/auth/logout" }
         }
         return http.build()
     }

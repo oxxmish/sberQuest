@@ -15,25 +15,25 @@
             Войти по id комнаты
         </div>
     </div>
-    <div v-if="user_type == 'Master'" id="login_master">
-        <input class="form-group" id="email_master" placeholder="Логин">
-        <input type="password" class="form-group" id="password" placeholder="Пароль">
+    <form action="http://localhost:8081/auth/login" method="post">
+      <div v-if="user_type == 'Master'" id="login_master">
+        <input class="form-group" id="email_master" name="username" placeholder="Логин/E-mail">
+        <input type="password" class="form-group" id="password" name="password" placeholder="Пароль">
         <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
-        <div id="enter" @click="log_in">
-            Войти
-        </div>
+        <input type="submit" id="enter" value="Войти">
         <div id="get_pass">
-                Забыли пароль?
+          Забыли пароль?
         </div>
         <div id="registration">
-            <div id="reg_text">
+          <div id="reg_text">
             У вас ещё нет аккаунта?
-            </div>
-            <div id="go_to_reg" @click="go_to_reg">
+          </div>
+          <div id="go_to_reg">
             Зарегистрируйтесь
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </form>
     <div v-if="user_type == 'User'" id="login_user">
         <input class="form-group" placeholder="id комнаты">
         <input class="form-group" placeholder="Ваше имя">
@@ -79,8 +79,8 @@ export default {
             var password = document.getElementById('password').value;
             if(email == 'ведущий' && password == 'ведущий123')
                 this.$emit('login-master');
-            else if(email == 'админ' && password == 'админ123')
-                this.$emit('login-admin');
+            else if(email == 'admin' && password == 'admin')
+              this.$emit('login-admin');
             else
                 this.failed = true;
         },

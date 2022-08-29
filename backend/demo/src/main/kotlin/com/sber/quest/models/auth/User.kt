@@ -13,7 +13,7 @@ data class User(
     @Column(name = "username")
     val username: String,
     @Column(name = "password")
-    val password: String,
+    var password: String,
     @Column(name = "first_name")
     val firstName: String,
     @Column(name = "middle_name")
@@ -22,7 +22,7 @@ data class User(
     val lastName: String,
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    val status: Status = Status.WAITING_APPROVE,
+    var status: Status = Status.WAITING_APPROVE,
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     val role: Authorities,

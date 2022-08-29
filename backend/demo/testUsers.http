@@ -1,0 +1,17 @@
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test",
+  "firstName": "test",
+  "middleName": "test",
+  "lastName": "test",
+  "role": "ROLE_LEADER"
+}
+
+###
+POST http://localhost:8081/admin/register/approve/4
+
+###
+POST http://localhost:8081/admin/register/decline/3

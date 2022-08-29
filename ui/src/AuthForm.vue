@@ -15,7 +15,7 @@
             Войти по id комнаты
         </div>
     </div>
-    <form action="http://localhost:8081/auth/login" method="post">
+    <form @submit.prevent="log_in">
       <div v-if="user_type == 'Master'" id="login_master">
         <input class="form-group" id="email_master" name="username" placeholder="Логин/E-mail">
         <input type="password" class="form-group" id="password" name="password" placeholder="Пароль">
@@ -50,12 +50,15 @@
 </template>
 
 <script>
+import {SERVER_PATH} from "@/common_const";
+
 export default {
   name: 'AuthWin',
   data(){
     return {
         user_type: 'Master',
-        failed: false
+        failed: false,
+        server_path: SERVER_PATH
     }
   },
   methods: {
@@ -75,14 +78,19 @@ export default {
             document.getElementById('failed_message_master').style.visibility = 'hidden';
         },
         log_in: function () {
-            var email = document.getElementById('email_master').value;
-            var password = document.getElementById('password').value;
+          let email = document.getElementById('email_master').value;
+          let password = document.getElementById('password').value;
+          let formData = new FormData()
+          formData.append("username", email)
+          formData.append("password", password)
+            console.log(formData)
             if(email == 'ведущий' && password == 'ведущий123')
                 this.$emit('login-master');
             else if(email == 'admin' && password == 'admin')
-              this.$emit('login-admin');
-            else
-                this.failed = true;
+              fetch(`${SERVER_PATH}/auth/login`, {
+                method: 'POST',
+                body: formData
+              }).then( res => {res.json(); this.$emit('login-admin')} ).then( data => console.log(data) );
         },
         check_failed: function () {
             if(this.failed)

@@ -14,4 +14,5 @@ interface GameBoardQuestionsRepository: JpaRepository<GameBoardQuestions, Long> 
     fun findAllByGameBoardId(@Param("id") id: Long): List<Long>
 
     fun deleteGameBoardQuestionsByGameBoardId(id: Long)
+    fun deleteGameBoardQuestionsByQuestionId(id: Long)
 }

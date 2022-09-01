@@ -23,7 +23,7 @@ fun Product.toDto() = ProductDto(
     id = this.id,
     name = this.name,
     colour = this.colour,
-    questions = this.questions?.map { it.toDto() } ?: emptyList()
+    questions = this.questions.map { it.toDto() }
 )
 
 fun Product.toDtoWithQuestions(questions: List<QuestionDto>) =

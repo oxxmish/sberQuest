@@ -22,4 +22,9 @@ class ProductController(private val productService: ProductService) {
     fun getAllProducts(): List<ProductDto> {
         return productService.getCurrentProducts()
     }
+
+    @DeleteMapping("/question/{questionId}")
+    fun deleteQuestionInProduct(@PathVariable questionId: Long) {
+        return productService.deleteQuestion(questionId)
+    }
 }

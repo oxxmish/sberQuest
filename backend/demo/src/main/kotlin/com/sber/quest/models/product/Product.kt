@@ -14,7 +14,6 @@ class Product(
     var name: String,
     @Column(name ="colour")
     var colour: String,
-    @OneToMany(mappedBy = "product")
-    var questions: Set<Question>? = emptySet()
-) {
-}
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER, orphanRemoval = true)
+    var questions: MutableSet<Question> = mutableSetOf()
+)

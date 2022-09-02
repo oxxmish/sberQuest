@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import { SERVER_PATH } from '../common_const.js'
+
 let wording = '';
 let type = '';
 

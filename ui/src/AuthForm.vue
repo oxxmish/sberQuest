@@ -16,8 +16,8 @@
         </div>
     </div>
     <div v-if="user_type == 'Master'" id="login_master">
-        <input class="form-group" id="email_master" placeholder="Логин">
-        <input type="password" class="form-group" id="password" placeholder="Пароль">
+        <input class="form-group" id="email_master" placeholder="Логин" v-on:keyup.enter="log_in">
+        <input type="password" class="form-group" id="password" placeholder="Пароль" v-on:keyup.enter="log_in">
         <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
         <div id="enter" @click="log_in">
             Войти

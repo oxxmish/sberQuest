@@ -56,13 +56,13 @@
             <div id="first_line" style="width:100%;">
                 <img style="height:75%;width:7.5%;float:left;margin-right:5%" @click="to_questions" src="@/assets/go_back.png" alt="">
                 <div style="width:50%;float:left;" id="short_name_header" resize="false">Краткое обозначение вопроса</div>
-                <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" >
+                <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_edit_changes" :value="selected_el.shortText" >
                 <!-- <div style="width:30%;float:left;" id="category_header">Категория вопроса</div> -->
             </div>
             <div id="second_line" style="width:100%; height:15%;">
                 <!-- <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" > -->
                 <div style="width:30%;float:left;" id="category_header">Категория вопроса</div>
-                <select style="float:left;width:30%;" id="type_selector">
+                <select style="float:left;width:30%;" id="type_selector" @blur="save_edit_changes">
                     <option>С выбором ответа</option>
                     <option>Без выбора ответа</option>
                     <option>Вопрос-аукцион</option>
@@ -78,11 +78,11 @@
             <div id="fiveth_line">
                 <div id="wording_header" resize="false">Формулировка вопроса</div>
             </div>
-            <textarea rows="12" id="wording" :value="selected_el.text"></textarea>
+            <textarea rows="12" id="wording" :value="selected_el.text" @blur="save_edit_changes"></textarea>
             <div id="fiveth_line">
                 <div id="wording_header" resize="false">Ответ</div>
             </div>
-            <textarea rows="2" id="answer" :value="selected_el.answer"></textarea>
+            <textarea rows="2" id="answer" :value="selected_el.answer" @blur="save_edit_changes"></textarea>
             <div class="delete_window_group_button">
                 <div @click="save_question" class="button">Сохранить</div>
                 <div @click="del_question" class="button">Удалить</div>
@@ -210,6 +210,11 @@ export default {
                 if(product_name == item.text)
                     item.questions = item.questions.filter(option => option.id != deleted_question);
             });
+            console.log( deleted_question );
+            fetch(SERVER_PATH + "/product/question/" + String(deleted_question), {
+                method: "DELETE",
+                headers: {'Content-Type': 'application/json'}
+                });
         },
         cancel_question: function () {
             this.draw = 'edit_question';
@@ -239,14 +244,19 @@ export default {
         edit_product: function () {
             this.draw = 'edit';
         },
-        save_short_name: function () {
+        save_edit_changes: function () {
             var product_name = this.selected_product[0];
             var selected = this.selected_el;
             this.products.forEach(function(item) {
                 if(product_name == item.text)
                     item.questions.forEach(function(inner_item) {
                         if(selected == inner_item)
+                        {
                             inner_item.shortText = document.getElementById('short_name').value;
+                            inner_item.questionType = document.getElementById('type_selector').value;
+                            inner_item.text = document.getElementById('wording').value;
+                            inner_item.answer = document.getElementById('answer').value;
+                        }
                         
                     });
             });

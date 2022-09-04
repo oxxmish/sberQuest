@@ -4,6 +4,8 @@ logging:
     org.springframework.web: DEBUG
 
 spring:
+  profiles:
+    active: local
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres

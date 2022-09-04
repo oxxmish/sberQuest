@@ -1,12 +1,11 @@
 package com.sber.quest.models.questions
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.sber.quest.models.product.Product
 import javax.persistence.*
 
 @Entity
 @Table(name = "questions")
-data class Question(
+class Question(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="questions_id_seq")
     @SequenceGenerator(name="questions_id_seq", sequenceName="questions_id_seq", allocationSize=1)
@@ -23,5 +22,4 @@ data class Question(
     @ManyToOne
     @JoinColumn(name = "product_id")
     var product: Product
-) {
-}
+)

@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "game_board")
-data class GameBoard (
+class GameBoard (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="game_board_id_seq")
     @SequenceGenerator(name="game_board_id_seq", sequenceName="game_board_id_seq", allocationSize=1)
@@ -13,5 +13,4 @@ data class GameBoard (
     val name: String,
     @Column(name = "num_fields")
     val numFields: Int
-) {
-}
+)

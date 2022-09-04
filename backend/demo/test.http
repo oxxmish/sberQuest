@@ -16,6 +16,11 @@ Content-Type: application/json
 }
 
 ###
+
+DELETE  http://localhost:8081/product/question/210
+Content-Type: application/json
+
+###
 //
 //{
 //  "id": 1,
@@ -84,7 +89,7 @@ Content-Type: application/json
       "numberOfRepeating": 4,
       "questionIds": [
         1,
-        2
+        210
       ]
     }
   ],

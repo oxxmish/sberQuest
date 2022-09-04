@@ -8,7 +8,6 @@ import com.sber.quest.models.game_board.GameBoardQuestions
 import com.sber.quest.models.game_board.ProductsForGameBoards
 import com.sber.quest.repository.*
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 import javax.transaction.Transactional
 
 @Service
@@ -64,6 +63,7 @@ class GameBoardService(
         val gameBoard = gameBoardRepository.getById(id)
         val questionIds = gameBoardQuestionsRepo.findAllByGameBoardId(id)
         val questions = questionsRepo.findAllByIdOrderById(questionIds)
+            ?: throw RuntimeException("Questions for gameBoard id: $id not found")
         // групируем все вопросы по продукту
         // получаем мапу Product -> List<QuestionDto>
         // пробугаемся по мапе и делаем из нее List<ProductDto>, но с вопросами из начальной коллекции
@@ -80,7 +80,6 @@ class GameBoardService(
     fun getAllGameBoards(): List<GameBoardRsDto> {
         return gameBoardRepository.findAllByOrderById().map { it.toDto() }
     }
-
 
 
     private fun List<ProductsForGameBoards>.findNumByProductId(productId: Long) =

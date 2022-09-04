@@ -5,7 +5,7 @@
     <AddFields  v-if="current_view == 'fields'" @close-add-field="close_add_field" @create-field="create_field"  :is_add_product="is_add_product" />
 
     <ProductMenu v-if="current_view == 'questions'" :selected_product="selected_product" @to-fields="to_fields" @delete-product="delete_product" @edit-product="edit_product" />
-    <QuestionsList v-if="current_view == 'questions'" @to-masters="to_masters"  @edit-question="edit_question" @add-question="add_question" @final-delete-product="final_delete_product" @final-edit-product="final_edit_product" :selected_product="selected_product" :draw="draw" :products="products" ref="q_list" />
+    <QuestionsList v-if="current_view == 'questions'" @to-masters="to_masters"  @edit-question="edit_question" @add-question="add_question" @final-delete-product="final_delete_product" @final-edit-product="final_edit_product" @save-edit="save_edit" @reset-edit="reset_edit" :selected_product="selected_product" :draw="draw" :products="products" :cache_product="cache_product" ref="q_list" />
 </template>
 
 <script>
@@ -35,6 +35,7 @@ export default {
         selected_product: ['СберАптека', 'background:red;color:white;', -1000, []],
         draw: 'questions',
         products: [],
+        cache_product: ['name', 'colour']
     }
   },
   methods: {
@@ -63,9 +64,16 @@ export default {
         select_product: function(name, color, id, questions){
             this.current_view = 'questions';
             if(name == 'Финал' || name == 'Полуфинал')
-                this.selected_product = [name, color + 'background-color:white;;color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;', id, questions];
+            {
+                this.selected_product = [name, color + 'background-color:white;color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;', id, questions];
+                this.cache_product[1] = color + 'background-color:white;color:black;font-size:2vw;padding-top: 15%;padding-bottom: 15%;';
+            }
             else
+            {
                 this.selected_product = [name, color + ';color:white;', id, questions];
+                this.cache_product[1] = color + ';color:white;';
+            }
+            this.cache_product[0] = name;
         },
         delete_product: function(){
             this.$refs.q_list.check_delete_product();
@@ -77,10 +85,12 @@ export default {
             this.products = this.products.filter(option => option.text != this.selected_product[0]);
             this.current_view = 'fields';
         },
-        final_edit_product: function(name, color){
+        save_edit: function(){
             var old_name = this.selected_product[0];
             var old_id = this.selected_product[2];
             var old_questions = this.selected_product[3];
+            var color = this.cache_product[1];
+            var name = this.cache_product[0]
             this.selected_product = [name, color, old_id, old_questions];
             this.products.forEach(function(item) {
                     if(item.text == old_name)
@@ -90,8 +100,36 @@ export default {
                         item.id = old_id;
                         item.questions = old_questions;
                     }
-                    
                 });
+            if(this.selected_product[2])
+            {
+                fetch("http://api.vm-96694bec.na4u.ru/product/update", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
+                })
+            }
+            else
+            {
+                fetch("http://api.vm-96694bec.na4u.ru/product/create", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
+                })
+            }
+        },
+        reset_edit: function(){
+            if( document.getElementById('color_switcher') )
+            {
+                let rgb2hex=c=>'#'+c.match(/\d+/g).map(x=>(+x).toString(16).padStart(2,0)).join``;
+                document.getElementById('color_switcher').value = rgb2hex(document.getElementById('avatar').style.backgroundColor);
+                this.cache_product[0] = this.selected_product[0];
+                this.cache_product[1] = this.selected_product[1];
+            }
+        },
+        final_edit_product: function(name, color){
+            this.cache_product[0] = name;
+            this.cache_product[1] = color;
         },
         edit_question: function(product, question, question_id, new_type, new_wording, short_text, answer){
             console.log(question_id);
@@ -99,17 +137,8 @@ export default {
                 if(item.text == product)
                 {
                 item.questions.forEach(function(item) {
-                    console.log(question_id);
-                    console.log(question);
-                    console.log(new_type);
-                    console.log(new_wording);
-                    console.log(short_text);
-                    console.log(answer);
-                    console.log(question.tmp_id);
-                    console.log(item.tmp_id);
                     if(question_id && item.id == question_id)
                     {
-                        console.log('first');
                         item.questionType = new_type;
                         item.text = new_wording;
                         item.shortText = short_text;
@@ -118,7 +147,6 @@ export default {
                     }
                     else if((question.tmp_id && question.tmp_id == item.tmp_id) || question.tmp_id == 0)
                     {
-                        console.log('second');
                         item.questionType = new_type;
                         item.text = new_wording;
                         item.shortText = short_text;

@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile("!local")
+@Profile("prod")
 class SecurityConfig(private val userDetailsService: UserDetailsService) {
 
     @Bean

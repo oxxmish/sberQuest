@@ -1,8 +1,10 @@
+# Регистрация пользователя
+
 POST http://localhost:8081/auth/register
 Content-Type: application/json
 
 {
-  "username": "test",
+  "username": "leader",
   "password": "test",
   "firstName": "test",
   "middleName": "test",
@@ -10,8 +12,14 @@ Content-Type: application/json
   "role": "ROLE_LEADER"
 }
 
-###
-POST http://localhost:8081/admin/register/approve/4
+###  Принятие заявки пользователя
+POST http://localhost:8081/admin/register/approve/6
 
-###
+###  Отклонение заявки пользователя
 POST http://localhost:8081/admin/register/decline/3
+
+###  Список ведущих
+GET http://localhost:8081/admin/leaders
+
+###  Список заявок на ведущих
+GET http://localhost:8081/admin/waiting

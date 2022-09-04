@@ -33,17 +33,9 @@ export default {
             this.$emit('to-fields');
         },
         edit: function () {
-            var edit = document.getElementById("edit");
-            var click_delete = document.getElementById("delete");
-            click_delete.style.opacity = 0.5;
-            edit.style.opacity = 1;
             this.$emit('edit-product');
         },
         delete_button: function () {
-            var edit = document.getElementById("edit");
-            var click_delete = document.getElementById("delete");
-            click_delete.style.opacity = 1;
-            edit.style.opacity = 0.5;
             this.$emit('delete-product');
         },
         sleep: function (milliseconds) {

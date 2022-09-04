@@ -3,33 +3,7 @@
         <div class="pop_up_title">Создание игрового поля</div>
         <input id="pop_up_input" class="pop_up_input" placeholder="Название продукта"/>
         <div class="pop_up_color_title">Выберите цвет поля</div>
-        <div class="pop_up_group_color">
-            <div id="color_example">
-                <output id="hex">#000000</output>
-            </div>
-            <fieldset>
-            <label for="r">R</label>
-            <input type="range" min="0" max="255" id="r" step="1" value="0">
-            <output for="r" id="r_out">0</output>
-            </fieldset>  
-            
-            
-            <fieldset>
-            <label for="g">G</label>
-            <input type="range" min="0" max="255" id="g" step="1" value="0">
-            <output for="g" id="g_out">0</output>
-            </fieldset>
-
-            
-            
-            <fieldset>
-            <label for="b">B</label>
-            <input type="range" min="0" max="255" id="b" step="1" value="0">
-            <output for="b" id="b_out">0</output>
-            </fieldset>  
-                
-                
-        </div>
+        <input id="create_color_switcher" type="color" style="width:35%;height:25%;">
         <div class="pop_up_group_button">
             <div @click="create_product" class="pop_up_button">Сохранить</div>
             <div @click="exit" class="pop_up_button">Выйти</div>
@@ -52,7 +26,7 @@ export default {
         },
         create_product: function () {
             var name = document.getElementById("pop_up_input").value;
-            var color = String(document.getElementById('hex').value);
+            var color = String(document.getElementById('create_color_switcher').value);
             this.$emit('create-field', name, color);
             this.$emit('close-add-field');
             document.getElementById("pop_up_input").value = "";
@@ -139,61 +113,4 @@ input{
     box-shadow: 0 0 10px 100px orange inset;
 }
 
-/* Shadow */
-
-/* .opacity{
-    position: absolute;
-    width: 100%; height:100%;
-    background:rgba(0,0,0,0.6);
-} */
-
-@import url(https://fonts.googleapis.com/css?family=Roboto:700);
-fieldset{
-  border: none;
-  width: 50%;
-  line-height: 135%;
-}
-output{
-  display: inline-block;
-  min-width: 2.5em;
-}
-label, output{
-  /* padding: 2px 9px; */
-  border-radius: 3px;
-  font-family: 'Roboto', sans-serif;
-  color: #000;
-  font-size: 1.1em;
-}
-label{
-    padding-left: 2%;
-    padding-right: 2%;
-}
-label[for=r], output[for=r]{
-  background-color: #f00;
-}
-label[for=g], output[for=g]{
-  background-color: #0f0;
-}
-label[for=b], output[for=b]{
-  background-color: #00f;
-}
-#hex{
-  min-width: 4.5em;
-  font-size: 3em;
-  background: rgba(255,255,255,.3);
-}
-
-#color_example{
-    float: right;
-    width: 35%;
-    height: 35%;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 4%;
-    padding-bottom: 4%;
-    border-radius: 20px;
-    /* margin-top: 4%; */
-    margin-right: 5%;
-    background-color: #000000;
-}
 </style>

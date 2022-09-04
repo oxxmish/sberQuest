@@ -31,8 +31,6 @@ export default {
         select_product: function (event) {
             var q = null;
             this.products.forEach(function(item) {
-                    console.log(item.id);
-                    console.log(event.target.dataset.db_id);
                     if(item.id == event.target.dataset.db_id)
                     {
                         console.log(item.questions);

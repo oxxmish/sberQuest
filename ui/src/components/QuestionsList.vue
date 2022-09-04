@@ -9,38 +9,12 @@
         </div>
         <div id="edit_window" class="edit_window" v-if="draw === 'edit'">
             <img @click="to_questions" src="@/assets/go_back.png" alt="">
-            <input id="edit_window_input" class="edit_window_input" placeholder="Введите новое название продукта" />
+            <input id="edit_window_input" class="edit_window_input" placeholder="Введите новое название продукта" :value="cache_product[0]" @blur="save_new_name" />
             <div class="edit_window_color_title">Выберите новый цвет поля</div>
-            <div class="edit_window_group_color">
-                <div id="color_example">
-                    <output id="hex">#000000</output>
-                </div>
-                <fieldset>
-                <label for="r">R</label>
-                <input type="range" min="0" max="255" id="r" step="1" value="0">
-                <output for="r" id="r_out">0</output>
-                </fieldset>  
-                
-                
-                <fieldset>
-                <label for="g">G</label>
-                <input type="range" min="0" max="255" id="g" step="1" value="0">
-                <output for="g" id="g_out">0</output>
-                </fieldset>
-
-                
-                
-                <fieldset>
-                <label for="b">B</label>
-                <input type="range" min="0" max="255" id="b" step="1" value="0">
-                <output for="b" id="b_out">0</output>
-                </fieldset>  
-                    
-                    
-            </div>
+            <input id="color_switcher" type="color" style="width:35%;height:25%;" @input="save_new_color">
             <div class="edit_window_group_button">
-                <div @click="save_edit" class="edit_window_button">Сохранить</div>
-                <div @click="reset" class="edit_window_button">Сбросить</div>
+                <div @click="save_edit" class="button">Сохранить</div>
+                <div @click="reset" class="button">Сбросить</div>
             </div>
         </div>
         <div v-if="draw === 'delete'" class="delete_product_window" id="delete_product_window">
@@ -57,10 +31,8 @@
                 <img style="height:75%;width:7.5%;float:left;margin-right:5%" @click="to_questions" src="@/assets/go_back.png" alt="">
                 <div style="width:50%;float:left;" id="short_name_header" resize="false">Краткое обозначение вопроса</div>
                 <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_edit_changes" :value="selected_el.shortText" >
-                <!-- <div style="width:30%;float:left;" id="category_header">Категория вопроса</div> -->
             </div>
             <div id="second_line" style="width:100%; height:15%;">
-                <!-- <input style="float:left;width:30%;" type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" > -->
                 <div style="width:30%;float:left;" id="category_header">Категория вопроса</div>
                 <select style="float:left;width:30%;" id="type_selector" @blur="save_edit_changes">
                     <option>С выбором ответа</option>
@@ -69,12 +41,6 @@
                     <option>Вопрос с медиа фрагментом</option>
                 </select>
             </div>
-            <!-- <div id="third_line">
-                <div id="short_name_header" resize="false">Краткое обозначение вопроса</div>
-            </div> -->
-            <!-- <div id="fourth_line">
-                <input type="text" maxlength="16" id="short_name" @blur="save_short_name" :value="selected_el.shortText" >
-            </div> -->
             <div id="fiveth_line">
                 <div id="wording_header" resize="false">Формулировка вопроса</div>
             </div>
@@ -122,7 +88,7 @@ let type = '';
 
 export default {
   name: 'QuestionsList',
-  props:['selected_product', 'products'],
+  props:['selected_product', 'products', 'cache_product'],
   data(){
     return {
             selected: '1',
@@ -131,6 +97,18 @@ export default {
     }
   },
   methods: {
+        reset: function () {
+            this.$emit('reset-edit');
+        },
+        save_new_name: function () {
+            var color = String(document.getElementById('color_switcher').value);
+            var name = document.getElementById("edit_window_input").value;
+            this.$emit('final-edit-product', name, 'color:white;background:' + color);
+        },
+        save_new_color: function () {
+            var color = String(document.getElementById('color_switcher').value);
+            this.$emit('final-edit-product', this.cache_product[0], 'color:white;background:' + color);
+        },
         add_product: function () {
             this.$emit('add-field');
         },
@@ -146,6 +124,7 @@ export default {
             this.$emit('final-delete-product');
         },
         to_questions: function () {
+            this.$emit('reset-edit');
             this.draw = 'questions';
             var edit = document.getElementById("edit");
             var click_delete = document.getElementById("delete");
@@ -153,24 +132,7 @@ export default {
             edit.style.opacity = 1;
         },
         save_edit: function () {
-            var avatar = document.getElementById("avatar");
-            var color = String(document.getElementById('hex').value);
-            avatar.style.backgroundColor = color;
-            var name = document.getElementById("edit_window_input").value;
-            console.log(name);
-            if(name != "")
-            {
-                avatar.textContent = name.value;
-                document.getElementById("edit_window_input").value = '';
-                this.draw = 'questions';
-                this.$emit('final-edit-product', name, 'color:white;background:' + color);
-            }
-            else
-            {
-                console.log(this.selected_product[0]);
-                this.$emit('final-edit-product', this.selected_product[0], 'color:white;background:' + color);
-                this.draw = 'questions';
-            }
+            this.$emit('save-edit');
             var edit = document.getElementById("edit");
             var click_delete = document.getElementById("delete");
             click_delete.style.opacity = 1;
@@ -194,11 +156,6 @@ export default {
             wording = cur_el.text;
             
             type = mapping.get(cur_el.questionType);
-            // if(document.getElementById("type_selector"))
-            // {
-            //     document.getElementById("type_selector").value = mapping.get(this.selected_el.questionType);
-            //     // document.getElementById("wording").value = this.selected_el.text;
-            // }
             
         },
         del_question: function () {
@@ -263,65 +220,8 @@ export default {
                     });
             });
         },
-  }
+  },
 }
-
-document.addEventListener("DOMNodeInserted", function () {
-            if(document.querySelector('#r') == null)
-                return;
-            var product = document.getElementById("color_example"), 
-            r = document.querySelector('#r'),
-            g = document.querySelector('#g'),
-            b = document.querySelector('#b'),
-            r_out = document.querySelector('#r_out'),
-            g_out = document.querySelector('#g_out'),
-            b_out = document.querySelector('#b_out'),
-            hex_out = document.querySelector('#hex');
-
-            function setColor(){
-            var r_hex = parseInt(r.value, 10).toString(16),
-                g_hex = parseInt(g.value, 10).toString(16),
-                b_hex = parseInt(b.value, 10).toString(16),
-                hex = "#" + pad(r_hex) + pad(g_hex) + pad(b_hex);
-                product.style.backgroundColor = hex; 
-            hex_out.value = hex;
-            }
-
-            function pad(n){
-            return (n.length<2) ? "0"+n : n;
-            }
-
-            r.addEventListener('change', function() {
-            setColor();
-            r_out.value = r.value;
-            }, false);
-
-            r.addEventListener('input', function() {
-            setColor();
-            r_out.value = r.value;
-            }, false);
-
-            g.addEventListener('change', function() {
-            setColor();
-            g_out.value = g.value;
-            }, false);
-
-            g.addEventListener('input', function() {
-            setColor();
-            g_out.value = g.value;
-            }, false);
-
-            b.addEventListener('change', function() {
-            setColor();
-            b_out.value = b.value;
-            }, false);
-
-            b.addEventListener('input', function() {
-            setColor();
-            b_out.value = b.value;
-            }, false);
-                
-            }, false);
 
 document.addEventListener("DOMNodeInserted", function () {
     if(document.getElementById("type_selector")){
@@ -330,7 +230,11 @@ document.addEventListener("DOMNodeInserted", function () {
         var wording_1 = document.getElementById("wording");
         wording_1.value = wording;
     }
-    
+    if(document.getElementById('color_switcher'))
+    {
+        let rgb2hex=c=>'#'+c.match(/\d+/g).map(x=>(+x).toString(16).padStart(2,0)).join``;
+        document.getElementById('color_switcher').value = rgb2hex(document.getElementById('avatar').style.backgroundColor);
+    }
 }, false);
 </script>
 

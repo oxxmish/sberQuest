@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param
 interface QuestionRepository: JpaRepository<Question, Long>{
     @Query("select q from Question q" +
             " where q.id in (:ids)")
-    fun findAllByIdOrderById(@Param("ids") ids: List<Long>): List<Question>
+    fun findAllByIdOrderById(@Param("ids") ids: List<Long>): List<Question>?
 }

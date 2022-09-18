@@ -4,6 +4,7 @@ import com.sber.quest.dto.QuestionDto
 import com.sber.quest.models.product.Product
 import com.sber.quest.models.questions.Question
 import org.apache.logging.log4j.util.Strings
+import java.time.LocalDateTime
 
 fun QuestionDto.toEntity(product: Product) = Question(
     id = this.id,
@@ -12,6 +13,7 @@ fun QuestionDto.toEntity(product: Product) = Question(
     answer = this.answer,
     questionType = this.questionType,
     product = product,
+    lastUpdate = LocalDateTime.now()
 )
 
 fun Question.toDto() = QuestionDto(
@@ -20,4 +22,5 @@ fun Question.toDto() = QuestionDto(
     shortText = this.shortText,
     answer = this.answer,
     questionType = this.questionType,
+    lastUpdate = this.lastUpdate
 )

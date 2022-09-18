@@ -1,6 +1,7 @@
 package com.sber.quest.models.questions
 
 import com.sber.quest.models.product.Product
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -19,6 +20,8 @@ class Question(
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     var questionType: QuestionType,
+    @Column(name = "last_update")
+    var lastUpdate: LocalDateTime,
     @ManyToOne
     @JoinColumn(name = "product_id")
     var product: Product

@@ -1,0 +1,1 @@
+alter table questions add column last_update timestamp default current_timestamp;

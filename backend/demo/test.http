@@ -101,7 +101,7 @@ GET http://localhost:8081/board/getAll
 Content-Type: application/json
 
 ### Получаем игровую доску 2
-GET http://localhost:8081/board/get/2
+GET http://localhost:8081/board/get/1
 Content-Type: application/json
 
 ###

@@ -1,0 +1,9 @@
+POST http://localhost:8081/game
+Content-Type: application/json
+
+{
+  "gameState": "{sdfiuirhwue: fjiweuhwfuhweuf}",
+  "name": "game 1",
+  "time": "2022-09-18T18:57:25.072467",
+  "welcomeMessage": "Just do it!!!"
+}

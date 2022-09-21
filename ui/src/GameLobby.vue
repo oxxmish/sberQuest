@@ -8,58 +8,18 @@
             {{option}}
         </div> -->
     </div>
-    <div id="group_teams">
-        <div class="lobby_team" id="lobby_team_1">
-            <div id="lobby_team_head">Команда 1</div>
-            <hr>
-            <div class="scroll">
-                <div id="list_team_1" class="one_player" v-for="(option, index) in team_1" :key="index" :index="index">
-                    <input type="text" :placeholder="option" class="wait_users" @blur="save_edit">
-                    <div id="delete_player" @click="team_1.pop()">x</div>
-                </div>
-                <div id="plus_player" @click="team_1.push('Новый игрок')">+</div>
-            </div>
-        </div>
-        <div class="lobby_team" id="lobby_team_2">
-            <div id="lobby_team_head">Команда 2</div>
-            <hr>
-            <div class="scroll">
-                <div id="list_team_2" class="one_player" v-for="(option, index) in team_2" :key="index" :index="index">
-                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
-                    <div id="delete_player" @click="team_2.pop()">x</div>
-                </div>
-                <div id="plus_player" @click="team_2.push('Новый игрок')">+</div>
-            </div>
-        </div>
-        <div class="lobby_team" id="lobby_team_3">
-            <div id="lobby_team_head">Команда 3</div>
-            <hr>
-            <div class="scroll">
-                <div id="list_team_3" class="one_player" v-for="(option, index) in team_3" :key="index" :index="index">
-                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
-                    <div id="delete_player" @click="team_3.pop()">x</div>
-                </div>
-                <div id="plus_player" @click="team_3.push('Новый игрок')">+</div>
-            </div>
-        </div>
-        <div class="lobby_team" id="lobby_team_4">
-            <div id="lobby_team_head">Команда 4</div>
-            <hr>
-            <div class="scroll">
-                <div id="list_team_4" class="one_player" v-for="(option, index) in team_4" :key="index" :index="index">
-                    <input type="text"  :placeholder="option" class="wait_users" @blur="save_edit">
-                    <div id="delete_player" @click="team_4.pop()">x</div>
-                </div>
-                <div id="plus_player" @click="team_4.push('Новый игрок')">+</div>
-            </div>
-        </div>
-    </div>
     
+    <div id="group_teams">
+        <ManageTeam :team="team_1" :team_number="'team_1'" :place_holder="'Команда 1'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
+        <ManageTeam :team="team_2" :team_number="'team_2'" :place_holder="'Команда 2'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
+        <ManageTeam style="margin-top:5%;" :team="team_3" :team_number="'team_3'" :place_holder="'Команда 4'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
+        <ManageTeam style="margin-top:5%;" :team="team_4" :team_number="'team_4'" :place_holder="'Команда 3'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name" @set-logo="set_logo" />
+    </div>
     <div id="player_list">
         <div id="player_list_head">Настройки комнаты</div>
         <hr>
         <div id="room_id_header">ID</div>
-        <div id="room_id">cc85b209-77e1-47c4-b7dc-fe4cfeb1c35e</div>
+        <div id="room_id">00000</div>
         <div id="global_timer_header">Таймер</div>
         <div id="global_timer">
             <input id="timer_hours" maxlength="2" class="clock" type="text" placeholder="00"> 
@@ -82,9 +42,14 @@
 </template>
 
 <script>
+import ManageTeam from './components/ManageTeam.vue'
 import { SERVER_PATH } from './common_const.js'
+
 export default {
-  name: 'AuthWin',
+  name: 'GameLobby',
+  components: {
+    ManageTeam
+  }, 
   data(){
     return {
         team_1: [
@@ -94,34 +59,83 @@ export default {
         team_3: [
         ],
         team_4: [
-        ]
+        ],
+        last_added_id: null,
+        new_added: false,
+        teams_name: ['','','',''],
+        team_logos: [null, null, null, null]
     }
   },
   methods: {
-        add_player: function (num_team) {
-            if(num_team == 'team_1')
-                this.team_1.push('Новый игрок');
-            else if(num_team == 'team_2')
-                this.team_2.push('Новый игрок');
-            else if(num_team == 'team_3')
-                this.team_3.push('Новый игрок');
-            else if(num_team == 'team_4')
-                this.team_4.push('Новый игрок');
+        set_logo: function (index, logo) {
+            this.team_logos[index] = logo;
+            console.log(this.team_logos);
         },
-        save_edit: function (event) {
-            if(event.target.parentElement.getAttribute('id') == 'list_team_1')
-                this.team_1[event.target.parentElement.getAttribute('index')] = event.target.value;
-            else if(event.target.parentElement.getAttribute('id') == 'list_team_2')
-                this.team_2[event.target.parentElement.getAttribute('index')] = event.target.value;
-            else if(event.target.parentElement.getAttribute('id') == 'list_team_3')
-                this.team_3[event.target.parentElement.getAttribute('index')] = event.target.value;
-            else if(event.target.parentElement.getAttribute('id') == 'list_team_4')
-                this.team_4[event.target.parentElement.getAttribute('index')] = event.target.value;
+        team_pop: function (team) {
+            if( team == 'team_1' )
+                this.team_1.pop();
+            else if( team == 'team_2' )
+                this.team_2.pop();
+            else if( team == 'team_3' )
+                this.team_3.pop();
+            else if( team == 'team_4' )
+                this.team_4.pop();
+        },
+        add_player: function (team) {
+            if( team == 'team_1' )
+                this.team_1.push('');
+            else if( team == 'team_2' )
+                this.team_2.push('');
+            else if( team == 'team_3' )
+                this.team_3.push('');
+            else if( team == 'team_4' )
+                this.team_4.push('');
+            this.new_added = true;
+            
+        },
+        save_edit: function (team, index, value) {
+            if(value == '')
+                return;
+
+            if( team == 'team_1' )
+                this.team_1[index] = value;
+            else if( team == 'team_2' )
+                this.team_2[index] = value;
+            else if( team == 'team_3' )
+                this.team_3[index] = value;
+            else if( team == 'team_4' )
+                this.team_4[index] = value;
+        },
+        save_team_name: function (team, value) {
+            if(value == '')
+                return;
+
+            if( team == 'team_1' )
+                this.teams_name[0] = value;
+            else if( team == 'team_2' )
+                this.teams_name[1] = value;
+            else if( team == 'team_3' )
+                this.teams_name[2] = value;
+            else if( team == 'team_4' )
+                this.teams_name[3] = value;
         },
         start_game: function () {
             this.sleep(300);
-            console.log(document.getElementById('timer_hours').value);
-            this.$emit('start-game', [this.team_1, this.team_2, this.team_3, this.team_4], 
+            console.log(this.teams_name);
+            for( var i = 0; i < this.teams_name.length; ++i )
+            {
+                if(this.teams_name[i] == '')
+                    this.teams_name[i] = 'Команда ' + String( i + 1 );
+            }
+            const toFindDuplicates = arry => arry.filter((item, index) => arry.indexOf(item) !== index && item !== null);
+            const duplicateElements = toFindDuplicates(this.team_logos);
+            console.log(duplicateElements);
+            if(duplicateElements.length > 0)
+            {
+                alert( "Присутствуют повторяющиеся логотипы команд" );
+                return;
+            }
+            this.$emit('start-game', this.team_logos, this.teams_name, [this.team_1, this.team_2, this.team_3, this.team_4], 
             [document.getElementById('timer_hours').value.length == 0 ? '00' : document.getElementById('timer_hours').value, document.getElementById('timer_min').value.length == 0 ? '00' : document.getElementById('timer_min').value, document.getElementById('timer_sec').value.length == 0 ? '00' : document.getElementById('timer_sec').value], 
             [document.getElementById('crit_timer_hours').value.lenght == 0 ? '00' : document.getElementById('crit_timer_hours').value, document.getElementById('crit_timer_min').value.lenght == 0 ? '00' : document.getElementById('crit_timer_min').value, document.getElementById('crit_timer_sec').value.lenght == 0 ? '00' : document.getElementById('crit_timer_sec').value]);
         },
@@ -140,13 +154,7 @@ export default {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({questionId:1, questionType:"REGULAR", state:"game_begin"})
                 });
-  this.$nextTick(function () {
-    // Код, который будет запущен только после
-    // отображения всех представлений
-    // document.getElementById('tab_1').style.textDecoration = 'underline';
-    // this.user_type = 'Master'
-  })
-  }
+  },
 }
 </script>
 
@@ -195,31 +203,9 @@ hr{
     height: 95%;
 }
 
-.lobby_team{
-    border-radius: 20px;
-    float: left;
-    border: solid black 2px;
-    width: 45%;
-    height: 46%;
-    margin-left: 4%;
-    background: rgba(255, 255, 255, 0.7);
-}
-
-#lobby_team_head{
-    margin-top: 2%;
-    text-align: center;
-    /* font-size: 130%; */
-    font-size: 1.5vw;
-}
-
-#lobby_team_3, #lobby_team_4{
-    margin-top: 5%;
-}
-
 #room_id_header{
     margin-top: 5%;
     text-align: center;
-    /* font-size: 150%; */
     font-size: 1.75vw;
     text-decoration: underline;
 }
@@ -294,7 +280,6 @@ hr{
     border: solid black 2px;
     border-radius: 10px;
     text-align: center;
-    /* font-size: 120%; */
     font-size: 1.3vw;
     padding-top: 1.5%;
     padding-bottom: 1.5%;
@@ -311,29 +296,6 @@ hr{
 .scroll::-webkit-scrollbar {
     width: 0;
     height: 0;
-}
-
-#plus_player{
-    margin-top: 2%;
-    margin-left: 10%;
-    width: 80%;
-    text-align: center;
-    /* font-size: 150%; */
-    font-size: 1.5vw;
-    font-weight: bold;
-    float: left;
-}
-
-.one_player{
-    width: 100%;
-}
-
-#delete_player{
-    float: left;
-    width: 5%;
-    margin-top: 4%;
-    margin-left: 2%;
-    font-size: 1.3vw;
 }
 
 .clock{

@@ -50,6 +50,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'AuthWin',
   data(){
@@ -154,9 +155,9 @@ export default {
     width: 33.3%;
     height: 65%;
     background: #21A038;
-    border-radius: 15px;
+    border-radius: 1vw;
     margin-top: 3%;
-    border: solid 2px;
+    border: solid 0.15vw;
     margin-left: 33.3%;
 }
 
@@ -196,15 +197,15 @@ export default {
 }
 
 .form-group  {
-  width: 80%;
-  height: 20%;
-  border-radius: 25px;
-  margin-left: 10%;
-  margin-top: 5%;
-  /* font-size: 120%; */
-  font-size: 1.3vw;
-  border: solid 2px;
-  text-indent: 5%;
+    width: 80%;
+    height: 20%;
+    border-radius: 1.5vw;
+    margin-left: 10%;
+    margin-top: 5%;
+    font-size: 120%;
+    font-size: 1.3vw;
+    border: solid 0.15vw;
+    text-indent: 5%;
 }
 
 #enter{

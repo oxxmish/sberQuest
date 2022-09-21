@@ -10,6 +10,7 @@
         <div id="edit_window" class="edit_window" v-if="draw === 'edit'">
             <img @click="to_questions" src="@/assets/go_back.png" alt="">
             <input id="edit_window_input" class="edit_window_input" placeholder="Введите новое название продукта" :value="cache_product[0]" @blur="save_new_name" />
+            <input id="input_path" placeholder="Введите название файла" />
             <div class="edit_window_color_title">Выберите новый цвет поля</div>
             <input id="color_switcher" type="color" style="width:35%;height:25%;" @input="save_new_color">
             <div class="edit_window_group_button">
@@ -34,7 +35,7 @@
             </div>
             <div id="second_line" style="width:100%; height:15%;">
                 <div style="width:30%;float:left;" id="category_header">Категория вопроса</div>
-                <select style="float:left;width:30%;" id="type_selector" @blur="save_edit_changes">
+                <select style="float:left;width:30%;" id="type_selector" @blur="save_edit_changes" @input="update_is_media">
                     <option>С выбором ответа</option>
                     <option>Без выбора ответа</option>
                     <option>Вопрос-аукцион</option>
@@ -49,6 +50,7 @@
                 <div id="wording_header" resize="false">Ответ</div>
             </div>
             <textarea rows="2" id="answer" :value="selected_el.answer" @blur="save_edit_changes"></textarea>
+            <input v-if="is_media" id="input_path" style="margin-left:12.5%;margin-top:2%;width:70%;" placeholder="Введите название файла" />
             <div class="delete_window_group_button">
                 <div @click="save_question" class="button">Сохранить</div>
                 <div @click="del_question" class="button">Удалить</div>
@@ -93,7 +95,8 @@ export default {
     return {
             selected: '1',
             selected_el: null,
-            draw: 'questions'
+            draw: 'questions',
+            is_media: false
     }
   },
   methods: {
@@ -108,6 +111,11 @@ export default {
         save_new_color: function () {
             var color = String(document.getElementById('color_switcher').value);
             this.$emit('final-edit-product', this.cache_product[0], 'color:white;background:' + color);
+        },
+        update_is_media: function () {
+            console.log("debug");
+            if(document.getElementById('type_selector'))
+                this.is_media = document.getElementById('type_selector').value == 'Вопрос с медиа фрагментом';
         },
         add_product: function () {
             this.$emit('add-field');
@@ -216,7 +224,6 @@ export default {
                             inner_item.text = document.getElementById('wording').value;
                             inner_item.answer = document.getElementById('answer').value;
                         }
-                        
                     });
             });
         },
@@ -242,9 +249,8 @@ document.addEventListener("DOMNodeInserted", function () {
 <style scoped>
 #main_area{
     float: left;
-    height: 85%;
+    height: 81%;
     width: 70%;
-    
     margin-top: 3%;
     margin-left: 2%;
 }
@@ -343,14 +349,12 @@ img{
 }
 
 input{
-    /* margin-top: 5%; */
     width: 60%;
     border-bottom: 1.5px solid silver;
     border-top: none;
     border-left: none;
     border-right: none;
     outline:none;
-    /* font-size: 150%; */
     font-size: 2vw;
 }
 
@@ -359,8 +363,14 @@ input{
     width: 80%;
 }
 
+#input_path{
+    margin-top: 3%;
+    margin-left: 7%;
+    width: 80%;
+}
+
 .edit_window_group_button{
-    margin-top: 5%;
+    margin-top: 2%;
     width: 90%;
     height: 20%;
     margin-left: 12%;
@@ -376,21 +386,12 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    /* font-size: 150%; */
     font-size: 1.5vw;
 }
 
 .edit_window_button:hover {
     box-shadow: 0 0 10px 100px orange inset;
 }
-
-/* Shadow */
-
-/* .opacity{
-    position: absolute;
-    width: 100%; height:100%;
-    background:rgba(0,0,0,0.6);
-} */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:700);
 fieldset{
@@ -403,7 +404,6 @@ output{
   min-width: 2.5em;
 }
 label, output{
-  /* padding: 2px 9px; */
   border-radius: 3px;
   font-family: 'Roboto', sans-serif;
   color: #000;
@@ -466,7 +466,6 @@ label[for=b], output[for=b]{
     padding-top: 1.5%;
     padding-bottom: 1.5%;
     color: white;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     font-weight: bold;
     border-radius: 20px;
@@ -484,9 +483,7 @@ label[for=b], output[for=b]{
 }
 
 #type_selector{
-    /* float: left; */
     width: 40%;
-    /* font-size: 130%; */
     font-size: 1.3vw;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
@@ -497,14 +494,12 @@ label[for=b], output[for=b]{
 #title{
     float: left;
     width: 60%;
-    /* font-size: 200%; */
     font-size: 2vw;
 }
 
 #wording{
     width: 70%;
-    height: 85%;
-    /* font-size: 140%; */
+    height: 75%;
     font-size: 1.4vw;
     resize: none;
     margin-left: 12.5%;
@@ -530,14 +525,12 @@ label[for=b], output[for=b]{
 .pop_up_title{
     margin-top: 2%;
     color: green;
-    /* font-size: 200%; */
     font-size: 2vw;
     font-weight: bold;
 }
 .pop_up_color_title{
     margin-top: 4%;
     color: green;
-    /* font-size: 150%; */
     font-size: 1.5vw;
     width: 90%;
     margin-left: 5%;
@@ -547,14 +540,12 @@ label[for=b], output[for=b]{
 }
 
 input{
-    /* margin-top: 5%; */
     width: 60%;
     border-bottom: 1.5px solid silver;
     border-top: none;
     border-left: none;
     border-right: none;
     outline:none;
-    /* font-size: 130%; */
     font-size: 1.3vw;
 }
 
@@ -581,7 +572,6 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    /* font-size: 120%; */
     font-size: 1.2vw;
 }
 
@@ -599,8 +589,7 @@ input{
 }
 
 #category_header{
-    font-size: 2vw;
-    /* width: 70%; */
+    font-size: 1.65vw;
     margin-left: 12.5%;
 }
 
@@ -609,14 +598,13 @@ input{
 }
 
 #short_name_header{
-    font-size: 2vw;
-    /* margin-left: 15%; */
+    font-size: 1.65vw;
 }
 
 #wording_header{
-    font-size: 2vw;
+    font-size: 1.65vw;
     margin-left: 12.5%;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 img{
@@ -630,7 +618,6 @@ img:hover {
 #answer{
     width: 70%;
     height: 30%;
-    /* font-size: 140%; */
     font-size: 1.4vw;
     resize: none;
     margin-left: 12.5%;

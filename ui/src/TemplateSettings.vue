@@ -1,8 +1,11 @@
 <template>
 <div class="app">
 <AdminHeader  />
-<ProductMenu2 @select-question= "visible1" @select-themes= "visible2"  />
-    <div v-if="visible==1" class="item_block_scroll">
+<ProductMenu2 @select-question= "visible1" @select-themes= "visible2" @show-game= "visible5"  />
+    <div style="height:5%;width:100%;background-color:black;">
+      1
+    </div>
+    <div v-if="visible==2" class="item_block_scroll">
           <div v-for="(product,index) in products" :key="index" id="size_themes">
             <div class="themes_themes" :style="product.color" >
                 <div class="text_themes" >
@@ -241,6 +244,9 @@ export default {
     visible2: function () { // переключение на вкладку выбор тем
       this.visible = 2
       this.count_field_now()
+    },
+    visible5: function () { // переключение на вкладку выбор тем
+      this.visible = 5;
     },
     count_field_16: function () { // смена количества полей в игре на 16
       this.count_field = 16

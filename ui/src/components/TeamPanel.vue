@@ -1,29 +1,14 @@
 <template>
-  <div id="block" class="block">
+  <div v-if="players.length > 0" id="block" class="block">
     <div v-if="visible==2" class="all_cont">
-    <!-- <div class="top_item_team">
-        <div class="question">
-          <img src="@/assets/question.png" alt="Кнопка «button»" @click="up_hand" style="height:100%">
-        </div>
-        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')">Команда 1</div>
-        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')">Команда 2</div>
-        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_4')">Команда 3</div>
-        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_3')">Команда 4</div>
-        <div class="change_label">
-          <button class="button" v-on:click="visible1" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
-        </div>
-    </div> -->
       <div class="center_item_team">
          <div class="column_img" style="float:left;">
-            <img v-if="team_number == 'team_1'" id="logo" src="@/assets/team_logo_1.svg">
-            <img v-if="team_number == 'team_2'" id="logo" src="@/assets/team_logo_2.svg">
-            <img v-if="team_number == 'team_3'" id="logo" src="@/assets/team_logo_3.svg">
-            <img v-if="team_number == 'team_4'" id="logo" src="@/assets/team_logo_4.svg">
+            <img id="logo" :src="img_path + 'team_logo_' + String(Number(logo) + 1) + '.svg'">
         </div>
-        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')">Команда 1</div>
-        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')">Команда 2</div>
-        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_4')">Команда 3</div>
-        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_3')">Команда 4</div>
+        <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')">{{name}}</div>
+        <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')">{{name}}</div>
+        <div v-if="team_number == 'team_4'" class="name_team" @click="give_puzzle('team_4')">{{name}}</div>
+        <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_3')">{{name}}</div>
         <div class="change_label">
           <button class="button" v-on:click="visible1" style="height:100%"><img src="@/assets/menu.png" alt="Кнопка «button»" style="height:100%"></button>
         </div>
@@ -163,11 +148,14 @@
 </template>
 
 <script>
+import { SRC_PATH } from '../common_const.js'
+
 export default {
   name: 'TeamPanel',
-  props:['team_number', 'puzzle', 'score', 'players', 'unique_products', 'tour', 'question'],
+  props:['logo', 'name', 'team_number', 'puzzle', 'score', 'players', 'unique_products', 'tour', 'question'],
   data: function () {
     return {
+      img_path: SRC_PATH,
       visible: 2,
       themes_sber: [
           {product:'test', color:'background:white;', font:'line-height:200%;'},

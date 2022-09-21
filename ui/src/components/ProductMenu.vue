@@ -21,16 +21,20 @@
 
 <script>
 import { SERVER_PATH } from '../common_const.js'
+
 export default {
   name: 'ProductMenu',
-  props:['selected_product'],
+  props:['selected_product', 'current_view'],
   data(){
     return {
     }
   },
   methods: {
         back: function () {
-            this.$emit('to-fields');
+            if( this.current_view == 'fields_1' )
+                this.$emit('fields-1');
+            else
+                this.$emit('fields-2');
         },
         edit: function () {
             this.$emit('edit-product');
@@ -89,9 +93,10 @@ export default {
     float: left;
     width: 20%;
     text-align: center;
-    height: 94%;
-    border-right: 2px solid silver;
+    height: 88%;
+    border-right: 0.15vw solid silver;
     margin-right: 1%;
+    margin-top: 0.3%;
 }
 
 .avatar{

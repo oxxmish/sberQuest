@@ -21,10 +21,10 @@
 <script>
 export default {
   name: 'SecondRoundField',
-  props: ['question'],
+  props: ['question', 'teams'],
   data(){
     return {
-        teams: 4,
+        // teams: 4,
         count_question: 5
     }
   },
@@ -41,6 +41,7 @@ export default {
   },
   mounted: function () {
   this.$nextTick(function () {
+    console.log(this.teams);
     let ar = [];
     let start_left = '';
     let finish_left = '';
@@ -48,7 +49,7 @@ export default {
     let body = document.body;
     let body_bottom = body.getBoundingClientRect().bottom;
     let body_right = body.getBoundingClientRect().right;
-    for( let j = 0; j < 4; ++j )
+    for( let j = 0; j < this.teams; ++j )
     {
       for( let i = 0; i < 5; ++i )
       {

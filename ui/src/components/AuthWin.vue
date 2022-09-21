@@ -15,7 +15,37 @@
             Войти по id комнаты
         </div>
     </div>
-    <div v-if="user_type == 'Master'" id="login_master">
+    <form @submit.prevent="log_in">
+      <div v-if="user_type == 'Master'" id="login_master">
+        <input class="form-group" id="email_master" name="username" placeholder="Логин/E-mail">
+        <input type="password" class="form-group" id="password" name="password" placeholder="Пароль">
+        <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
+        <input type="submit" id="enter" value="Войти">
+        <div id="get_pass">
+          Забыли пароль?
+        </div>
+        <div id="registration">
+          <div id="reg_text">
+            У вас ещё нет аккаунта?
+          </div>
+          <div id="go_to_reg">
+            Зарегистрируйтесь
+          </div>
+        </div>
+      </div>
+    </form>
+    <div v-if="user_type == 'User'" id="login_user">
+        <input class="form-group" placeholder="id комнаты">
+        <input class="form-group" placeholder="Ваше имя">
+        <div :style="'visibility:' + check_failed()" id="failed_message_user">Неверный id комнаты</div>
+        <div id="enter" @click="test_action">
+            Войти
+        </div>
+        <div id="user_message">
+                Для входа запросите id комнаты у своего ведущего
+        </div>
+    </div>
+    <!-- <div v-if="user_type == 'Master'" id="login_master">
         <input class="form-group" id="email_master" placeholder="Логин/E-mail">
         <input type="password" class="form-group" id="password" placeholder="Пароль">
         <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
@@ -44,12 +74,14 @@
         <div id="user_message">
                 Для входа запросите id комнаты у своего ведущего
         </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </template>
 
 <script>
+import {SERVER_PATH} from "@/common_const";
+
 export default {
   name: 'AuthWin',
   data(){
@@ -75,15 +107,19 @@ export default {
             document.getElementById('failed_message_master').style.visibility = 'hidden';
         },
         log_in: function () {
-            // var email = document.getElementById('email_master').value;
-            // var password = document.getElementById('password').value;
-            // if(email == 'ведущий' && password == 'ведущий123')
-            //     this.$emit('login-master');
-            // else if(email == 'админ' && password == 'админ123')
-            //     this.$emit('login-admin');
-            // else
-            //     this.failed = true;
-            // window.location.href = "masters.html";
+          let email = document.getElementById('email_master').value;
+          let password = document.getElementById('password').value;
+          let formData = new FormData()
+          formData.append("username", email)
+          formData.append("password", password)
+            console.log(formData)
+            if(email == 'ведущий' && password == 'ведущий123')
+                this.$emit('login-master');
+            else if(email == 'admin' && password == 'admin')
+              fetch(`${SERVER_PATH}/auth/login`, {
+                method: 'POST',
+                body: formData
+              }).then( res => {res.json(); this.$emit('login-admin')} ).then( data => console.log(data) );
         },
         check_failed: function () {
             // console.log(document.getElementById('failed_message_master').style.visibility);

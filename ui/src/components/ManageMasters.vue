@@ -1,15 +1,11 @@
 <template>
-    <AdminHeader @logout="log_out" />
-    <NavigationButton :current_text="current_text" @click="to_fields"/>
     <MasterList ref="masters" @master-chosen="chose_master" :masters="masters" :master_chosen="master_chosen" />
     <MasterRequests @go-back="go_back" @add-master="add_master" @remove-master="remove_master" @save-edit="save_edit" :master_chosen="master_chosen" :selected="selected" :fio="fio" :login="login" />
 </template>
 
 <script>
-import AdminHeader from './components/AdminHeader.vue'
-import NavigationButton from './components/NavigationButton.vue'
-import MasterList from './components/MasterList.vue'
-import MasterRequests from './components/MasterRequests.vue'
+import MasterList from './MasterList.vue'
+import MasterRequests from './MasterRequests.vue'
 
 export default {
   name: 'ManageMasters',
@@ -38,16 +34,16 @@ export default {
     }
   },
   components: {
-    AdminHeader,
     MasterList,
-    MasterRequests,
-    NavigationButton
+    MasterRequests
   }, 
   methods: {
-    to_fields: function () {
-            this.$emit('to-fields');
-        },
-    
+    to_masters: function () {
+          this.$emit('to-masters');
+      },
+      to_fields_1: function () {
+          this.$emit('to-fields');
+      },
     chose_master: function (master_chosen, selected) {
         this.master_chosen = master_chosen;
         this.selected = selected;

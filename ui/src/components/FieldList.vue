@@ -56,18 +56,18 @@ export default {
 }
 
 .grid_element{
-    margin-left: 2%;
+    margin-left: 2.6%;
     margin-right: 2%;
     margin-bottom: 5%;
     float: left;
     width: 15%;
     height: 20%;
-    border: 2px solid black;
-    border-radius: 20px;
+    border: 0.15vw solid black;
+    border-radius: 1vw;
     text-align: center;
-    /* font-size: 220%; */
+    font-size: 220%;
     font-size: 1.8vw;
-    /* line-height:100px; */
+    line-height: 100px;
     line-height: 6.3vw;
     color: white;
     transition: transform .25s ease;
@@ -96,6 +96,7 @@ export default {
     -ms-overflow-style: none;
     scrollbar-width: none;
     margin-top: 1%;
+    width: 100%;
 }
 
 .scroll::-webkit-scrollbar {

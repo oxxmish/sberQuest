@@ -2,8 +2,6 @@
     <img v-if="next=='Второй раунд'" src="@/assets/dice.png" alt="" id="dice" @click="generate_random_number">
     <div v-if="next=='Второй раунд'" id="generated_number">{{ current_number }}</div>
     <div v-if="next=='Завершить игру'" id="next_turn" @click="next_turn">Следующий ход</div>
-    <!-- <input id="price" v-show="next=='Второй раунд'" placeholder="Баллы за 2-ой раунд" @blur="save_price">
-    <div id="next_round" @click="next_round">{{ next }}</div> -->
     <div class="round">1 раунд</div>
     <div class="round" @click="next_round">2 раунд</div>
     <input id="price" @blur="save_price">
@@ -12,31 +10,28 @@
     <div id="timer">{{timer[0]}}:{{timer[1]}}:{{timer[2]}}</div>
     <img src="@/assets/start.png" id="question_start" @click="start_timer">
     <div id="question_timer">00:30</div>
-    <FirstRoundField v-if="number_round == 1" ref="FirstRound" :current_template="current_template" :field_config="field_config" :question="question" :turn="turn" />
-    <SecondRoundField v-if="number_round != 1" :current_template="current_template" :field_config="field_config" :question="question" @second-round-pos="init_second_round_pos" />
+    <FirstRoundField v-if="number_round == 1" ref="FirstRound" :logos="logos" :current_template="current_template" :field_config="field_config" :question="question" :turn="turn" />
+    <SecondRoundField v-if="number_round != 1" :teams="calc_exist_team()" :current_template="current_template" :field_config="field_config" :question="question" @second-round-pos="init_second_round_pos" />
     <div class="chip" v-for="(player, index) in players" :key="index" :style="player.pos">
-      <img v-if="index == 0" src="@/assets/team_logo_1.svg" style="width:100%;height:100%;">
-      <img v-else-if="index == 1" src="@/assets/team_logo_2.svg" style="width:100%;height:100%;">
-      <img v-else-if="index == 3" src="@/assets/team_logo_3.svg" style="width:100%;height:100%;">
-      <img v-else-if="index == 2" src="@/assets/team_logo_4.svg" style="width:100%;height:100%;">
+      <img v-if="index == 0" :src="img_path + 'team_logo_' + String(Number(logos[0]) + 1) + '.svg'" style="width:100%;height:100%;">
+      <img v-else-if="index == 1" :src="img_path + 'team_logo_' + String(Number(logos[1]) + 1) + '.svg'" style="width:100%;height:100%;">
+      <img v-else-if="index == 3" :src="img_path + 'team_logo_' + String(Number(logos[2]) + 1) + '.svg'" style="width:100%;height:100%;">
+      <img v-else-if="index == 2" :src="img_path + 'team_logo_' + String(Number(logos[3]) + 1) + '.svg'" style="width:100%;height:100%;">
     </div>
-
-     <!-- <img v-if="team_number == 'team_1'" id="logo" src="@/assets/team_logo_1.png">
-     <img v-if="team_number == 'team_2'" id="logo" src="@/assets/team_logo_2.png">
-     <img v-if="team_number == 'team_3'" id="logo" src="@/assets/team_logo_3.png">
-     <img v-if="team_number == 'team_4'" id="logo" src="@/assets/team_logo_4.png"> -->
-    
 </template>
 
 <script>
 import FirstRoundField from './FirstRoundField.vue'
 import SecondRoundField from './SecondRoundField.vue'
 import { SERVER_PATH } from '../common_const.js'
+import { SRC_PATH } from '../common_const.js'
+
 export default {
   name: 'GameField',
-  props: ['timer', 'crit_timer', 'tmpl_id', 'state', 'question', 'number_round'],
+  props: ['teams', 'logos', 'timer', 'crit_timer', 'tmpl_id', 'state', 'question', 'number_round'],
   data(){
     return {
+        img_path: SRC_PATH,
         global_question_timer: null,
         global_timer: null,
         current_global_timer: null,
@@ -58,54 +53,7 @@ export default {
         tour: 1,
         second_round_tour: 0,
         second_round_states: [
-            [
-                { pos:'top:42%;left:34.2%;', color:'background:blue;' },
-                { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
-                { pos:'top:71%;left:27.8%;', color:'background:lime;' },
-                { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
-                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
-                { pos:'top:83.5%;left:68%;', color:'background:lime;' },
-                { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
-                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
-                { pos:'top:67%;left:59%;', color:'background:lime;' },
-                { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:26.5%;left:39.5%;', color:'background:blue;' },
-                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
-                { pos:'top:67%;left:59%;', color:'background:lime;' },
-                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:42%;left:47%;', color:'background:blue;' },
-                { pos:'top:26.5%;left:59.2%;', color:'background:red;' },
-                { pos:'top:67%;left:59%;', color:'background:lime;' },
-                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:42%;left:47%;', color:'background:blue;' },
-                { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:67%;left:59%;', color:'background:lime;' },
-                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:42%;left:47%;', color:'background:blue;' },
-                { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:52%;left:51%;', color:'background:lime;' },
-                { pos:'top:67%;left:39.5%;', color:'background:cyan;' },
-            ],
-            [
-                { pos:'top:42%;left:47%;', color:'background:blue;' },
-                { pos:'top:42%;left:51%;', color:'background:red;' },
-                { pos:'top:52%;left:51%;', color:'background:lime;' },
-                { pos:'top:52%;left:47%;', color:'background:cyan;' },
-            ],
+            
         ],
         players: [
             { pos:'top:10.5%;left:31%;', color:'background:blue;' },
@@ -173,6 +121,14 @@ export default {
     SecondRoundField
   },
   methods: {
+    calc_exist_team()
+    {
+      let result = 0;
+      for(let i = 0; i < this.teams.length; ++i)
+        if( this.teams[i].length > 0 )
+          ++result;
+      return result;
+    },
     generate_random_number () { 
         if(this.current_number == 0)
         {
@@ -220,7 +176,8 @@ export default {
         clearInterval(this.global_question_timer);
         document.getElementById("question_timer").innerText = '00:30';
 
-        if(this.turn == 3)
+        // if(this.turn == 3)
+        if(this.turn == this.players.length - 1)
         {
             this.turn = 0;
             ++this.tour;
@@ -272,15 +229,16 @@ export default {
         document.getElementById('next_round').innerText = '2 раунд';
         },
     next_turn () {
-        if(this.second_round_tour + 1 == 8)
+      console.log(this.second_round_states);
+        if(this.second_round_tour + 1 == 2 * this.players.length)
         {
             this.next = 'Конец';
             this.players = this.second_round_states[this.second_round_tour++];
-            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+            this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= this.players.length ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
             return;
         }
        this.players = this.second_round_states[this.second_round_tour++];
-       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= 4 ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
+       this.$emit('set-question', [this.second_round_questions[this.second_round_tour - 1], '2 раунд', this.second_round_tour <= this.players.length ? 'Полуфинал' : 'Финал'], this.second_round_tour - 1);
        fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
@@ -376,6 +334,7 @@ export default {
         }
     },
     init_chip_positions: function () {
+        this.players.length = 0;
         let body = document.body;
         let body_bottom = body.getBoundingClientRect().bottom;
         let body_right = body.getBoundingClientRect().right;
@@ -383,23 +342,31 @@ export default {
         let start_one = document.getElementById("start_one");
         let top = start_one.getBoundingClientRect().top;
         let left = start_one.getBoundingClientRect().left;
-        this.players[0].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
+        if(this.teams[0].length > 0)
+          // this.players[0].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
+          this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;'});
       
 
         let start_two = document.getElementById("start_two");
         top = start_two.getBoundingClientRect().top;
         left = start_two.getBoundingClientRect().left;
-        this.players[1].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
+        if(this.teams[1].length > 0)
+          // this.players[1].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
+          this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;'});
 
         let start_three = document.getElementById("start_three");
         top = start_three.getBoundingClientRect().top;
         left = start_three.getBoundingClientRect().left;
-        this.players[3].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
+        if(this.teams[3].length > 0)
+          // this.players[3].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
+          this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;'});
 
         let start_four = document.getElementById("start_four");
         top = start_four.getBoundingClientRect().top;
         left = start_four.getBoundingClientRect().left;
-        this.players[2].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
+        if(this.teams[2].length > 0)
+          // this.players[2].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
+          this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;'});
 
     },
     init_circle_chip_positions: function () {
@@ -426,7 +393,7 @@ export default {
     },
     init_questions: function () {
       let mapping = new Map();
-      mapping.set("TEXT", "Без выбора ответа").set("AUCTION", "Вопрос-аукцион").set("TEXT_WITH_ANSWERS", "С выбором ответа").set("MEDIA", "Вопрос с медиа фрагментом");
+      mapping.set("TEXT", "без выбора ответа").set("AUCTION", "вопрос-аукцион").set("TEXT_WITH_ANSWERS", "с выбором ответа").set("MEDIA", "вопрос с медиа фрагментом");
       this.questions = {};
       for( let i = 0; i < this.field_config.length; ++i)
       {
@@ -560,46 +527,70 @@ export default {
     init_second_round_pos: function ( ar, start, middle, finish )
     {
         console.log( ar, start, finish );
+        console.log("Init second round pos");
         this.second_round_states.length = 0;
-        this.players = [
-            { pos:'top:42%;left:27.8%;', color:'background:blue;' },
-            { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
-            { pos:'top:71%;left:27.8%;', color:'background:lime;' },
-            { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
-            ];
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(start) + '%;'},
-                                       {pos: 'top:71%;left:' + String(start) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:71%;left:' + String(start) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(start) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
+        this.players.length = 0;
+        // this.players = [
+        //     { pos:'top:42%;left:27.8%;', color:'background:blue;' },
+        //     { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
+        //     { pos:'top:71%;left:27.8%;', color:'background:lime;' },
+        //     { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
+        //     ];
+        if(this.teams[0].length > 0)
+          this.players.push({pos: 'top:42%;left:27.8%;'});
+        if(this.teams[1].length > 0)
+          this.players.push({pos: 'top:56.5%;left:27.8%;'});
+        if(this.teams[2].length > 0)
+          this.players.push({pos: 'top:85.5%;left:27.8%;'});
+        if(this.teams[3].length > 0)
+          this.players.push({pos: 'top:71%;left:27.8%;'});
+        let current_poses = [ {pos: 'top:42%;left:' + String(middle) + '%;'},
+                              {pos: 'top:56.5%;left:' + String(start) + '%;'},
+                              {pos: 'top:71%;left:' + String(start) + '%;'},
+                              {pos: 'top:85.5%;left:' + String(start) + '%;'}];
+        this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(middle) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                          {pos: 'top:71%;left:' + String(start) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(start) + '%;'}];
+        if(this.players.length > 1)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(middle) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                          {pos: 'top:71%;left:' + String(middle) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(start) + '%;'}];
+        if(this.players.length > 2)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(middle) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                          {pos: 'top:71%;left:' + String(middle) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(middle) + '%;'}];
+        if(this.players.length > 3)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
 
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:71%;left:' + String(middle) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:71%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(middle) + '%;'}]);
-        this.second_round_states.push([{pos: 'top:42%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:56.5%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:71%;left:' + String(finish) + '%;'},
-                                       {pos: 'top:85.5%;left:' + String(finish) + '%;'}]);
+        current_poses = [ {pos: 'top:42%;left:' + String(finish) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(middle) + '%;'},
+                          {pos: 'top:71%;left:' + String(middle) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(middle) + '%;'}];
+        this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(finish) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                          {pos: 'top:71%;left:' + String(middle) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(middle) + '%;'}];
+        if(this.players.length > 1)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(finish) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                          {pos: 'top:71%;left:' + String(finish) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(middle) + '%;'}];
+        if(this.players.length > 2)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
+        current_poses = [ {pos: 'top:42%;left:' + String(finish) + '%;'},
+                          {pos: 'top:56.5%;left:' + String(finish) + '%;'},
+                          {pos: 'top:71%;left:' + String(finish) + '%;'},
+                          {pos: 'top:85.5%;left:' + String(finish) + '%;'}];
+        if(this.players.length > 3)
+          this.second_round_states.push(current_poses.slice(0, this.players.length));
         console.log(this.second_round_states);
     },
   },

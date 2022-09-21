@@ -1,4 +1,39 @@
 <template>
+<div id="question_preview" v-show="preview_question" @click="preview_question = false">
+    <div class="scroll"><pre>{{ preview_text }}</pre></div>
+</div>
+<div v-if="visible==5" id="game_list">
+  
+  <div class="scroll" style="width:78%;margin-top:5%;height:100%;">
+      <img @click="to_games" src="@/assets/go_back.png" style="float:left;width:5%;height:10%;" alt="">
+      <div style="width:100%;height:10%;margin-left:10%;margin-top:2%;">
+          <div style="width:10%;float:left;height:100%;">
+            <div style="font-size:1.2vw;width:30%;height:50%;">Id</div>
+            <input type="text" style="font-size:1.2vw;width:60%;" readonly id="game_id" :value="current_game[1]">
+          </div>
+          <div style="width:20%;float:left;height:100%;margin-right:50%;">
+            <div style="font-size:1.2vw;width:60%;height:50%;">Дата</div>
+            <input type="text" style="font-size:1.2vw;" id="game_date" :value="current_game[0]">
+          </div>
+          <div style="width:33.1%;float:left;height:100%;margin-top:1.5%;">
+            <div style="font-size:1.2vw;width:70%;height:50%;">Название</div>
+            <input type="text" style="font-size:1.2vw;width:80%;" id="game_name" value="111">
+          </div>
+      </div>
+      <FirstRoundField style="top:12%;left:52.5%;transform: scale(0.85);" :logos="[]" :current_template="current_template" :field_config="field_config" :question="question" />
+      <div class="game_buttons" style="top:45%;left:22.5%;" id="save_game_button">Сохранить</div>
+      <div class="game_buttons" style="top:45%;left:39%;" id="save_game_button">Удалить</div>
+      <div class="game_buttons" style="top:55%;left:31%;" id="shuffle_button" @click="custom_shuffle(field_config)">Перемешать</div>
+  </div>
+</div>
+<div v-if="visible==4" id="game_list">
+  <div class="scroll" style="width:78%;margin-top:5%;height:100%;">
+      <div class="grid" id="grid">
+          <div class="grid_element" v-for="(option, index) in game_list" :key="index" :index="index" @click="select_game(index)">{{ option.name }}</div>
+          <div class="grid_element plus" @click="add_game">+</div>
+      </div>
+    </div>
+</div>
 <div v-if="visible==3" id="group_delete">
     <div id="delete_product_warning">
           Вы действительно хотите удалить этот шаблон?
@@ -16,7 +51,24 @@
             </div>
             <button class="button_themes" v-on:click="product.visible_question=!product.visible_question"><img class="polygon" src="@/assets/Polygon_1.png" @click="rotate"></button>
         </div>
-        <div v-for="(question,index) in product.questions" :key="index" class="quest_themes"  v-show="product.visible_question">
+        <div class="quest_themes" v-show="product.visible_question">
+            <div class="last_redaction" style="font-weight: bold;text-decoration: underline;text-align:center;margin-left: 4%;">
+              Изменен
+            </div>
+            <div class="name_quest2" style="font-weight: bold;text-decoration:underline;margin-left: 6%;">
+              Краткое название
+            </div>
+            <div class="type_quest" style="font-weight: bold;text-decoration: underline;">
+              Тип
+            </div>
+            <div class="check_quest">
+                <input class="check_quest_2" type="checkbox">
+            </div>
+        </div>
+        <div v-for="(question,index) in product.questions" :key="index" class="quest_themes" v-show="product.visible_question" @click="show_question(question.text, question.answer)">
+            <div class="last_redaction">
+              11.11.11
+            </div>
             <div class="name_quest2">
               {{question.shortText}}
             </div>
@@ -87,7 +139,7 @@
 
 <script>
 import { SERVER_PATH } from '../common_const.js'
-//import MasterMenu from './MasterMenu.vue'
+import FirstRoundField from './FirstRoundField.vue'
 
 export default {
   name: 'TemplateSettings',
@@ -104,10 +156,37 @@ export default {
       ],
       current_template: {},
       products: [],
-      template_products: []
+      template_products: [],
+      preview_question: false,
+      preview_text: '',
+      game_list: [{name:'game 1', id:1111, date:'11.02.1999', description:'Amazing game'}, {name:'game 2', id:2222, date:'31.07.1975', description:'Amazing game 2'}],
+      current_game: ['', '', ''],
+      question: ['','','',''],
+      field_config: [ {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
+                        {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
+                        {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, 
+                        {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, {name:'1'}, ],
     }
   },
+  components: {
+    FirstRoundField
+  }, 
   methods: {
+    to_games: function () { 
+      this.$emit('games');
+    },
+    select_game: function (index) { 
+      this.$emit('show-game');
+      this.current_game = this.game_list[index];
+      document.getElementById('game_name').value = 666;
+    },
+    add_game: function () { 
+      this.game_list.push("game " + Number(Number(this.game_list.length) + Number(1)));
+    },
+    show_question: function (text, ans) { 
+      this.preview_text = 'Вопрос:\n' + text + '\n\nОтвет:\n' + ans;
+      this.preview_question = true;
+    },
     calc_sum_field: function () { 
       let tmp = 0;
       for (let field = 0; field < this.products.length; ++field) 
@@ -174,6 +253,19 @@ export default {
       this.template_products = this.current_template.products;
       this.count_field = this.current_template.numFields;
       console.log(this.current_template.numFields);
+      let ar_ref = this.field_config;
+      ar_ref.length = 0;
+      this.current_template.products.forEach(element => {
+          // if(element.name == "Финал")
+          //   element.questions.forEach(question => {this.final_questions.push(question);} )
+          // if(element.name == "Полуфинал")
+          //   element.questions.forEach(question => {this.semifinal_questions.push(question);} )
+          // if(element.numOfRepeating > 0)
+          //   this.unique_products.push(element);
+          for( let i = 0; i < element.numOfRepeating; ++i )
+            ar_ref.push(element);
+      });
+      this.custom_shuffle(this.field_config);
       
         // this.count_field_24();
       console.log("Template");
@@ -223,9 +315,6 @@ export default {
       }
       else
       {
-        console.log("else");
-        console.log(this.products);
-        console.log(this.template_products);
         this.products.forEach(element => {
           element.visible_question = false;
           element.current_checked = 0;
@@ -283,13 +372,17 @@ export default {
     cancel_tmpl: function () {
       this.$emit('to-questions');
     },
+    custom_shuffle: function (array) {
+      for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    },
   },
   mounted: function () {
-      // var template_ref;
       let products_ref = this.products;
       products_ref.length = 0;
       let id = this.id;
-      console.log("Check");
       if(id)
         fetch(SERVER_PATH + "/board/get/" + String(id), {
               method: "GET",
@@ -300,7 +393,6 @@ export default {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
               }).then( res => res.json() ).then( data => this.save_all_product(data) );
-      // console.log(template_ref);
     this.$nextTick(function () {
     // Код, который будет запущен только после
     // отображения всех представлений
@@ -496,7 +588,7 @@ text-align: center;
     height: 0;
 }
 .item_block_scroll{
-    height: 90%;
+    height: 82%;
     width: 78%;
     float: left;
     overflow: auto;
@@ -543,6 +635,15 @@ height: 100%;
 width: 100%;
 }
 
+.last_redaction{
+    float: left;
+    height: 90%;
+    width: 10%;
+    font-size: 1.6vw;
+    margin-top: 0.5%;
+    margin-left: 5%;
+}
+
 .name_quest2{
 float: left;
 height: 90%;
@@ -555,7 +656,7 @@ margin-left: 5%;
 float: left;
 height: 90%;
 width: 30%;
-margin-left: 15%;
+margin-left: 5%;
 font-size: 1.6vw;
 margin-top: 0.5%;
 }
@@ -571,7 +672,7 @@ float: left;
 height: 90%;
 width: 90%;
 margin-top: 0.5%;
-margin-left: 45%;
+margin-left: 5%;
 border-radius: 25%;
 }
 .quest_themes{
@@ -774,5 +875,138 @@ body {
 
 .button:hover{
     box-shadow: 0 0 10px 100px orange inset;
+}
+
+#question_preview{
+  position: absolute;
+  background-color: white;
+  border: 0.2vw solid black;
+  left: 27.5%;
+  width: 45%;
+  top: 30%;
+  height: 40%;
+  border-radius: 1vw;
+}
+
+pre {
+white-space: pre-wrap; 
+word-wrap: break-word;
+font-family: inherit;
+font-size: 1.3vw;
+margin-left: 5%;
+}
+
+.scroll{
+    height: 95%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin-top: 1%;
+    width: 100%;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.grid{
+    margin-top: 3%;
+    margin-left: 5%;
+    width: 90%;
+    height: 80%;
+}
+
+.grid_element{
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 5%;
+    float: left;
+    width: 20%;
+    height: 20%;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    /* font-size: 170%; */
+    font-size: 1.7vw;
+    /* line-height:100px; */
+    line-height: 6.5vw;
+    color: black;
+    transition: transform .25s ease;
+}
+
+.grid_element:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.plus{
+    font-size: 6vw;
+    border: 2px solid silver;
+    color: silver;
+}
+
+#game_list{
+  height:80%;
+}
+
+/* #shuffle_button{
+  border-radius: 1vw;
+  padding-top: 0.75%;
+  padding-bottom: 0.75%;
+  margin-left: 10%;
+  width: 15%;
+  color: white;
+  background-color: green;
+  font-size: 1.2vw;
+  font-weight: bold;
+  left: 30%;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+}
+
+#shuffle_button:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+#save_game_button{
+  border-radius: 1vw;
+  padding-top: 0.75%;
+  padding-bottom: 0.75%;
+  margin-left: 10%;
+  width: 15%;
+  color: white;
+  background-color: green;
+  font-size: 1.2vw;
+  font-weight: bold;
+  left: 15%;
+  position: absolute;
+  top: 45%;
+  text-align: center;
+} */
+
+.game_buttons{
+  border-radius: 1vw;
+  padding-top: 0.75%;
+  padding-bottom: 0.75%;
+  width: 15%;
+  color: white;
+  background-color: green;
+  font-size: 1.2vw;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+}
+
+.game_buttons:hover {
+    box-shadow: 0 0 10px 100px orange inset;
+}
+
+img{
+    transition: transform .25s ease;
+}
+
+img:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 </style>

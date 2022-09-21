@@ -1,6 +1,5 @@
 <script>
 import AuthForm from './AuthForm.vue'
-import ManageMasters from './ManageMasters.vue'
 import FieldsList from './FieldsList.vue'
 import MasterTemplates from './MasterTemplates.vue'
 import TheGame from './TheGame.vue'
@@ -11,7 +10,7 @@ import RegistrationForm from './RegistrationForm.vue'
 const routes = {
   '/': AuthForm,
   '/auth/login': AuthForm,
-  '/masters': ManageMasters,
+  // '/admin': FieldsList,
   '/fields': FieldsList,
   '/templates': MasterTemplates,
   '/game': TheGame,
@@ -29,6 +28,7 @@ export default {
   },
   methods: {
     login_admin() {
+      // window.location.href = "#/admin";
       window.location.href = "#/fields";
       this.currentPath = window.location.hash
     },
@@ -37,22 +37,19 @@ export default {
       this.currentPath = window.location.hash
     },
     to_fields() {
+      // window.location.href = "#/admin";
       window.location.href = "#/fields";
-      this.currentPath = window.location.hash
-    },
-    to_masters() {
-      window.location.href = "#/masters";
       this.currentPath = window.location.hash
     },
     log_out() {
       window.location.href = "#/auth/login";
       this.currentPath = window.location.hash
     },
-    start_game(teams, timer, crit_timer) {
+    start_game(teams_logos, teams_name, teams, timer, crit_timer) {
       window.location.href = "#/game";
       this.currentPath = window.location.hash;
-      //console.log(this.$refs.component);
-      // this.$refs.component.set_players(teams);
+      this.teams_name = teams_name;
+      this.teams_logos = teams_logos;
       this.teams = teams;
       this.timer = timer;
       this.crit_timer = crit_timer;
@@ -88,7 +85,7 @@ export default {
 </script>
 
 <template>
-  <component ref="component" :is="currentView" :teams="teams" :timer="timer" :crit_timer="crit_timer" :tmpl_id="tmpl_id" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" @already-registered="already_registered" @go-to-reg="go_to_reg" />
+  <component ref="component" :is="currentView" :teams_logos="teams_logos" :teams_name="teams_name" :teams="teams" :timer="timer" :crit_timer="crit_timer" :tmpl_id="tmpl_id" @login-admin="login_admin" @login-master="login_master" @to-fields="to_fields" @to-masters="to_masters" @logout="log_out" @create-game="create_game" @start-game="start_game" @already-registered="already_registered" @go-to-reg="go_to_reg" />
 </template>
 
 <style>

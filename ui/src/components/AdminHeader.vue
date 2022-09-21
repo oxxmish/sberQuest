@@ -6,8 +6,14 @@
         <div class="role">Администратор</div>
         <div class="profile" @click="pop_up_profile_menu"><img src="@/assets/profile.png" alt=""></div>
         <div v-if="vis" id="profile_menu">
+            <div id="gen_stat">
+                Выгрузить статистику
+            </div>
             <div id="change_pass">
                 Сменить пароль
+            </div>
+            <div id="disk">
+                <a href="https://45.86.181.125:9443/" target="_blank">Диск</a>
             </div>
             <div @click="logout" id="logout">
                 Выйти
@@ -84,7 +90,7 @@ export default {
 
 #profile_menu{
     width: 15%;
-    height: 10%;
+    height: 22%;
     left: 84.7%;
     top: 9.4%;
     position: absolute;
@@ -92,6 +98,7 @@ export default {
     border: solid black 2px;
     border-radius: 15px;
     font-size: 80%;
+    z-index: 15;
 }
 
 #change_pass{
@@ -102,8 +109,14 @@ export default {
     margin-left: 8%;
     margin-top: 3%;
 }
+#gen_stat{
+    margin-left: 8%;
+}
+#disk{
+    margin-left: 8%;
+}
 
-#change_pass:hover, #logout:hover {
+#change_pass:hover, #logout:hover, #gen_stat:hover, #disk:hover {
     text-decoration: underline;
 }
 </style>

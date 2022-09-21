@@ -1,10 +1,13 @@
 <template>
     <AdminHeader @logout="log_out"/>
-    <NavigationButton v-if="current_view == 'fields'" :current_text="current_text" @click="to_masters"/>
+    <NavigationButton @fields-1="to_fields_1" @fields-2="to_fields_2" @masters="to_masters" />
+
+    <ManageMasters v-if="current_view == 'masters'"/>
+
     <FieldList  v-if="current_view == 'fields'" @add-field="add_field" @select-product="select_product" :products="products" />
     <AddFields  v-if="current_view == 'fields'" @close-add-field="close_add_field" @create-field="create_field"  :is_add_product="is_add_product" />
 
-    <ProductMenu v-if="current_view == 'questions'" :selected_product="selected_product" @to-fields="to_fields" @delete-product="delete_product" @edit-product="edit_product" />
+    <ProductMenu v-if="current_view == 'questions'" :current_view="current_view" :selected_product="selected_product" @to-fields="to_fields" @fields-1="to_fields_1" @fields-2="to_fields_2" @delete-product="delete_product" @edit-product="edit_product" />
     <QuestionsList v-if="current_view == 'questions'" @to-masters="to_masters"  @edit-question="edit_question" @add-question="add_question" @final-delete-product="final_delete_product" @final-edit-product="final_edit_product" @save-edit="save_edit" @reset-edit="reset_edit" :selected_product="selected_product" :draw="draw" :products="products" :cache_product="cache_product" ref="q_list" />
 </template>
 
@@ -15,6 +18,7 @@ import FieldList from './components/FieldList.vue'
 import AddFields from './components/AddFields.vue'
 import ProductMenu from './components/ProductMenu.vue'
 import QuestionsList from './components/QuestionsList.vue'
+import ManageMasters from './components/ManageMasters.vue'
 import { SERVER_PATH } from './common_const.js'
 
 export default {
@@ -25,7 +29,8 @@ export default {
     FieldList,
     AddFields,
     ProductMenu,
-    QuestionsList
+    QuestionsList,
+    ManageMasters
   }, 
   data(){
     return {
@@ -40,9 +45,19 @@ export default {
   },
   methods: {
         to_masters: function () {
-            this.$emit('to-masters');
+            this.current_view = 'masters';
         },
-        to_fields: function () {
+        to_fields_1: function () {
+            this.current_view = 'fields';
+            let product_ref = this.products;
+            product_ref.length = 0;
+            fetch(SERVER_PATH + "/product/getAll", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => data.forEach(function(item) {
+                product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) );
+        },
+        to_fields_2: function () {
             this.current_view = 'fields';
             let product_ref = this.products;
             product_ref.length = 0;

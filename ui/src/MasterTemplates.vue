@@ -2,7 +2,8 @@
     <MasterHeader @logout="log_out" @click="test" />
     <MasterMenu v-if="draw == 'settings'" @select-question= "visible1" @select-themes= "visible2" @create-game="create_game" @back-to-templates="back_to_templates" @save-tmpl-name="save_tmpl_name" @get-questions="get_questions" @check-delete="visible3" :template_name="current_template.text" :count="current_template_count" :questions="current_questions" :tmpl_id="current_template.id" />
     <TemplateList v-if="draw == 'grid'" :template_list="options" @select-template="select_template" @add-template="add_template" />
-    <TemplateSettings v-if="draw == 'settings'" ref="settings" :visible="visible" :products="current_template.products" :id="current_template.id" @change-count="set_count" @to-questions="visible1" @back-to-templates="back_to_templates"/>
+    <TemplateMenu v-if="draw == 'settings'" @round-1="round_1" @round-2="round_2" @games="games" />
+    <TemplateSettings v-if="draw == 'settings'" ref="settings" :visible="visible" :products="current_template.products" :id="current_template.id" @change-count="set_count" @to-questions="visible1" @back-to-templates="back_to_templates" @show-game="show_game"  @games="games" />
 </template>
 
 <script>
@@ -10,6 +11,7 @@ import MasterHeader from './components/MasterHeader.vue'
 import MasterMenu from './components/MasterMenu.vue'
 import TemplateList from './components/TemplateList.vue'
 import TemplateSettings from './components/TemplateSettings.vue'
+import TemplateMenu from './components/TemplateMenu.vue'
 import { SERVER_PATH } from './common_const.js'
 
 export default {
@@ -18,7 +20,8 @@ export default {
     MasterHeader,
     TemplateList,
     TemplateSettings,
-    MasterMenu
+    MasterMenu,
+    TemplateMenu
   }, 
   data(){
     return {
@@ -63,6 +66,18 @@ export default {
     }
   },
   methods:{
+    round_1: function(){
+        this.visible = 1;
+    },
+    round_2: function(){
+        this.visible = 1;
+    },
+    games: function(){
+        this.visible = 4;
+    },
+    show_game: function(){
+        this.visible = 5;
+    },
     log_out: function(){
         this.$emit('logout');
     },
@@ -82,9 +97,6 @@ export default {
       this.$refs.settings.count_field_now();
     },
     select_template: function (tmpl) {
-      // this.$refs.settings.get_product();
-      console.log("cur_tmpl");
-      console.log(tmpl);
       this.draw = 'settings';
       this.current_template = tmpl;
     },

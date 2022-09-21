@@ -6,14 +6,9 @@
 </template>
 
 <script>
-//import TemplateSettings from './TemplateSettings.vue'
-
 export default {
   name: 'TemplateList',
   props:['template_list'],
-  components: {
-    //TemplateSettings,
-  }, 
   data(){
     return {
         draw: 'grid',
@@ -23,11 +18,8 @@ export default {
   methods: {
         add_template: function () {
             this.$emit('add-template');
-            // this.options.push({ text: "Новый шаблон " + (this.options.length + 1), value: this.options.lenght, products: [] });
         },
         select_template: function (event) {
-            // this.current_template = this.options[event.target.getAttribute('index')].products;
-            console.log(this.template_list[event.target.getAttribute('index')]);
             this.$emit('select-template', this.template_list[event.target.getAttribute('index')]);
         },
   }

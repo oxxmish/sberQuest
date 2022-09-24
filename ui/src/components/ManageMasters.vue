@@ -69,7 +69,7 @@ export default {
     log_out: function(){
         this.$emit('logout');
     },
-    save_edit: function(fio/*, login*/){
+    save_edit: function(fio){
       var name = this.selected.getAttribute("name");
       this.fio = fio;
       this.login = fio;

@@ -26,28 +26,6 @@
               <img class="help" v-show="helps[3]" @click="replace_field" src="@/assets/replace_f.png">
             </div>
         </div>
-        <!-- <div class="column_prompt_1">
-            <div class="prompt_1">
-            <button class="button" style="height:80%"><img class="help" v-show="helps[0]" @click="helps[0] = false" src="@/assets/replace_f.png" alt="Кнопка «button»" style="height:100%"></button>
-            </div>
-            <div class="prompt_1">
-            <button class="button" style="height:80%"><img class="help" v-show="helps[1]" @click="helps[1] = false" src="@/assets/help_player.png" alt="Кнопка «button»" style="height:100%"></button>
-            </div>
-        </div>
-        <div class="column_img">
-            <img v-if="team_number == 'team_1'" id="logo" src="@/assets/team_logo_1.png">
-            <img v-if="team_number == 'team_2'" id="logo" src="@/assets/team_logo_2.png">
-            <img v-if="team_number == 'team_3'" id="logo" src="@/assets/team_logo_3.png">
-            <img v-if="team_number == 'team_4'" id="logo" src="@/assets/team_logo_4.png">
-        </div>
-        <div class="column_prompt_2">
-            <div class="prompt_1">
-            <button class="button" style="height:80%"><img class="help" v-show="helps[2]" @click="helps[2] = false" src="@/assets/replace_q.png" alt="Кнопка «button»" style="height:100%"></button>
-            </div>
-            <div class="prompt_1">
-            <button class="button" style="height:80%"><img class="help" v-show="helps[3]" @click="helps[3] = false" src="@/assets/help_master.png" alt="Кнопка «button»" style="height:100%"></button>
-            </div>
-        </div> -->
       </div>
       <div class="team_score">
           <div class="puzzle_1">
@@ -82,9 +60,6 @@
     </div>
     <div v-else-if="visible==1" class="all_cont">
       <div class="top_item_team">
-        <!-- <div class="question" style="height:100%">
-          <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
-        </div> -->
         <div class="name_team" style="width:70%;">
           Состав команды
         </div>
@@ -104,9 +79,6 @@
     </div>
     <div v-else class="all_cont">
       <div class="top_item_team">
-        <!-- <div class="question" style="height:100%">
-          <img src="@/assets/question.png" alt="Кнопка «button»" style="height:100%">
-        </div> -->
         <div v-if="team_number == 'team_1'" class="name_team" @click="give_puzzle('team_1')" style="width:50%;">Команда 1</div>
         <div v-if="team_number == 'team_2'" class="name_team" @click="give_puzzle('team_2')" style="width:50%;">Команда 2</div>
         <div v-if="team_number == 'team_3'" class="name_team" @click="give_puzzle('team_4')" style="width:50%;">Команда 4</div>
@@ -184,7 +156,6 @@ export default {
     visible2 () { this.visible = 2;  },
     visible3 () { this.visible = 3;  },
     action(product, color) {
-      console.log(this.themes_sber);
       for(var i = 0; i < this.themes_sber.length; ++i)
       {
           if(this.themes_sber[i].product == product)
@@ -203,8 +174,7 @@ export default {
       for( let i = 0; i < unique_products.length; ++i)
         this.themes_sber.push({product: unique_products[i].name, color: 'background:white;'});
     },
-    up_hand () { 
-      console.log(document.getElementById(this.team_number));
+    up_hand () {
       var current_team = this.team_number;
       var secs = 10;
       
@@ -215,13 +185,11 @@ export default {
               document.getElementById(current_team).style.border = "0.1vw rgba(255, 255, 255, 0) solid";
           else
               document.getElementById(current_team).style.border = "0.4vw red solid";
-          console.log(secs);
           if(secs == 0)
               clearInterval(timer);
       }
     },
     give_puzzle(team) {
-        console.log(team);
         if(this.tour == 1)
         {
             this.$emit('give-puzzle', team, this.question[2]);
@@ -346,15 +314,6 @@ height: 15%;
   width: 50%;
 }
 .name_team{
-  /* width: 38%;
-  height: 70%;
-  text-align:  center;
-  margin-top: 3%;
-  float: left ;
-  font-size: 1.5vw;
-  color: black;
-  margin-left: 12%;
-  margin-right: 10%; */
   width: 38%;
   height: 25%;
   text-align: center;
@@ -370,35 +329,18 @@ height: 15%;
 }
 
 .change_label{
-  /* width: 20%;
-  height: 90%;
-  margin-left: 5%;
-  float: left ; */
-    width: 15%;
+  width: 15%;
   height: 27%;
   margin-left: 1%;
   float: left;
-  /* margin-top: 2.5%; */
 }
+
 .center_item_team{
   width: 100%;
   height: 50%;
   margin-top: 5%;
 }
-.column_prompt_1{
-  width: 20%;
-  height: 95%;
 
-  float: left ;
-  margin-left: 2%;
-}
-.column_prompt_2{
-  width: 20%;
-  height: 95%;
-
-  float: left ;
-  margin-left: 5%;
-}
 .column_img{
   width: 30%;
   height: 100%;
@@ -408,13 +350,10 @@ height: 15%;
 }
 
 #logo{
-  /* width: 100%;
-  height: 100%;
-  transform: none; */
   width: 120%;
-height: 175%;
-transform: none;
-margin-top: -25%;
+  height: 175%;
+  transform: none;
+  margin-top: -25%;
 }
 
 #group_help{
@@ -423,6 +362,7 @@ margin-top: -25%;
   float: left;
   margin-top: 3%;
 }
+
 .help_border{
   border: solid 0.2vw rgb(210 , 210 , 210);
   height: 40%;
@@ -431,18 +371,13 @@ margin-top: -25%;
   border-radius: 0.5vw;
 }
 
-.prompt_1{
-  width: 100%;
-  height: 45%;
-
-  float: left ;
-}
 .bottom_item_team{
   width: 100%;
   height: 28%;
   margin-left: auto;
   margin-right: auto;
 }
+
 .team_score{
   width: 100%;
   height: 10%;
@@ -450,59 +385,59 @@ margin-top: -25%;
   margin-left: 4%;
   margin-right: auto;
 }
+
 .points_1{
   width: 25%;
-height: 95%;
-float: left;
-font-size: 1.1vw;
-color: black;
-margin-left: 25%;
+  height: 95%;
+  float: left;
+  font-size: 1.1vw;
+  color: black;
+  margin-left: 25%;
 }
+
 .points_2{
   width: 5%;
   height: 95%;
-
   float: left ;
   font-size: 1.2vw;
   color: black;
 }
+
 .puzzle_1{
   width: 25%;
   height: 95%;
-
-  float: left ;
+  float: left;
   font-size: 1.1vw;
   color: black;
 }
+
 .puzzle_2{
   width: 3%;
   height: 95%;
-
   float: left ;
   font-size: 1.1vw;
   color: black;
 }
+
 .puzzle_3{
   width: 1%;
   height: 95%;
-
-  float: left ;
+  float: left;
   font-size: 1.1vw;
   color: black;
 }
 .puzzle_4{
   width: 1%;
   height: 95%;
-
-  float: left ;
+  float: left;
   font-size: 1.1vw;
   color: black;
   margin-left: 1.75%;
 }
 
 button{
-background-color:transparent;
-border: none;
+  background-color:transparent;
+  border: none;
 }
 
 #dots{
@@ -559,7 +494,6 @@ border: none;
     margin-left: 10%;
     width: 80%;
     text-align: center;
-    /* font-size: 150%; */
     font-size: 1.5vw;
     font-weight: bold;
     float: left;

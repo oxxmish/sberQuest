@@ -10,8 +10,6 @@
        <div v-if="!collapse && tour == 1" id="header1">Зачесть пазл команде</div>
        <div v-if="!collapse && tour == 2" id="group_header">
            <div id="header2">Зачесть баллы команде</div>
-           <!-- <input id="custom_score"/>
-           <div id="header3">баллов команде </div> -->
        </div>
        <div v-if="!collapse" id="group_buttons">
            <div :style="'opacity:'+current_opacity[0]" class="team_button" @click="give_puzzle('team_1')">Команда 1</div>
@@ -59,7 +57,6 @@ export default {
         }
     },
     give_puzzle(team) {
-        console.log(team);
         if(this.tour == 1)
         {
             document.getElementById('answer_timer').innerText = '00:30';
@@ -221,7 +218,6 @@ img:hover {
     width: 10%;
     height: 3%;
     float: left;
-    /* font-size: 175%; */
     font-size: 2vw;
     margin-top: 1%;
 }

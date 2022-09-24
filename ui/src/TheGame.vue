@@ -4,7 +4,6 @@
     <TeamPanel ref="team_3" id="team_3" :logo="teams_logos[2]" :name="teams_name[3]" :unique_products="unique_products" :players="teams ? teams[2] : []" :team_number="'team_3'" :puzzle="puzzles[2]" :score="scores[2]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
     <TeamPanel ref="team_4" id="team_4" :logo="teams_logos[3]" :name="teams_name[2]" :unique_products="unique_products" :players="teams ? teams[3] : []" :team_number="'team_4'" :puzzle="puzzles[3]" :score="scores[3]" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" @replace-question="replace_question" @replace-field="replace_field" />
     <GameField :teams="teams" :logos="teams_logos" :timer="timer ? timer : ['00', '00', '00']" :crit_timer="crit_timer ? crit_timer : ['00', '00', '00']" :tmpl_id="tmpl_id" :state="state" :question='current_question' :number_round="tour" @set-question="set_question" @next-round="next_round" @set-config="set_config" @set-unique="set_unique" @end-game="end_game" ref="MainField" />
-    <!-- <PopUpQuestion :turn="turn" :second_turn="second_turn" :tour="tour" :question='current_question' @give-puzzle="give_puzzle" @give-score="give_score" /> -->
     <LeaderBoard @click="leaderboard_on = !leaderboard_on" v-if="leaderboard_on" :logos="teams_logos" :scores="[puzzles[0] + scores[0], puzzles[1] + scores[1], puzzles[2] + scores[2], puzzles[3] + scores[3]]"/>
 </template>
 
@@ -28,7 +27,6 @@ export default {
       tour: 1,
       turn: -1,
       second_turn: -1,
-      // teams: null, 
       products: [
         { text: '1', value: '1', color:"color:black;font-size:500%;", 
           questions:[
@@ -68,7 +66,6 @@ export default {
   components: {
     TeamPanel,
     GameField,
-    // PopUpQuestion,
     LeaderBoard
   }, 
   methods: {
@@ -89,10 +86,8 @@ export default {
     give_puzzle: function (team, product) {
       if(team == 'team_1')
       {
-        console.log(product);
         if(this.$refs.team_1.check_color(product) != 'background:white;')
           return;
-        console.log(this.$refs.MainField.get_color(product));
         this.$refs.team_1.action(product, this.$refs.MainField.get_color(product));
         ++this.puzzles[0];
       }
@@ -155,17 +150,11 @@ export default {
         }
         else
           this.state = data.state;
-        console.log(this.state);
     },
     set_config: function (config) {
       if(this.state == 'game_begin')
         this.state = {};
         this.state.field_config = config;
-        // fetch("http://api.vm-96694bec.na4u.ru/game/chooseQuestion", {
-        //           method: "POST",
-        //           headers: {'Content-Type': 'application/json'},
-        //           body: JSON.stringify({questionId:1, questionType:"REGULAR", state:JSON.stringify(this.state)})
-        //           });
     },
     set_unique: function (unique_products) {
         this.unique_products = unique_products;

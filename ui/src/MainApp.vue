@@ -76,9 +76,6 @@ export default {
   mounted() {
     window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
-            
-      // if(this.currentPath.slice(1) == "/game" && this.$refs)
-      //   this.$refs.component.set_players(this.teams);
 		});
   }
 }

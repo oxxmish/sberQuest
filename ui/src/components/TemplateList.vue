@@ -45,9 +45,7 @@ export default {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    /* font-size: 170%; */
     font-size: 1.7vw;
-    /* line-height:100px; */
     line-height: 6.5vw;
     color: black;
     transition: transform .25s ease;

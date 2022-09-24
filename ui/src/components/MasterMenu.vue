@@ -80,10 +80,6 @@ export default {
             }
         },
     save_template: function () {
-      console.log(this.template_name);
-      console.log(this.count ? this.count : 16);
-      console.log(this.questions);
-      console.log(this.tmpl_id);
       if(!this.tmpl_id)
       {
         fetch(SERVER_PATH + "/board/create", {
@@ -178,31 +174,4 @@ export default {
 #second_group_button{
   margin-top: 40%;
 }
-
-
-/* #select_question, #save, #select_themes, #start{
-    border-radius: 20px;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    margin-left: 10%;
-    width: 80%;
-    color: white;
-    background-color: rgb(38, 146, 17);
-    font-size: 170%;
-    font-weight: bold;
-    border: black 2px solid;
-}
-#select_question{
-    margin-top: 10%;
-}
-#select_themes, #start{
-    margin-top: 5%;
-}
-#save{
-    margin-top: 75%;
-}
-
-#select_question:hover, #save:hover, #select_themes:hover, #start:hover {
-    box-shadow: 0 0 10px 100px orange inset;
-} */
 </style>

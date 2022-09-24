@@ -97,7 +97,6 @@ export default {
   },
   methods: {
     calc_margin_hor: function () {
-        console.log(this.current_template.numFields);
         if(this.current_template.numFields == 16)
             return "margin-left:7.1%";
         else if(this.current_template.numFields == 20)
@@ -164,7 +163,7 @@ export default {
     margin-left: 5.6%;
     height: 100%;
     width: 10%;
-  float: left;
+    float: left;
 }
 .start_third{
     margin-top: -3.5%;
@@ -258,52 +257,34 @@ export default {
 }
 
 pre {
-white-space: pre-wrap; 
-word-wrap: break-word;
-font-family: inherit;
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  font-family: inherit;
 }
 
 #tour_one_question_body{
-  /* text-align: justify;
-  margin-top: 3%;
-  margin-left: 5%;
-  font-size: 1.5vw;
-  height: 65%;
-  width: 72%;
-  text-indent: 5%; */
   text-align: justify;
-/*margin-top: 8%;*/
-margin-left: 5%;
-font-size: 1.35vw;
-height: 80%;
-width: 90%;
-text-indent: 3%;
+  margin-left: 5%;
+  font-size: 1.35vw;
+  height: 80%;
+  width: 90%;
+  text-indent: 3%;
 }
 
-/* .first_line_inner{
-  width: 100%;
-  height: 20%;
-}
-.second_line_inner{
-  width: 100%;
-  height: 59%;
-}
-.third_line_inner{
-  width: 100%;
-  height: 20%;
-} */
 .right_border{
-float: left;
+  float: left;
   height: 90%;
   width: 10%;
 }
+
 .left_border{
-float: left;
-height: 90%;
-width: 9%;
+  float: left;
+  height: 90%;
+  width: 9%;
 }
+
 .inner_field{
-      margin-left: 7%;
+  margin-left: 7%;
   height: 85%;
   width: 67.6%;
   border-radius: 2.5vw;
@@ -314,27 +295,6 @@ width: 9%;
   margin-right: 4.5%;
   border: solid black 0.15vw;
 }
-
-/* .half_final_one{
-    margin-top: 14%;
-    margin-left: 14%;
-  float: left;
-}
-.half_final_two{
-    margin-top: 14%;
-    margin-left: 54%;
-  float: left;
-}
-.half_final_third{
-    margin-top: -12%;
-    margin-left: 14%;
-  float: left;
-}
-.half_final_four{
-  margin-top: -12%;
-  margin-left: 67%;
-  float: left;
-} */
 
 .product{
     border-radius: 50%;

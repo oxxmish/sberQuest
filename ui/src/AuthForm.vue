@@ -15,7 +15,7 @@
             Войти по id комнаты
         </div>
     </div>
-    <div v-if="user_type == 'Master'" id="login_master">
+    <!-- <div v-if="user_type == 'Master'" id="login_master">
         <input class="form-group" id="email_master" placeholder="Логин" v-on:keyup.enter="log_in">
         <input type="password" class="form-group" id="password" placeholder="Пароль" v-on:keyup.enter="log_in">
         <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
@@ -44,12 +44,43 @@
         <div id="user_message">
                 Для входа запросите id комнаты у своего ведущего
         </div>
+    </div> -->
+    <form @submit.prevent="log_in">
+      <div v-if="user_type == 'Master'" id="login_master">
+        <input class="form-group" id="email_master" name="username" placeholder="Логин/E-mail">
+        <input type="password" class="form-group" id="password" name="password" placeholder="Пароль">
+        <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
+        <input type="submit" id="enter" value="Войти">
+        <div id="get_pass">
+          Забыли пароль?
+        </div>
+        <div id="registration">
+          <div id="reg_text">
+            У вас ещё нет аккаунта?
+          </div>
+          <div id="go_to_reg">
+            Зарегистрируйтесь
+          </div>
+        </div>
+      </div>
+    </form>
+    <div v-if="user_type == 'User'" id="login_user">
+        <input class="form-group" placeholder="id комнаты">
+        <input class="form-group" placeholder="Ваше имя">
+        <div :style="'visibility:' + check_failed()" id="failed_message_user">Неверный id комнаты</div>
+        <div id="enter" @click="test_action">
+            Войти
+        </div>
+        <div id="user_message">
+                Для входа запросите id комнаты у своего ведущего
+        </div>
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import {SERVER_PATH} from "@/common_const";
 
 export default {
   name: 'AuthWin',
@@ -76,15 +107,30 @@ export default {
             document.getElementById('failed_message_master').style.visibility = 'hidden';
         },
         log_in: function () {
-            var email = document.getElementById('email_master').value;
-            var password = document.getElementById('password').value;
+          let email = document.getElementById('email_master').value;
+          let password = document.getElementById('password').value;
+          let formData = new FormData()
+          formData.append("username", email)
+          formData.append("password", password)
             if(email == 'ведущий' && password == 'ведущий123')
                 this.$emit('login-master');
-            else if(email == 'админ' && password == 'админ123')
-                this.$emit('login-admin');
-            else
-                this.failed = true;
+            else if(email == 'admin' && password == 'admin')
+              fetch(`${SERVER_PATH}/auth/login`, {
+                method: 'POST',
+                body: formData,
+              }).then( res => {res.json(); this.$emit('login-admin')} )
+                  .then( data => console.log(data) );
         },
+        // log_in: function () {
+        //     var email = document.getElementById('email_master').value;
+        //     var password = document.getElementById('password').value;
+        //     if(email == 'ведущий' && password == 'ведущий123')
+        //         this.$emit('login-master');
+        //     else if(email == 'админ' && password == 'админ123')
+        //         this.$emit('login-admin');
+        //     else
+        //         this.failed = true;
+        // },
         check_failed: function () {
             if(this.failed)
                 return 'visible';
@@ -94,14 +140,6 @@ export default {
         go_to_reg: function () {
             this.$emit('go-to-reg');
         },
-        test_action: function() {
-            fetch("http://localhost:8081/board/get/1", {
-            method: 'GET', 
-            headers: {
-                "Content-Type": "application/JSON",
-            }
-            }).then( res => res.json() ).then( data => console.log(data) );
-        }
   },
   mounted: function () {
   this.$nextTick(function () {
@@ -123,7 +161,6 @@ export default {
 
 .AuthHeader{
     color: #f9fff9;
-    /* font-size: 250%; */
     font-size: 2.5vw;
     margin-top: 3%;
     text-align: center;
@@ -139,8 +176,6 @@ export default {
 }
 
 .AuthLogo{
-    /* color: #3db33d; */
-    /* font-size: 550%; */
     font-size: 5.5vw;
     margin-top: 2.5%;
     text-align: center;
@@ -183,7 +218,6 @@ export default {
     float: left;
     text-align: center;
     color: #f9fff9;
-    /* font-size: 150%; */
     font-size: 1.75vw;
     margin-left: -1%;
 }
@@ -215,11 +249,9 @@ export default {
     border: solid black 2px;
     background: #007A10;
     color: #f9fff9;
-    /* font-size: 175%; */
     font-size: 1.75vw;
     text-align: center;
     border-radius: 15px;
-    /* line-height: 150%; */
     line-height: 2.75vw;
     margin-top: 4%;
 }
@@ -230,7 +262,6 @@ export default {
 #get_pass{
     text-align: center;
     margin-top: 4%;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     color: #f9fff9;
 }
@@ -241,7 +272,6 @@ export default {
     text-align: center;
     height: 5%;
     margin-top: 2%;
-    /* font-size: 120%; */
     font-size: 1.2vw;
 }
 
@@ -259,7 +289,6 @@ export default {
 #user_message{
     text-align: center;
     margin-top: 4%;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     color: #f9fff9;
 }

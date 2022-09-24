@@ -112,7 +112,6 @@ export default {
           let formData = new FormData()
           formData.append("username", email)
           formData.append("password", password)
-            console.log(formData)
             if(email == 'ведущий' && password == 'ведущий123')
                 this.$emit('login-master');
             else if(email == 'admin' && password == 'admin')
@@ -122,7 +121,6 @@ export default {
               }).then( res => {res.json(); this.$emit('login-admin')} ).then( data => console.log(data) );
         },
         check_failed: function () {
-            // console.log(document.getElementById('failed_message_master').style.visibility);
             if(this.failed)
                 return 'visible';
             else
@@ -134,8 +132,6 @@ export default {
     // Код, который будет запущен только после
     // отображения всех представлений
     document.getElementById('tab_1').style.textDecoration = 'underline';
-    // document.getElementById('failed_message_master').style.visibility = 'hidden';
-    // document.getElementById('failed_message_user').style.visibility = 'hidden';
     this.user_type = 'Master'
   })
   }

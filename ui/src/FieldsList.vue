@@ -147,8 +147,7 @@ export default {
             this.cache_product[1] = color;
         },
         edit_question: function(product, question, question_id, new_type, new_wording, short_text, answer){
-            console.log(question_id);
-        this.products.forEach(function(item) {
+            this.products.forEach(function(item) {
                 if(item.text == product)
                 {
                 item.questions.forEach(function(item) {
@@ -188,7 +187,6 @@ export default {
             body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
             })
         }
-            console.log(this.products);
         },
         add_question: function(name){
             let ar_ref = this.selected_product;
@@ -199,7 +197,6 @@ export default {
                     ar_ref[3] = item.questions;
                 }
             });
-            console.log(this.products);
         },
         log_out: function(){
             this.$emit('logout');
@@ -212,7 +209,17 @@ export default {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {
-                product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) )
+                product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) );
+
+    fetch(SERVER_PATH + "/admin/leaders", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => console.log(data) );
+
+    fetch(SERVER_PATH + "/admin/waiting", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => console.log(data) );
   })
   }
 }
@@ -220,36 +227,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* .grid{
-    margin-top: 3%;
-    margin-left: 5%;
-    width: 90%;
-    height: 80%;
-}
-
-.grid_element{
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 5%;
-    float: left;
-    width: 15%;
-    height: 20%;
-    border: 2px solid black;
-    border-radius: 20px;
-    text-align: center;
-    line-height:100px;
-    color: white;
-}
-
-.number{
-    color: black;
-    font-size: 500%;
-    font-size: 15vw;
-}
-
-.plus{
-    font-size: 600%;
-    border: 2px solid silver;
-    color: silver;
-} */
 </style>

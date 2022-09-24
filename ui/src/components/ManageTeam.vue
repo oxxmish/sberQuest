@@ -53,7 +53,6 @@ export default {
             let mapping = new Map();
             mapping.set("team_1", 0).set("team_2", 1).set("team_3", 2).set("team_4", 3);
             this.$emit('set-logo', mapping.get(this.team_number), index);
-            console.log(this.selected_logo);
         },
         team_pop: function () {
             this.$emit('team-pop', this.team_number);

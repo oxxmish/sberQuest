@@ -51,7 +51,6 @@ export default {
             }
         },
         save_product: function () {
-            console.log({id:this.selected_product[2], name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]});
             if(this.selected_product[2])
             {
                 fetch(SERVER_PATH + "/product/update", {
@@ -68,7 +67,6 @@ export default {
                 body: JSON.stringify({name: this.selected_product[0], colour: this.selected_product[1], questions:this.selected_product[3]})
                 })
             }
-            console.log(this.selected_product);
             this.sleep(300);
             this.$emit('to-fields');
         },
@@ -102,7 +100,6 @@ export default {
 .avatar{
     margin-left: 15%;
     width: 70%;
-    /*color: #ffffff;*/
     padding-top: 15%;
     padding-bottom: 15%;
     border-radius: 20px;
@@ -122,15 +119,19 @@ export default {
     font-size: 1.1vw;
     font-weight: bold;
 }
+
 #edit{
     margin-top: 10%;
 }
+
 #delete{
     margin-top: 5%;
 }
+
 #back{
     margin-top: 80%;
 }
+
 #save_product{
     margin-top: 5%;
 }

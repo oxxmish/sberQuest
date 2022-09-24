@@ -69,7 +69,6 @@ export default {
   methods: {
         set_logo: function (index, logo) {
             this.team_logos[index] = logo;
-            console.log(this.team_logos);
         },
         team_pop: function (team) {
             if( team == 'team_1' )
@@ -121,7 +120,6 @@ export default {
         },
         start_game: function () {
             this.sleep(300);
-            console.log(this.teams_name);
             for( var i = 0; i < this.teams_name.length; ++i )
             {
                 if(this.teams_name[i] == '')
@@ -129,7 +127,6 @@ export default {
             }
             const toFindDuplicates = arry => arry.filter((item, index) => arry.indexOf(item) !== index && item !== null);
             const duplicateElements = toFindDuplicates(this.team_logos);
-            console.log(duplicateElements);
             if(duplicateElements.length > 0)
             {
                 alert( "Присутствуют повторяющиеся логотипы команд" );
@@ -162,7 +159,6 @@ export default {
 <style scoped>
 #lobby_header{
     text-align: center;
-    /* font-size: 200%; */
     font-size: 2vw;
 }
 
@@ -186,7 +182,6 @@ export default {
 #player_list_head{
     margin-top: 2%;
     text-align: center;
-    /* font-size: 130%; */
     font-size: 1.5vw;
 }
 
@@ -213,14 +208,12 @@ hr{
 #room_id{
     margin-top: 2%;
     text-align: center;
-    /* font-size: 88%; */
     font-size: 0.9vw;
 }
 
 #global_timer_header{
     text-align: center;
     margin-top: 5%;
-    /* font-size: 150%; */
     font-size: 1.75vw;
     text-decoration: underline;
 }
@@ -229,7 +222,6 @@ hr{
     width: 80%;
     text-align: center;
     margin-top: 1%;
-    /* font-size: 300%; */
     font-size: 3vw;
     height: 10%;
     margin-left: 13%;
@@ -238,7 +230,6 @@ hr{
 #critical_timer_header{
     text-align: center;
     margin-top: 5%;
-    /* font-size: 150%; */
     font-size: 1.6vw;
     text-decoration: underline;
 }
@@ -247,7 +238,6 @@ hr{
     width: 80%;
     text-align: center;
     margin-top: 1%;
-    /* font-size: 300%; */
     font-size: 3vw;
     height: 10%;
     margin-left: 13%;
@@ -261,7 +251,6 @@ hr{
     border: solid black 2px;
     border-radius: 15px;
     margin-top: 100%;
-    /* font-size: 120%; */
     font-size: 1.3vw;
     background: green;
     color: white;

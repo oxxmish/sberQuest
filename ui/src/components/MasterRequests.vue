@@ -156,7 +156,6 @@ export default {
     margin-left: 1%;
 }
 .requests_title{
-    /* font-size: 150%; */
     font-size: 1.5vw;
     font-weight: bold;
     height: 5%;
@@ -186,7 +185,6 @@ export default {
     border-radius: 35px;
     background-color: silver;
     color: #000000;
-    /* font-size: 130%; */
     font-size: 1.3vw;
     margin: 1.5%;
     font-weight: bold;
@@ -225,7 +223,6 @@ img{
 }
 
 img:hover{
-    /* box-shadow: 0 0 10px 100px white inset; */
     transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
@@ -258,7 +255,6 @@ img:hover{
     border-right: none;
     outline:none;
     pointer-events: none;
-    /* font-size: 130%; */
     font-size: 1.3vw;
 }
 
@@ -270,14 +266,12 @@ img:hover{
     border-right: none;
     outline:none;
     pointer-events: none;
-    /* font-size: 130%; */
     font-size: 1.3vw;
 }
 
 .prefix input{
     width: 2%;
 }
-
 
 /* manage data masters */
 
@@ -302,7 +296,6 @@ img:hover{
     margin-left: 4%;
     background-color: green;
     color: #ffffff;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     font-weight: bold;
     border-radius: 35px;
@@ -322,7 +315,6 @@ img:hover{
 
 caption{
     margin-bottom: 1%;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     font-weight: bold;
 }

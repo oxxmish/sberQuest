@@ -146,7 +146,6 @@ export default {
   props: ['visible', 'id'],
   data () {
     return {
-      // visible: 1,
       name_template: '',
       count_field: 16,
       count_field_now_pole: 1,
@@ -191,7 +190,6 @@ export default {
       let tmp = 0;
       for (let field = 0; field < this.products.length; ++field) 
       {
-        console.log(this.products[field].count)
         tmp = tmp + this.products[field].count;
       }
       
@@ -205,7 +203,6 @@ export default {
       this.count_field = 16;
       this.$emit('change-count', this.count_field);
       this.count_field_now();
-      console.log(this.products);
     },
     count_field_20: function () { // смена количества полей в игре на 20
       this.count_field = 20;
@@ -231,7 +228,6 @@ export default {
       document.getElementById('progress_1').style = 'width:' + this.progress
     },
     rotate: function (event) {
-    console.log(event.target.style);
       if(event.target.style.transform == 'rotate(180deg)')
         event.target.style = 'transform:rotate(0deg);';
       else
@@ -252,24 +248,13 @@ export default {
       this.current_template = data;
       this.template_products = this.current_template.products;
       this.count_field = this.current_template.numFields;
-      console.log(this.current_template.numFields);
       let ar_ref = this.field_config;
       ar_ref.length = 0;
       this.current_template.products.forEach(element => {
-          // if(element.name == "Финал")
-          //   element.questions.forEach(question => {this.final_questions.push(question);} )
-          // if(element.name == "Полуфинал")
-          //   element.questions.forEach(question => {this.semifinal_questions.push(question);} )
-          // if(element.numOfRepeating > 0)
-          //   this.unique_products.push(element);
           for( let i = 0; i < element.numOfRepeating; ++i )
             ar_ref.push(element);
       });
       this.custom_shuffle(this.field_config);
-      
-        // this.count_field_24();
-      console.log("Template");
-      console.log(this.template_products);
       fetch(SERVER_PATH + "/product/getAll", {
               method: "GET",
               headers: {'Content-Type': 'application/json'}
@@ -292,7 +277,6 @@ export default {
       }
     },
     save_all_product: function (data) {
-      // this.current_template = data;
       this.products = data;
       if(!this.id)
       {
@@ -353,7 +337,6 @@ export default {
       return result;
     },
     delete_tmpl: function () {
-      console.log(this.current_template.id);
       fetch(SERVER_PATH + "/board/delete/" + String(this.current_template.id), {
                 method: "DELETE",
                 headers: {'Content-Type': 'application/json'}
@@ -426,41 +409,37 @@ export default {
 
 <style scoped>
 .radio_text_2{
-width: 68%;
-height: 80%;
-float: left;
-/* font-size: 250%; */
-font-size: 2vw;
-margin-top: 0.7%;
-color: white;
+  width: 68%;
+  height: 80%;
+  float: left;
+  font-size: 2vw;
+  margin-top: 0.7%;
+  color: white;
 }
 .radio_text{
-width: 50%;
-height: 60%;
-float: left;
-/* font-size: 150%; */
-font-size: 2vw;
-margin-top: 0.3%;
+  width: 50%;
+  height: 60%;
+  float: left;
+  font-size: 2vw;
+  margin-top: 0.3%;
 }
 .button_themes{
-float: left;
-width: 5%;
-height: 60%;
-margin-left: 31.5%;
-margin-top: 1%;
-background-color:transparent;
-border: none;
+  float: left;
+  width: 5%;
+  height: 60%;
+  margin-left: 31.5%;
+  margin-top: 1%;
+  background-color:transparent;
+  border: none;
 }
 .text_themes{
-float: left;
-width: 30%;
-height: 70%;
-/* font-size: 200%; */
-font-size: 2vw;
-/* color:#ffffff; */
-margin-left: 30%;
-margin-top: 1%;
-text-align: center;
+  float: left;
+  width: 30%;
+  height: 70%;
+  font-size: 2vw;
+  margin-left: 30%;
+  margin-top: 1%;
+  text-align: center;
 }
 
  input:checked {
@@ -472,7 +451,6 @@ text-align: center;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
   margin-left:1% ;
   border-radius: 50%;
   width: 50%;
@@ -486,27 +464,30 @@ text-align: center;
   position: relative;
   top: 4px;
 }
+
 .text_fields_themes{
  float: left;
  margin-top: 1.2%;
  width: 30%;
  height: 40%;
  text-align: center;
- /* font-size: 250%; */
  font-size: 2vw;
  color: white;
 }
+
 .block_all_themes_filed{
    width: 99%;
    height: 70%;
-  float: left;
+   float: left;
 }
+
 #size_themes_2{
    float: left;
     height: 20%;
     width: 100%;
     margin-top: 0.7%;
 }
+
 .themes_themes_2{
    float: left;
    width: 100%;
@@ -515,6 +496,7 @@ text-align: center;
    border-radius: 15px;
    border: solid 2.5px black;
 }
+
 .themes_themes{
    float: left;
    width: 98%;
@@ -523,6 +505,7 @@ text-align: center;
    border-radius: 15px;
    border: solid 2.5px black;
 }
+
 .fields_number_progressbar{
    float: left;
    margin-right: 1%;
@@ -530,6 +513,7 @@ text-align: center;
    margin-top: 1%;
    font-size: 2vw;
 }
+
 .progressbar > span {
   border-radius: 15px;
   display: block;
@@ -539,6 +523,7 @@ text-align: center;
   text-align: right;
   margin-right: 5%;
 }
+
 .progressbar {
   border-radius: 15px;
   margin-top: 1.5%;
@@ -548,11 +533,11 @@ text-align: center;
   position: relative;
   background: rgba(255, 255, 255, 0.6);
 }
+
 .radio_fields{
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
   margin-left:6% ;
   border-radius: 50%;
   width: 7%;
@@ -566,6 +551,7 @@ text-align: center;
   position: relative;
   top: 4px;
 }
+
 .tex_themes_before{
     height: 8%;
     width: 98%;
@@ -574,19 +560,23 @@ text-align: center;
     font-size: 2vw;
     margin-top: 0.7%;
 }
+
 #size_themes{
     height: 10%;
     width: 100%;
     margin-top: 0.7%;
 }
+
 .item_block_scroll::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
+
 .item_block_scroll_2::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
+
 .item_block_scroll{
     height: 82%;
     width: 78%;
@@ -595,6 +585,7 @@ text-align: center;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .item_block_scroll_2{
     height: 70%;
     width: 100%;
@@ -603,36 +594,38 @@ text-align: center;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .item_block{
     height: 90%;
     width: 78%;
     float: left;
 }
-.text_fields{
-margin-top: 1% ;
-margin-left:2% ;
- height: 70%;
- width: 40%;
- float: left;
- font-size: 1.7vw;
-}
-.count_field{
-margin-top: 0.5%;
-height: 10%;
-width: 99%;
-float: left;
-background-color: rgba(33, 160, 56, 1);
-border-radius: 15px;
-border: 2.5px solid black;
-color: #ffffff;
-font-size: 30px;
-text-align: center;
 
+.text_fields{
+  margin-top: 1% ;
+  margin-left:2% ;
+  height: 70%;
+  width: 40%;
+  float: left;
+  font-size: 1.7vw;
+}
+
+.count_field{
+  margin-top: 0.5%;
+  height: 10%;
+  width: 99%;
+  float: left;
+  background-color: rgba(33, 160, 56, 1);
+  border-radius: 15px;
+  border: 2.5px solid black;
+  color: #ffffff;
+  font-size: 30px;
+  text-align: center;
 }
 
 .app{
-height: 100%;
-width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .last_redaction{
@@ -645,36 +638,40 @@ width: 100%;
 }
 
 .name_quest2{
-float: left;
-height: 90%;
-width: 30%;
-font-size: 1.6vw;
-margin-top: 0.5%;
-margin-left: 5%;
+  float: left;
+  height: 90%;
+  width: 30%;
+  font-size: 1.6vw;
+  margin-top: 0.5%;
+  margin-left: 5%;
 }
+
 .type_quest{
-float: left;
-height: 90%;
-width: 30%;
-margin-left: 5%;
-font-size: 1.6vw;
-margin-top: 0.5%;
+  float: left;
+  height: 90%;
+  width: 30%;
+  margin-left: 5%;
+  font-size: 1.6vw;
+  margin-top: 0.5%;
 }
+
 .check_quest{
-float: left;
-height: 90%;
-width: 10%;
-margin-left: 5%;
-margin-top: 0.3%;
+  float: left;
+  height: 90%;
+  width: 10%;
+  margin-left: 5%;
+  margin-top: 0.3%;
 }
+
 .check_quest_2{
-float: left;
-height: 90%;
-width: 90%;
-margin-top: 0.5%;
-margin-left: 5%;
-border-radius: 25%;
+  float: left;
+  height: 90%;
+  width: 90%;
+  margin-top: 0.5%;
+  margin-left: 5%;
+  border-radius: 25%;
 }
+
 .quest_themes{
     float: left;
     border: 2px solid black;
@@ -694,25 +691,30 @@ body {
     width: 99%;
     height: 95%;
 }
+
 #app{
   height: 100%;
     width: 100%;
 }
+
 .telo {
     width: 99%;
     height: 90%;
     background: rgb(33, 160, 56);
 }
+
 .block_quest {
     width: 50%;
     height: 100%;
     float: left ;
 }
+
 .block_param {
     width: 49%;
     height: 100%;
     float: left ;
 }
+
 .block_background{
     width: 95%;
     height: 95%;
@@ -722,6 +724,7 @@ body {
     margin-top: 2%;
     margin-left: 2%;
 }
+
 .block_background_2{
     width: 95%;
     height: 25%;
@@ -731,6 +734,7 @@ body {
     margin-left: 2%;
     border-radius: 25px;
 }
+
 .block_background_3{
     width: 95%;
     height: 33%;
@@ -740,6 +744,7 @@ body {
     margin-left: 2%;
     border-radius: 25px;
 }
+
 .name_quest {
     width: 95%;
     height: 15%;
@@ -750,6 +755,7 @@ body {
     font-size: 24px;
     margin-top: 2%;
 }
+
 .telo_quest {
     width: 99%;
     height: 80%;
@@ -758,6 +764,7 @@ body {
     font-size: 24px;
     vertical-align:auto;
 }
+
 .name_answer {
     width: 95%;
     height: 25%;
@@ -768,6 +775,7 @@ body {
     font-size: 20px;
     margin-top: 2%;
 }
+
 .telo_answer {
     width: 99%;
     height: 60%;
@@ -796,7 +804,6 @@ body {
     padding-bottom: 15%;
     border-radius: 20px;
     border: solid black 2px;
-    /* font-size: 180%; */
     font-size: 1.8vw;
 }
 
@@ -808,16 +815,18 @@ body {
     width: 80%;
     color: white;
     background-color: green;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     font-weight: bold;
 }
+
 #edit{
     margin-top: 10%;
 }
+
 #delete{
     margin-top: 5%;
 }
+
 #back{
     margin-top: 100%;
 }
@@ -864,7 +873,6 @@ body {
     padding-top: 1.5%;
     padding-bottom: 1.5%;
     color: white;
-    /* font-size: 120%; */
     font-size: 1.2vw;
     font-weight: bold;
     border-radius: 20px;
@@ -889,11 +897,11 @@ body {
 }
 
 pre {
-white-space: pre-wrap; 
-word-wrap: break-word;
-font-family: inherit;
-font-size: 1.3vw;
-margin-left: 5%;
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  font-family: inherit;
+  font-size: 1.3vw;
+  margin-left: 5%;
 }
 
 .scroll{
@@ -927,9 +935,7 @@ margin-left: 5%;
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    /* font-size: 170%; */
     font-size: 1.7vw;
-    /* line-height:100px; */
     line-height: 6.5vw;
     color: black;
     transition: transform .25s ease;
@@ -948,42 +954,6 @@ margin-left: 5%;
 #game_list{
   height:80%;
 }
-
-/* #shuffle_button{
-  border-radius: 1vw;
-  padding-top: 0.75%;
-  padding-bottom: 0.75%;
-  margin-left: 10%;
-  width: 15%;
-  color: white;
-  background-color: green;
-  font-size: 1.2vw;
-  font-weight: bold;
-  left: 30%;
-  position: absolute;
-  top: 50%;
-  text-align: center;
-}
-
-#shuffle_button:hover {
-    box-shadow: 0 0 10px 100px orange inset;
-}
-
-#save_game_button{
-  border-radius: 1vw;
-  padding-top: 0.75%;
-  padding-bottom: 0.75%;
-  margin-left: 10%;
-  width: 15%;
-  color: white;
-  background-color: green;
-  font-size: 1.2vw;
-  font-weight: bold;
-  left: 15%;
-  position: absolute;
-  top: 45%;
-  text-align: center;
-} */
 
 .game_buttons{
   border-radius: 1vw;

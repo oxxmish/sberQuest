@@ -50,6 +50,7 @@ export default {
     margin-bottom: 0.5%;
     margin-top: 1%;
 }
+
 .to_fields:hover {
     box-shadow: 0 0 10px 100px orange inset;
 }

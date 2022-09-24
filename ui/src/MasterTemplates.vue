@@ -1,5 +1,5 @@
 <template>
-    <MasterHeader @logout="log_out" @click="test" />
+    <MasterHeader @logout="log_out" />
     <MasterMenu v-if="draw == 'settings'" @select-question= "visible1" @select-themes= "visible2" @create-game="create_game" @back-to-templates="back_to_templates" @save-tmpl-name="save_tmpl_name" @get-questions="get_questions" @check-delete="visible3" :template_name="current_template.text" :count="current_template_count" :questions="current_questions" :tmpl_id="current_template.id" />
     <TemplateList v-if="draw == 'grid'" :template_list="options" @select-template="select_template" @add-template="add_template" />
     <TemplateMenu v-if="draw == 'settings'" @round-1="round_1" @round-2="round_2" @games="games" />
@@ -109,18 +109,13 @@ export default {
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {
                 option_ref.push({id: item.id, text: item.name, num_fields: item.numFields})}) );
-      console.log(option_ref);
       this.draw = 'grid';
     },
     add_template: function () {
       this.options.push({ text: 'Новый шаблон', value: String(this.options.length), products: [] });
     },
-    test: function () {
-      console.log(this.$refs.settings.get_product());
-    },
     set_count: function (data) {
       this.current_template_count = data;
-      console.log(this.current_template_count);
     },
     save_tmpl_name: function (data) {
       this.current_template.text = data;

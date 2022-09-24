@@ -44,7 +44,6 @@ export default {
     border-bottom: 2px solid silver;
     padding: 1%;
     height: 5%;
-    /* font-size: 200%; */
     font-size: 2.2vw;
     color: #000000;
     margin-bottom: 0.1%;

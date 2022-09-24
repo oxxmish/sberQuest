@@ -114,7 +114,6 @@ export default {
 
 .alreadyLogin_button:hover {
     box-shadow: 0 0 10px 100px rgba(255, 165, 0, 0.5) inset;
-    /* color: white; */
 }
 
 .wrap-login100 {

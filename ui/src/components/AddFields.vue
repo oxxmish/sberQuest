@@ -53,14 +53,12 @@ export default {
 .pop_up_title{
     margin-top: 2%;
     color: green;
-    /* font-size: 200%; */
     font-size: 1.8vw;
     font-weight: bold;
 }
 .pop_up_color_title{
     margin-top: 4%;
     color: green;
-    /* font-size: 150%; */
     font-size: 1.5vw;
     width: 90%;
     margin-left: 5%;
@@ -70,14 +68,12 @@ export default {
 }
 
 input{
-    /* margin-top: 5%; */
     width: 60%;
     border-bottom: 1.5px solid silver;
     border-top: none;
     border-left: none;
     border-right: none;
     outline:none;
-    /* font-size: 130%; */
     font-size: 1.5vw;
 }
 
@@ -103,7 +99,6 @@ input{
     background-color: green;
     color: #ffffff;
     border-radius: 35px;
-    /* font-size: 120%; */
     font-size: 1.3vw;
     font-weight: bold;
     margin-top: 5%;

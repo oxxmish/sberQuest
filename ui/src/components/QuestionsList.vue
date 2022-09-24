@@ -56,7 +56,6 @@
                 <div @click="del_question" class="button">Удалить</div>
             </div>
             
-            <!-- <input type="file" id="file-uploader" v-if="selected_el.type === 'Вопрос с медиа фрагментом'"> -->
         </div>
         <div v-if="draw === 'delete_question'" class="delete_product_window" id="delete_product_window">
             <div id="delete_product_warning">
@@ -69,10 +68,6 @@
         </div>
         <div id="pop_up" class="pop_up" v-if="load">
             <div class="pop_up_title">Загрузка заданий</div>
-
-            <!-- <input id="pop_up_input" class="pop_up_input" placeholder="Путь до файла"></input>
-            <img type="file" @click="to_questions" src="media/load.png" class="load_path" alt=""> -->
-
             <input type="file" id="file-uploader" >
             <div class="pop_up_group_button">
                 <div class="pop_up_button">Загрузить</div>
@@ -113,7 +108,6 @@ export default {
             this.$emit('final-edit-product', this.cache_product[0], 'color:white;background:' + color);
         },
         update_is_media: function () {
-            console.log("debug");
             if(document.getElementById('type_selector'))
                 this.is_media = document.getElementById('type_selector').value == 'Вопрос с медиа фрагментом';
         },
@@ -177,7 +171,6 @@ export default {
                 if(product_name == item.text)
                     item.questions = item.questions.filter(option => option.id != deleted_question);
             });
-            console.log( deleted_question );
             fetch(SERVER_PATH + "/product/question/" + String(deleted_question), {
                 method: "DELETE",
                 headers: {'Content-Type': 'application/json'}
@@ -187,7 +180,6 @@ export default {
             this.draw = 'edit_question';
         },
         save_question: function () {
-            console.log(this.selected_el);
             let mapping = new Map();
             mapping.set("Без выбора ответа", "TEXT").set("Вопрос-аукцион", "AUCTION").set("С выбором ответа", "TEXT_WITH_ANSWERS").set("Вопрос с медиа фрагментом", "MEDIA");
             this.$emit('edit-question', this.selected_product[0], this.selected_el, this.selected, mapping.get(document.getElementById("type_selector").value), document.getElementById("wording").value, document.getElementById('short_name').value, document.getElementById('answer').value);
@@ -272,9 +264,7 @@ document.addEventListener("DOMNodeInserted", function () {
     border: 2px solid black;
     border-radius: 20px;
     text-align: center;
-    /* font-size: 220%; */
     font-size: 1.5vw;
-    /* line-height:100px; */
     line-height: 7vw;
     color: black;
     transition: transform .25s ease;
@@ -290,12 +280,10 @@ document.addEventListener("DOMNodeInserted", function () {
 }
 
 .plus{
-    /* font-size: 600%; */
     font-size: 6vw;
 }
 
 .load{
-    /* font-size: 130%; */
     font-size: 1.3vw;
 }
 
@@ -339,7 +327,6 @@ img{
 .edit_window_color_title{
     margin-top: 4%;
     color: green;
-    /* font-size: 150%; */
     font-size: 1.6vw;
     width: 90%;
     margin-left: 5%;
@@ -394,53 +381,6 @@ input{
 }
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:700);
-fieldset{
-  border: none;
-  width: 50%;
-  line-height: 135%;
-}
-output{
-  display: inline-block;
-  min-width: 2.5em;
-}
-label, output{
-  border-radius: 3px;
-  font-family: 'Roboto', sans-serif;
-  color: #000;
-  font-size: 1.1em;
-}
-label{
-    padding-left: 2%;
-    padding-right: 2%;
-}
-label[for=r], output[for=r]{
-  background-color: #f00;
-}
-label[for=g], output[for=g]{
-  background-color: #0f0;
-}
-label[for=b], output[for=b]{
-  background-color: #00f;
-}
-#hex{
-  min-width: 4.5em;
-  font-size: 3em;
-  background: rgba(255,255,255,.3);
-}
-
-#color_example{
-    float: right;
-    width: 35%;
-    height: 35%;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 4%;
-    padding-bottom: 4%;
-    border-radius: 20px;
-    margin-top: 1%;
-    margin-right: 5%;
-    background-color: #000000;
-}
 
 #delete_product_window{
     margin-top: 13%;
@@ -528,6 +468,7 @@ label[for=b], output[for=b]{
     font-size: 2vw;
     font-weight: bold;
 }
+
 .pop_up_color_title{
     margin-top: 4%;
     color: green;

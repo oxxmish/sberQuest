@@ -249,7 +249,6 @@ export default {
               item.questions.forEach(function(item) {
                 if(item.id == question_id)
                 {
-                  console.log("In");
                   item.type = new_type;
                   item.wording = new_wording;
                   return;

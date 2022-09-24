@@ -33,7 +33,6 @@ export default {
             this.products.forEach(function(item) {
                     if(item.id == event.target.dataset.db_id)
                     {
-                        console.log(item.questions);
                         q = item.questions;
                     }
                 });
@@ -79,12 +78,10 @@ export default {
 
 .number{
     color: black;
-    /* font-size: 500%; */
     font-size: 2vw;
 }
 
 .plus{
-    /* font-size: 600%; */
     font-size: 6vw;
     border: 2px solid silver;
     color: silver;

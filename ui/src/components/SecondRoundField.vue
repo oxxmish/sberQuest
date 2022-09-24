@@ -1,14 +1,13 @@
 <template>
   <div id="outer_field">
     <div id="question_area">
-        <!-- <div id="question_header">{{question[2]}} ({{question[1]}})</div> -->
         <div v-if="question[2] != '2 раунд'" id="question_header">
             {{question[2]}} ({{question[1]}})
         </div>
         <div v-else id="question_header">
            {{question[2]}} 
         </div>
-        <div id="question_body"><div class="scroll">{{question[0]}}</div></div> <!-- При старте второго раунда заголовок второй раунд и в качестве текста "За ответы команда получает n баллов" -->
+        <div id="question_body"><div class="scroll">{{question[0]}}</div></div>
     </div>
     <div v-for="(item, index) in teams" :key="index" style="width:100%;height:14%;margin-top:2%;">
         <div id="start_sec_round" class="questions">Старт</div>
@@ -24,13 +23,11 @@ export default {
   props: ['question', 'teams'],
   data(){
     return {
-        // teams: 4,
         count_question: 5
     }
   },
   methods: {
     calc_margin_hor: function () {
-        console.log(this.current_template.numFields);
         if(this.current_template.numFields == 16)
             return "margin-left:5.6%";
         else if(this.current_template.numFields == 20)
@@ -41,7 +38,6 @@ export default {
   },
   mounted: function () {
   this.$nextTick(function () {
-    console.log(this.teams);
     let ar = [];
     let start_left = '';
     let finish_left = '';
@@ -59,15 +55,9 @@ export default {
         {
           let top = cur_field.getBoundingClientRect().top;
           let left = cur_field.getBoundingClientRect().left;
-          // cur_field.getBoundingClientRect().
           middle_left = String(left/body_right * 100);
           ar.push(String(top/body_bottom * 100));
           continue;
-        }
-        if( i == 0 )
-        {
-          let top = cur_field.getBoundingClientRect().top;
-          console.log(String(top/body_bottom * 100));
         }
         cur_field.style.visibility = 'hidden';
       }

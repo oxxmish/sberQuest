@@ -62,29 +62,24 @@ export default {
             { pos:'top:83.5%;left:31%;', color:'background:cyan;' },
         ],
         circle: [
-            //'top:10.5%;left:31%;',  // start[0]
             'top:8.5%;left:40.1%;',
             'top:8.5%;left:46.5%;',
             'top:8.5%;left:52.8%;',
             'top:8.5%;left:59.2%;',
-            //'top:10.5%;left:68%;',  // start[5]
             'top:28.3%;left:68.9%;',
             'top:41%;left:68.9%;',
             'top:53.5%;left:68.9%;',
             'top:66.5%;left:68.9%;',
-            //'top:83.5%;left:68%;',  // start[10]
             'top:85.6%;left:59.3%;',
             'top:85.6%;left:52.9%;',
             'top:85.6%;left:46.5%;',
             'top:85.6%;left:40%;',
-            //'top:83.5%;left:31%;', // start[15]
             'top:66.5%;left:30.3%;',
             'top:53.7%;left:30.3%;',
             'top:41.3%;left:30.3%;',
             'top:28.5%;left:30.3%;',
         ],
         questions: {
-            // 'СберЗвук': ['Вопрос1']
             'top:8.5%;left:40.1%;': ['Почему мне надо пользоваться приложением СберЗвук? Назовите минимум 3 преимущества', 'Без выбора ответа', 'СберЗвук'],
             'top:8.5%;left:46.5%;': ['В каком году Работа.ру вошла в Экосистему Сбера?\nВарианты ответа: 2019, 2020, 2017', 'С выбором ответа', 'РаботаРу'],
             'top:8.5%;left:52.8%': ['Какое кол-во контента в Окко в подписке Лайт?', 'Вопрос-аукцион', 'Окко'],
@@ -161,10 +156,8 @@ export default {
         }
         
         this.$emit('set-question', this.questions[this.players[this.turn].pos], this.turn);
-        console.log(this.questions[this.players[this.turn].pos][3]);
         let cur_q = {};
         cur_q.current_question = this.questions[this.players[this.turn].pos];
-        console.log( this.turn );
 
         fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
@@ -176,7 +169,6 @@ export default {
         clearInterval(this.global_question_timer);
         document.getElementById("question_timer").innerText = '00:30';
 
-        // if(this.turn == 3)
         if(this.turn == this.players.length - 1)
         {
             this.turn = 0;
@@ -184,7 +176,6 @@ export default {
         }
         else
             ++this.turn;
-        console.log( this.turn );
         },
     next_round () {
         if(this.number_round == 1 && this.second_round_price == 0)
@@ -207,8 +198,6 @@ export default {
           this.second_tour_ids_question.push(this.final_questions[i].id);
         }
           
-
-        console.log(this.second_round_questions);
         if(this.number_round != 2)
         {
             this.players = [
@@ -229,7 +218,6 @@ export default {
         document.getElementById('next_round').innerText = '2 раунд';
         },
     next_turn () {
-      console.log(this.second_round_states);
         if(this.second_round_tour + 1 == 2 * this.players.length)
         {
             this.next = 'Конец';
@@ -283,7 +271,6 @@ export default {
         }
     },
     start_timer() {
-      console.log( "start_timer" );
         let field = document.getElementById("question_timer");
         if(field.innerText != '00:30')
             return;
@@ -343,7 +330,6 @@ export default {
         let top = start_one.getBoundingClientRect().top;
         let left = start_one.getBoundingClientRect().left;
         if(this.teams[0].length > 0)
-          // this.players[0].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
           this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;'});
       
 
@@ -351,21 +337,18 @@ export default {
         top = start_two.getBoundingClientRect().top;
         left = start_two.getBoundingClientRect().left;
         if(this.teams[1].length > 0)
-          // this.players[1].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;';
           this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100) + '%;'});
 
         let start_three = document.getElementById("start_three");
         top = start_three.getBoundingClientRect().top;
         left = start_three.getBoundingClientRect().left;
         if(this.teams[3].length > 0)
-          // this.players[3].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
           this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;'});
 
         let start_four = document.getElementById("start_four");
         top = start_four.getBoundingClientRect().top;
         left = start_four.getBoundingClientRect().left;
         if(this.teams[2].length > 0)
-          // this.players[2].pos = 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;';
           this.players.push({pos: 'left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3) + '%;'});
 
     },
@@ -389,7 +372,6 @@ export default {
           else if( i < this.current_template.numFields)
             ar.push('left:' + String(left/body_right * 100) + '%;top:' + String(top/body_bottom * 100 - 3 + 0.5*(i - 3*this.current_template.numFields / 4)) + '%;');
         }
-        console.log(this.circle);
     },
     init_questions: function () {
       let mapping = new Map();
@@ -399,10 +381,8 @@ export default {
       {
         this.questions[this.circle[i]] = [this.field_config[i].questions[0].text, mapping.get(this.field_config[i].questions[0].questionType), this.field_config[i].name, this.field_config[i].questions[0].id];
       }
-      console.log(this.questions);
     },
     update_questions: function (current_pos) {
-      console.log("try update question");
       let mapping = new Map();
       mapping.set("TEXT", "Без выбора ответа").set("AUCTION", "Вопрос-аукцион").set("TEXT_WITH_ANSWERS", "С выбором ответа").set("MEDIA", "Вопрос с медиа фрагментом");
       
@@ -415,16 +395,11 @@ export default {
           break;
         }
       }
-      console.log(this.field_config);
       if(this.field_config[current_index].questions.length > 1)
       {
-        console.log("update");
-        console.log(this.field_config[current_index].questions.length);
         this.field_config[current_index].questions.shift();
-        console.log(this.field_config[current_index].questions.length);
         this.init_questions();
       }
-      console.log(this.field_config);
     },
     replace_q: function () {
       let prev_turn = this.turn - 1;
@@ -433,7 +408,6 @@ export default {
       this.$emit('set-question', this.questions[this.players[prev_turn].pos], prev_turn);
       let cur_q = {};
         cur_q.current_question = this.questions[this.players[prev_turn].pos];
-        console.log( prev_turn );
 
         fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
@@ -462,10 +436,8 @@ export default {
         }
         
         this.$emit('set-question', this.questions[this.players[prev_turn].pos], prev_turn);
-        console.log(this.questions[this.players[prev_turn].pos][3]);
         let cur_q = {};
         cur_q.current_question = this.questions[this.players[prev_turn].pos];
-        console.log( prev_turn );
 
         fetch(SERVER_PATH + "/game/chooseQuestion", {
                 method: "POST",
@@ -475,12 +447,10 @@ export default {
         this.$refs.FirstRound.set_current_turn(prev_turn);
     },
     set_field_config: function () {
-      console.log("set_congfig");
       this.$emit('set-config', this.field_config);
       this.$emit('set-unique', this.unique_products);
     },
     set_db_config: function (config) {
-      console.log(config);
       this.current_template.numFields = config.length;
       this.field_config = config;
     },
@@ -505,7 +475,6 @@ export default {
         {
           list_round[0].style = "background-color:rgba(44, 192, 70, 1);top:38%;";
           list_round[1].style = "background-color:rgba(188, 243, 197, 1); width:10%;left:80.5%;font-size:1.75vw;top:46.5%;height:4%;";
-          // list_round[2].style = "background-color:rgba(188, 243, 197, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:54%;height:3%;";
           list_round[2].style = "background-color:rgba(210, 241, 215, 1); width:7.5%;left:81.75%;font-size:1.35vw;top:54%;height:3%;";
         }
         if(this.number_round == 2)
@@ -526,16 +495,8 @@ export default {
     },
     init_second_round_pos: function ( ar, start, middle, finish )
     {
-        console.log( ar, start, finish );
-        console.log("Init second round pos");
         this.second_round_states.length = 0;
         this.players.length = 0;
-        // this.players = [
-        //     { pos:'top:42%;left:27.8%;', color:'background:blue;' },
-        //     { pos:'top:56.5%;left:27.8%;', color:'background:red;' },
-        //     { pos:'top:71%;left:27.8%;', color:'background:lime;' },
-        //     { pos:'top:85.5%;left:27.8%;', color:'background:cyan;' },
-        //     ];
         if(this.teams[0].length > 0)
           this.players.push({pos: 'top:42%;left:27.8%;'});
         if(this.teams[1].length > 0)
@@ -591,7 +552,6 @@ export default {
                           {pos: 'top:85.5%;left:' + String(finish) + '%;'}];
         if(this.players.length > 3)
           this.second_round_states.push(current_poses.slice(0, this.players.length));
-        console.log(this.second_round_states);
     },
   },
   mounted: function () {
@@ -603,7 +563,6 @@ export default {
                 headers: {'Content-Type': 'application/json'}
                 }).then( res => res.json() ).then( data => this.save_template_product(data) );
                 this.init_chip_positions();
-              // this.init_circle_chip_positions();
     this.calc_color_round_buttons();
   })
   },
@@ -619,7 +578,6 @@ export default {
     left: 37%;
     position: absolute;
     font-size: 2.2vw;
-    /* margin-top: 1%; */
 }
 
 #start{
@@ -627,7 +585,6 @@ export default {
     height: 5%;
     left: 33%;
     position: absolute;
-    /* margin-top: 1%; */
 }
 
 #dice{
@@ -663,10 +620,10 @@ img:hover {
   position: absolute;
   text-align: center;
   width: 2%;
-height: 4%;
-left: 93%;
-top: 47%;
-    font-size: 1vw;
+  height: 4%;
+  left: 93%;
+  top: 47%;
+  font-size: 1vw;
 }
 
 #next_round{
@@ -678,11 +635,7 @@ top: 47%;
     text-align: center;
     font-size: 2.2vw;
     line-height: 130%;
-    /* background: rgba(33, 160, 56, 1); */
-    /* color: white; */
     color: black;
-    /* padding: 0.5% 2% 0.5% 2%;
-    border-radius: 10px; */
 }
 
 .round{
@@ -724,10 +677,6 @@ top: 47%;
     border: solid 0.3vw rgba(44, 192, 70, 1);
 }
 
-/* #next_round:hover {
-    box-shadow: 0 0 10px 100px orange inset;
-} */
-
 #next_turn:hover {
     box-shadow: 0 0 10px 100px rgba(44, 192, 70, 1) inset;
 }
@@ -737,13 +686,11 @@ top: 47%;
     height: 5%;
     left: 58%;
     position: absolute;
-    /* margin-top: 1%; */
 }
 
 #question_timer{
     left: 62%;
     position: absolute;
     font-size: 2.2vw;
-    /* margin-top: 1%; */
 }
 </style>

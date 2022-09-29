@@ -201,21 +201,16 @@ export default {
         log_out: function(){
             this.$emit('logout');
         },
-  }, mounted: function () {
+  }, 
+  mounted: function () {
       let product_ref = this.products;
       product_ref.length = 0;
-  this.$nextTick(function () {
+    this.$nextTick(function () {
     fetch(SERVER_PATH + "/product/getAll", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}
             }).then( res => res.json() ).then( data => data.forEach(function(item) {
                 product_ref.push({ id:item.id, text: item.name, color: item.colour, questions: item.questions })}) );
-
-    fetch(SERVER_PATH + "/admin/leaders", {
-            method: "GET",
-            headers: {'Content-Type': 'application/json'}
-            }).then( res => res.json() ).then( data => console.log(data) );
-
     fetch(SERVER_PATH + "/admin/waiting", {
             method: "GET",
             headers: {'Content-Type': 'application/json'}

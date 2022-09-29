@@ -6,6 +6,7 @@
 <script>
 import MasterList from './MasterList.vue'
 import MasterRequests from './MasterRequests.vue'
+import { SERVER_PATH } from './common_const.js'
 
 export default {
   name: 'ManageMasters',
@@ -80,6 +81,17 @@ export default {
           }
       });
     },
+  },
+  mounted: function () {
+      let masters_ref = this.masters;
+      masters_ref.length = 0;
+    this.$nextTick(function () {
+    fetch(SERVER_PATH + "/admin/leaders", {
+            method: "GET",
+            headers: {'Content-Type': 'application/json'}
+            }).then( res => res.json() ).then( data => data.forEach(function(item) {
+                masters_ref.push(item)}) );
+    });
   }
 }
 </script>

@@ -79,9 +79,9 @@ export default {
             body: JSON.stringify(
                 {username: username, 
                 password: password, 
-                firstname: firstname,
-                middlename: middlename,
-                lastname: lastname,
+                firstName: firstname,
+                middleName: middlename,
+                lastName: lastname,
                 role: "ROLE_LEADER"})
             });
         alert("Заявка на регистрацию отправлена администатору.");

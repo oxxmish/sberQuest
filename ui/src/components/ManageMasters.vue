@@ -6,7 +6,7 @@
 <script>
 import MasterList from './MasterList.vue'
 import MasterRequests from './MasterRequests.vue'
-import { SERVER_PATH } from './common_const.js'
+import { SERVER_PATH } from '../common_const.js'
 
 export default {
   name: 'ManageMasters',

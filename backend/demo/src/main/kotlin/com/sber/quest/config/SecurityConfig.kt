@@ -25,7 +25,7 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) {
             cors { disable() }
             authorizeRequests {
                 authorize("/auth/login", permitAll)
-                authorize("/auth/registration", permitAll)
+                authorize("/auth/register", permitAll)
                 authorize(
                     "/**", hasAnyAuthority(
                         Authorities.ROLE_PLAYER.name,

@@ -18,16 +18,16 @@
                 </div>
                 <div id="leader_team_2" class="column" style="position:absolute;bottom:1%;left:25.5%;width:23.6%;background:rgb(196, 196, 215);">{{scores[1]}}</div>
             </div>
-            <div v-if="logos[2] !== null" class="skillBLock">
-                <div class="teamImage">
-                    <img :src="img_path + 'team_logo_' + String(Number(logos[2]) + 1) + '.svg'" class="ms-auto" style="position: absolute; bottom: 55%; left: 59%;width: 5%;" />
-                </div>
-                <div id="leader_team_3" class="column" style="position:absolute;bottom:1%;left:50.1%;width:23.8%;background:rgb(188, 243, 197);">{{scores[2]}}</div>
             <div v-if="logos[3] !== null" class="skillBLock">
                 <div class="teamImage">
-                    <img :src="img_path + 'team_logo_' + String(Number(logos[3]) + 1) + '.svg'" class="ms-auto" style="position: absolute; bottom: 55%; left: 83.5%;width: 5%;" />
+                    <img :src="img_path + 'team_logo_' + String(Number(logos[3]) + 1) + '.svg'" class="ms-auto" style="position: absolute; bottom: 55%; left: 59%;width: 5%;" />
                 </div>
-                <div id="leader_team_4" class="column" style="position:absolute;bottom:1%;left:75%;width:24%;background:rgb(255, 223, 104);">{{scores[3]}}</div>
+                <div id="leader_team_3" class="column" style="position:absolute;bottom:1%;left:50.1%;width:23.8%;background:rgb(188, 243, 197);">{{scores[3]}}</div>
+            <div v-if="logos[2] !== null" class="skillBLock">
+                <div class="teamImage">
+                    <img :src="img_path + 'team_logo_' + String(Number(logos[2]) + 1) + '.svg'" class="ms-auto" style="position: absolute; bottom: 55%; left: 83.5%;width: 5%;" />
+                </div>
+                <div id="leader_team_4" class="column" style="position:absolute;bottom:1%;left:75%;width:24%;background:rgb(255, 223, 104);">{{scores[2]}}</div>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@ export default {
             opacity: '0'
         },
         {
-            height: this.scores[2] / max * 50 + '%',
+            height: this.scores[3] / max * 50 + '%',
             opacity: '1'
         }
         ], {
@@ -109,7 +109,7 @@ export default {
         duration: 2500,
         iterations: 1
         });
-    document.getElementById("leader_team_3").style.height = this.scores[2] / max * 50 + '%';
+    document.getElementById("leader_team_3").style.height = this.scores[3] / max * 50 + '%';
     document.getElementById("leader_team_4").animate([
         // keyframes
         {
@@ -121,7 +121,7 @@ export default {
             opacity: '0'
         },
         {
-            height: this.scores[3] / max * 50 + '%',
+            height: this.scores[2] / max * 50 + '%',
             opacity: '1'
         }
         ], {
@@ -129,7 +129,7 @@ export default {
         duration: 2500,
         iterations: 1
         });
-    document.getElementById("leader_team_4").style.height = this.scores[3] / max * 50 + '%';
+    document.getElementById("leader_team_4").style.height = this.scores[2] / max * 50 + '%';
   })
   }
 }

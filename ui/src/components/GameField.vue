@@ -497,14 +497,13 @@ export default {
     {
         this.second_round_states.length = 0;
         this.players.length = 0;
-        if(this.teams[0].length > 0)
-          this.players.push({pos: 'top:42%;left:27.8%;'});
-        if(this.teams[1].length > 0)
-          this.players.push({pos: 'top:56.5%;left:27.8%;'});
-        if(this.teams[2].length > 0)
-          this.players.push({pos: 'top:85.5%;left:27.8%;'});
-        if(this.teams[3].length > 0)
-          this.players.push({pos: 'top:71%;left:27.8%;'});
+        var poses = [{pos: 'top:42%;left:27.8%;'}, {pos: 'top:56.5%;left:27.8%;'}, {pos: 'top:71%;left:27.8%;'}, {pos: 'top:85.5%;left:27.8%;'}]
+        var uses_pos = 0;
+        for(var i = 0; i < this.teams.length; ++i)
+        {
+          if(this.teams[i].length > 0)
+            this.players.push(poses[uses_pos++]);
+        }
         let current_poses = [ {pos: 'top:42%;left:' + String(middle) + '%;'},
                               {pos: 'top:56.5%;left:' + String(start) + '%;'},
                               {pos: 'top:71%;left:' + String(start) + '%;'},

@@ -12,8 +12,8 @@
     <div id="group_teams">
         <ManageTeam :team="team_1" :team_number="'team_1'" :place_holder="'Команда 1'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
         <ManageTeam :team="team_2" :team_number="'team_2'" :place_holder="'Команда 2'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
-        <ManageTeam style="margin-top:5%;" :team="team_3" :team_number="'team_3'" :place_holder="'Команда 4'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
-        <ManageTeam style="margin-top:5%;" :team="team_4" :team_number="'team_4'" :place_holder="'Команда 3'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name" @set-logo="set_logo" />
+        <ManageTeam :style="team_4.length > 0 ? 'margin-top:5%;' : 'margin-top:5%;visibility:hidden;'" :team="team_3" :team_number="'team_3'" :place_holder="'Команда 4'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name"  @set-logo="set_logo" />
+        <ManageTeam :style="team_2.length > 0 ? 'margin-top:5%;' : 'margin-top:5%;visibility:hidden;'" :team="team_4" :team_number="'team_4'" :place_holder="'Команда 3'" @team-pop="team_pop" @add-player="add_player" @save-edit="save_edit" @save-team-name="save_team_name" @set-logo="set_logo" />
     </div>
     <div id="player_list">
         <div id="player_list_head">Настройки комнаты</div>

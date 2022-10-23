@@ -10,8 +10,9 @@
     <input v-if="team_number == 'team_4'" id="lobby_team_head_4" maxlength="10" class="team_name lobby_team_head" :placeholder="place_holder" @blur="save_team_name">
     <hr>
     <div v-if="view == 'menu'" style="width:100%;height:80%;margin-top:15%;">
-        <div class="button_menu" @click="view = 'team'">Состав команды</div>
+        <div class="button_menu" @click="view = 'team'">Состав команды ({{team.length}})</div>
         <div class="button_menu" @click="view = 'logo'">Лого команды</div>
+        <img v-if="selected_logo != null" :src="logos[selected_logo]" style="width:40%;height:40%;float:left;margin-left:30%;margin-top:5%;">
     </div>
     <div v-if="view == 'team'" style="width:100%;height:100%;">
         <div class="scroll">
@@ -52,6 +53,7 @@ export default {
             event.target.style.border = 'solid 0.01vw black';
             let mapping = new Map();
             mapping.set("team_1", 0).set("team_2", 1).set("team_3", 2).set("team_4", 3);
+            this.selected_logo = index;
             this.$emit('set-logo', mapping.get(this.team_number), index);
         },
         team_pop: function () {

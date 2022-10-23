@@ -15,7 +15,7 @@
             Войти по id комнаты
         </div>
     </div>
-    <!-- <div v-if="user_type == 'Master'" id="login_master">
+    <div v-if="user_type == 'Master'" id="login_master">
         <input class="form-group" id="email_master" placeholder="Логин" v-on:keyup.enter="log_in">
         <input type="password" class="form-group" id="password" placeholder="Пароль" v-on:keyup.enter="log_in">
         <div :style="'visibility:' + check_failed()" id="failed_message_master">Неверный логин или пароль</div>
@@ -44,8 +44,8 @@
         <div id="user_message">
                 Для входа запросите id комнаты у своего ведущего
         </div>
-    </div> -->
-    <form @submit.prevent="log_in">
+    </div>
+    <!-- <form @submit.prevent="log_in">
       <div v-if="user_type == 'Master'" id="login_master">
         <input class="form-group" id="email_master" name="username" placeholder="Логин/E-mail">
         <input type="password" class="form-group" id="password" name="password" placeholder="Пароль">
@@ -74,13 +74,13 @@
         <div id="user_message">
                 Для входа запросите id комнаты у своего ведущего
         </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </template>
 
 <script>
-import {SERVER_PATH} from "@/common_const";
+// import {SERVER_PATH} from "@/common_const";
 
 export default {
   name: 'AuthWin',
@@ -106,31 +106,31 @@ export default {
             this.user_type = 'User'
             document.getElementById('failed_message_master').style.visibility = 'hidden';
         },
-        log_in: function () {
-          let email = document.getElementById('email_master').value;
-          let password = document.getElementById('password').value;
-          let formData = new FormData()
-          formData.append("username", email)
-          formData.append("password", password)
-            if(email == 'ведущий' && password == 'ведущий123')
-                this.$emit('login-master');
-            else if(email == 'admin' && password == 'admin')
-              fetch(`${SERVER_PATH}/auth/login`, {
-                method: 'POST',
-                body: formData,
-              }).then( res => {res.json(); this.$emit('login-admin')} )
-                  .then( data => console.log(data) );
-        },
         // log_in: function () {
-        //     var email = document.getElementById('email_master').value;
-        //     var password = document.getElementById('password').value;
+        //   let email = document.getElementById('email_master').value;
+        //   let password = document.getElementById('password').value;
+        //   let formData = new FormData()
+        //   formData.append("username", email)
+        //   formData.append("password", password)
         //     if(email == 'ведущий' && password == 'ведущий123')
         //         this.$emit('login-master');
-        //     else if(email == 'админ' && password == 'админ123')
-        //         this.$emit('login-admin');
-        //     else
-        //         this.failed = true;
+        //     else if(email == 'admin' && password == 'admin')
+        //       fetch(`${SERVER_PATH}/auth/login`, {
+        //         method: 'POST',
+        //         body: formData,
+        //       }).then( res => {res.json(); this.$emit('login-admin')} )
+        //           .then( data => console.log(data) );
         // },
+        log_in: function () {
+            var email = document.getElementById('email_master').value;
+            var password = document.getElementById('password').value;
+            if(email == 'ведущий' && password == 'ведущий123')
+                this.$emit('login-master');
+            else if(email == 'админ' && password == 'админ123')
+                this.$emit('login-admin');
+            else
+                this.failed = true;
+        },
         check_failed: function () {
             if(this.failed)
                 return 'visible';
